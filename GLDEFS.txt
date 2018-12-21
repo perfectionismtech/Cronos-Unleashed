@@ -1,0 +1,12 @@
+#include "GLDEFS.lights.txt"
+#include "GLDEFS.brightmaps.txt"
+
+// Glowing Flats
+Glow {
+	Flats {
+		X_001 
+		X_002 
+		X_003
+		X_004
+	}
+}

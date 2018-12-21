@@ -1,0 +1,176 @@
+class cBishop : Bishop replaces Bishop {
+	Default {
+		Health 100;
+		Speed 7;
+		PainChance 96;
+		PainChance "Melee", 128;
+		MaxTargetRange MONSTER_MAXRANGE;
+		+NOINFIGHTING
+	}
+	
+	States {
+	Spawn:
+		BISH A 10 A_Look();
+		Loop;
+	See:
+		BISH AA 4 BishopChase();
+		BISH BB 4 BishopChase();
+		TNT1 A 0 A_Jump(35, "Blur");
+		Loop;
+	Blur:
+		BISH A 2 BishopDoBlur();
+		BISH A 4 BishopSpawnBlur();
+		Wait;
+	Missile:
+		BISH ADE 3 A_FaceTarget();
+		TNT1 A 0 BishopAttackInit();
+		BISH F 3 Bright;
+		BISH F 5 Bright BishopAttack();
+		Wait;
+	Pain:
+		BISH C 6 A_Pain();
+		BISH CCC 6 BishopPainBlur();
+		Goto See;
+	Death:
+		BISH G 5;
+		BISH H 5 Bright A_Scream();
+		BISH I 5 Bright A_NoBlocking();
+		BISH J 5 Bright A_Explode(30, 48, XF_NOTMISSILE);
+		BISH KLM 4 Bright;
+		BISH N 4 A_SpawnItemEx("BishopPuff", 0, 0, 40);
+		BISH O 4;
+		BISH P -1;
+		Stop;
+	}
+	
+	void BishopChase() {
+		double newz = pos.z - BobSin(bobstate) / 2.0;
+		bobstate = (bobstate + 4) & 63;
+		newz += BobSin(bobstate) / 2.0;
+		SetZ(newz);
+		
+		A_Chase();
+	}
+	
+	void BishopAttackInit() {
+		missileCount = randomPick[BishopAttack](5, 7);
+		A_PlaySound(AttackSound, CHAN_BODY);
+	}
+	
+	void BishopAttack() {
+		if (!target || !missileCount) {
+			missileCount = 0;
+			SetState(SeeState);
+			return;
+		}
+		
+		Actor mo = SpawnMissile(target, "cBishopJade");
+		if (mo != null) mo.tracer = target;
+		missileCount--;
+		return;
+	}
+	
+	void BishopDoBlur() {
+		if (random[BishopBlur]() < 120) {
+			Thrust(11, angle+90);
+		} else if (random[BishopBlur]() > 125) {
+			Thrust(11, angle-90);
+		} else {
+			Thrust(11);
+		}
+		
+		missileCount = random[BishopAttack](3, 6);
+		A_PlaySound("BishopBlur", CHAN_BODY);
+	}
+	
+	void BishopSpawnBlur() {
+		if (--missileCount <= 0) {
+			vel.xy = (0,0);
+			if (random[BishopSpawnBlur]() < 160) {
+				if (CheckLOF(CLOFF_SKIPOBJECT, maxTargetRange)) {
+					SetState(MissileState);
+				} else {
+					SetState(SeeState);
+				}
+			} else {
+				SetState(SeeState);
+			}
+		}
+		
+		Actor mo = Spawn("cBishopBlur", pos);
+		if (mo) mo.angle = angle;
+	}
+	
+	void BishopPainBlur() {
+		if (random[BishopDecide]() < 32) {
+			SetStateLabel("Blur");
+			return;
+		}
+		
+		Vector3 blurPos = Vec3Offset(frandom(-16,16), frandom(-16,16), frandom(-8,8));
+		Actor mo = Spawn("cBishopPainBlur", blurPos);
+		if (mo) mo.angle = angle;
+	}
+}
+
+class cBishopJade : BishopFX replaces BishopFX {
+	Default {
+		DamageFunction random[BishopDamage](3,6);
+		RenderStyle "Normal";
+		+FORCEXYBILLBOARD
+		Decal "BishopJade";
+	}
+	
+	States {
+	Spawn:
+		BPFX AABB 1 Bright Light("BishopBall1") A_Weave(2, 2, 2.0, 1.0);
+		TNT1 A 0 A_SeekerMissile(2, 3);
+		Loop;
+	Death:
+		BPFX CDEF 4 Bright;
+		BPFX GH 3 Bright;
+		Stop;
+	}
+	
+	override bool SpecialBlastHandling(Actor source, double strength) {
+		// Stop the projectile from seeking, allowing it to be deflected
+		tracer = null;
+		return true;
+	}
+}
+
+class cBishopBlur : BishopBlur {
+	Default {
+		Alpha 0.5;
+		+NOINTERACTION
+	}
+	
+	States {
+	Spawn:
+		BISH A 4;
+		BISH AAAA 3 A_FadeOut(0.1);
+		Stop;
+	}
+}
+
+class cBishopPainBlur : cBishopBlur {
+	States {
+	Spawn:
+		BISH C 8;
+		Stop;
+	}
+}
+
+class cBishopSmoke : BishopPuff replaces BishopPuff {
+	Default {
+		+FORCEXYBILLBOARD
+		VSpeed 0.4;
+	}
+	
+	States {
+	Spawn:
+		BISH QRS 4;
+		BISH TUVW 4 A_FadeOut(0.1);
+		Stop;
+	}
+}

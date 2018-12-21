@@ -1,0 +1,57 @@
+version "3.4"
+
+#include "zscript/cPlayerClasses.txt" // Player class definitions
+#include "zscript/cWeapons.txt"	// Shared weapon declarations
+
+// Fighter weapons
+#include "zscript/cFighterFists.txt"
+#include "zscript/cFighterAxe.txt"
+#include "zscript/cFighterHammer.txt"
+#include "zscript/cFighterQuietus.txt"
+
+// Cleric weapons
+#include "zscript/cClericMace.txt"
+#include "zscript/cClericSerpent.txt"
+#include "zscript/cClericFirestorm.txt"
+#include "zscript/cClericWraithverge.txt"
+
+// Mage weapons
+#include "zscript/cMageWand.txt"
+#include "zscript/cMageFrost.txt"
+#include "zscript/cMageLightning.txt"
+#include "zscript/cMageBloodscourge.txt"
+
+#include "zscript/cArtifacts.txt"
+#include "zscript/cFlechette.txt"
+#include "zscript/cPig.txt"
+
+// Monsters
+#include "zscript/cEttin.txt"
+#include "zscript/cAfrit.txt"
+#include "zscript/cCentaur.txt"
+#include "zscript/cChaosSerpent.txt"
+#include "zscript/cBishop.txt"
+#include "zscript/cStalker.txt"
+#include "zscript/cWendigo.txt"
+#include "zscript/cReiver.txt"
+#include "zscript/cMashed.txt"
+
+// Bosses
+#include "zscript/cWyvern.txt"
+#include "zscript/cHeresiarch.txt"
+#include "zscript/cClassBosses.txt"
+#include "zscript/cKorax.txt"
+
+#include "zscript/cProps.txt"
+#include "zscript/cDestructibles.txt"
+#include "zscript/cBlood.txt"
+#include "zscript/cEffects.txt"
+#include "zscript/cFlares.txt"
+#include "zscript/cPoisonCloud.txt"
+#include "zscript/cMisc.txt"
+
+#include "zscript/cEventHandlers.txt"
+
+// Constant definitions
+
+const MONSTER_MAXRANGE = 2048;

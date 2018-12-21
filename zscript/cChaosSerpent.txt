@@ -1,0 +1,157 @@
+class cChaosSerpent : Demon1 replaces Demon1 {
+	Default {
+		Health 220;
+		Radius 34;
+		Height 64;
+		ProjectilePassHeight 90;
+		Speed 12;
+		MeleeRange 70;
+		MeleeThreshold 220;
+		MaxTargetRange MONSTER_MAXRANGE;
+		+NOINFIGHTING
+	}
+	
+	States {
+	Spawn:
+		DEMN E 10 A_Look();
+		Loop;
+	See:
+		DEMN A 6 A_Chase();
+		DEMN B 5 A_Chase();
+		DEMN C 6 A_Chase();
+		DEMN D 5 A_Chase();
+		Loop;
+	Melee:
+		DEMN E 5 A_FaceTarget();
+		DEMN G 7 A_FaceTarget();
+		DEMN F 7 A_CustomMeleeAttack(18);
+		DEMN E random(5,11);
+		Goto See;
+	Missile:
+		DEMN E 8 Fast A_FaceTarget();
+		DEMN F 9 Fast A_FaceTarget();
+		DEMN G 7 A_SpawnProjectile("cChaosFireball", 62, 0);
+		DEMN E random(16,22);
+		Goto See;
+	Death:
+		DEMN HI 6;
+		DEMN J 6 A_Scream();
+		DEMN K 6 A_NoBlocking();
+		DEMN LMNO 6;
+		DEMN P -1;
+		Stop;
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		
+		if (!TestMobjLocation()) {
+			A_SetSize(32);
+		}
+	}
+}
+
+class cChaosFireball : Demon1FX1 replaces Demon1FX1 {
+	Default {
+		Speed 18;
+		DamageFunction 22;
+		Decal "ChaosFireball";
+	}
+	
+	States {
+	Spawn:
+		DMFX ABC 3 Bright Light("ChaosFireball1");
+		Loop;
+	Death:
+		DMFX D 4 Bright Light("ChaosFireball1");
+		DMFX E 4 Bright Light("ChaosFireball1");
+		DMFX FG 3 Bright Light("ChaosFireball2");
+		DMFX H 3 Bright;
+		Stop;
+	}
+}
+
+class cBrownChaosSerpent : Demon2 replaces Demon2 {
+	Default {
+		Health 220;
+		Radius 34;
+		Height 64;
+		ProjectilePassHeight 90;
+		Speed 12;
+		MeleeRange 70;
+		MeleeThreshold 220;
+		SelfDamageFactor 0;
+		MaxTargetRange MONSTER_MAXRANGE;
+		+NOINFIGHTING
+	}
+	
+	States {
+	Spawn:
+		DEM2 E 10 A_Look();
+		Loop;
+	See:
+		DEM2 A 6 A_Chase();
+		DEM2 B 5 A_Chase();
+		DEM2 C 6 A_Chase();
+		DEM2 D 5 A_Chase();
+		Loop;
+	Melee:
+		DEM2 E 5 A_FaceTarget();
+		DEM2 G 7 A_FaceTarget();
+		DEM2 F 7 A_CustomMeleeAttack(18);
+		DEM2 E random(5,11);
+		Goto See;
+	Missile:
+		DEM2 E 6 A_FaceTarget();
+		DEM2 F 9 A_FaceTarget();
+		DEM2 G 7 A_SpawnProjectile("cChaosPoisonball", 62, 0);
+		DEM2 E random(16,22);
+		Goto See;
+	Death:
+		DEM2 HI 6;
+		DEM2 J 6 A_Scream();
+		DEM2 K 6 A_NoBlocking();
+		DEM2 LMNO 6;
+		DEM2 P -1;
+		Stop;
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		
+		if (!TestMobjLocation()) {
+			A_SetSize(32);
+		}
+	}
+}
+
+class cChaosPoisonball : Demon2FX1 replaces Demon2FX1 {
+	Default {
+		Speed 14;
+		DamageFunction 22;
+		DamageType "";
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		Decal "ChaosPoisonball";
+	}
+	
+	States {
+	Spawn:
+		D2FX ABCDEF 3 Bright;
+		Loop;
+	Death:		
+		D2FX G 4 Bright A_Explode(12, 60, XF_EXPLICITDAMAGETYPE, damagetype: "Poison");
+		D2FX HI 4 Bright;
+		D2FX JKL 3 Bright A_FadeOut(0.2);
+		Stop;
+	}
+	
+	override int DoSpecialDamage(Actor target, int damage, Name damagetype) {
+		if (damagetype == "Poison" && target.player) {
+			target.player.PoisonPlayer(self, self.target, 5*damage);
+			return 0;
+		}
+		
+		return damage;
+	}
+}

@@ -1,0 +1,46 @@
+class cPuff : Actor {
+	Default {
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+NOINTERACTION
+		+HITTARGET
+		+PUFFONACTORS
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		
+		if (target) {
+			// Hit a target
+			if (target.bINVULNERABLE) {
+				// Target is invulnerable
+				if (AttackSound)
+					A_PlaySound(AttackSound);
+				
+				if (FindState("HitInvulnerable"))
+					SetState(FindState("HitInvulnerable"));
+				
+				return;
+			}
+			
+			if (target.bNOBLOOD == 0) {
+				// Target bleeds
+				if (FindState("HitBleeding"))
+					SetState(FindState("HitBleeding"));
+				
+				return;
+			}
+		} else {
+			// Hit a wall
+			if (FindState("HitWall"))
+				SetState(FindState("HitWall"));
+		}
+	}
+	
+	void SparkParticles() {
+		for (int i = 0; i < 6; i++) {
+			A_SpawnParticle("EBF5FC", SPF_FULLBRIGHT, 12, 1.4, 0, 
+				0, 0, 0, frandom(-2.5,2.5), frandom(-2.5,2.5), frandom(-2.5,2.5), 0, 0, -0.25);
+		}
+	}
+}

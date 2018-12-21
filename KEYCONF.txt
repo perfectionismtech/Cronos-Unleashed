@@ -1,0 +1,12 @@
+defaultbind F "use cflechette"
+defaultbind V "use cquartzflask"
+defaultbind R "use crepulsiondisc"
+
+addkeysection "CRONOS UNLEASHED OPTIONS" CronosUnleashed
+
+addmenukey "$C_CNTRL_USEFLECHETTE" "use cFlechette"
+addmenukey "$C_CNTRL_USEQUARTZFLASK" "use cQuartzFlask"
+addmenukey "$C_CNTRL_USEREPULSIONDISC" "use cRepulsionDisc"
+addmenukey "$C_CNTRL_USECHAOSDEVICE" "use artiteleport"
+addmenukey "$C_CNTRL_USEMYSTICURN" "use cMysticUrn"
+addmenukey "$C_CNTRL_USEICONDEFENDER" "use cIconDefender"

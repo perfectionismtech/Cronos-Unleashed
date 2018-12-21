@@ -1,0 +1,74 @@
+class cPorkShot : PorkFX replaces PorkFX {
+	Default {
+		Radius 20;
+		Height 32;
+		MorphProjectile.MonsterClass "cPig";
+		MorphProjectile.PlayerClass "cPigPlayer";
+	}
+}
+
+class cPig : Pig replaces Pig {
+	Default {
+		Speed 8;
+		+NODAMAGETHRUST
+	}
+}
+
+class cPigPlayer : PigPlayer replaces PigPlayer {
+	Default {
+		Speed 0.4;
+		Player.ForwardMove 1, 0.9;
+		Player.SideMove 0.95, 0.85;
+		Player.MorphWeapon "cPigSnout";
+	}
+	
+	States {
+	Death:
+		PIGY E 4 A_Scream();
+		PIGY F 3;
+		PIGY G 4 A_NoBlocking();
+		PIGY H 3;
+		PIGY IJK 4;
+		PIGY L -1;
+		Stop;
+	}
+}
+
+class cPigSnout : Snout {
+	Default {
+		+WEAPON.NOAUTOAIM
+		+WEAPON.NOALERT
+		Weapon.Kickback 9;
+		Weapon.YAdjust 10;
+	}
+
+	States {
+	Deselect:
+		WPIG A 1 A_Lower(15);
+		Wait;
+	Select:
+		WPIG A 1 A_Raise(15);
+		Wait;
+	Ready:
+		WPIG A 1 A_WeaponReady();
+		Loop;
+	Fire:
+		WPIG A 4 A_PlaySound("PigActive", CHAN_VOICE);
+		WPIG B 8 SnoutAttack();
+		WPIG A 6;
+		Goto Ready;
+	Grunt:
+		WPIG B 8;
+		Goto Ready;
+	}
+	
+	action void SnoutAttack() {
+		if (player == null) return;
+		
+		FTranslatedLineTarget t;
+		
+		LineAttack(angle, 80.0, pitch, random[SnoutDamage](4, 7), "Melee", null, 0, t);
+		if(t.linetarget) A_PlaySound("PigAttack", CHAN_VOICE);
+		A_AlertMonsters(120);
+	}	
+}

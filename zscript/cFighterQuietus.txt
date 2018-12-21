@@ -1,0 +1,208 @@
+class cQuietus: FWeapQuietus replaces FWeapQuietus {
+	Actor weaponLight;
+	
+	Default {
+		Weapon.AmmoUse1 12;
+		Weapon.AmmoUse2 12;
+		Weapon.AmmoGive1 25;
+		Weapon.AmmoGive2 25;
+		Weapon.BobStyle "Smooth";
+		Weapon.BobRangeX 1.0;
+		Weapon.BobRangeY 1.0;
+		Weapon.BobSpeed 1.4;
+		Weapon.YAdjust 5;
+		-BLOODSPLATTER
+		+WEAPON.NOAUTOAIM
+		+WEAPON.NOALERT
+	}
+
+	States {
+	Select:
+		TNT1 A 0 A_SetCrosshair(53);
+		TNT1 A 0 SpawnWeapLight();
+		FSRD A 1 Bright A_Raise(15);
+		Wait;
+	Deselect:
+		FSRD A 1 Bright A_Lower(15);
+		Wait;
+	Ready:
+		FSRD AAAABBBBCCCCBBBB 1 Bright A_WeaponReady();
+		Loop;
+	Fire:
+		FSRD D 3 Offset(5, 36);
+		FSRD E 3 Bright Offset(5, 36);
+		FSRD F 2 Bright Offset(5, 36);
+		FSRD G 3 Bright Offset(5, 36) QuietusFire();
+		FSRD H 2 Bright Offset(5, 36);
+		FSRD I 2 Bright Offset(5, 36);
+		FSRD I 10 Bright Offset(5, 150);
+		FSRD A 1 Bright Offset(5, 60);
+		FSRD B 1 Bright Offset(5, 55);
+		FSRD C 1 Bright Offset(5, 50);
+		FSRD A 1 Bright Offset(5, 45);
+		FSRD B 1 Bright Offset(5, 40);
+		Goto Ready;
+	}
+	
+	action void SpawnWeapLight() {
+		if (!invoker.weaponLight) {
+			invoker.weaponLight = Spawn("cQuietusLight");
+			invoker.weaponLight.master = invoker.owner;
+		}
+	}
+	
+	action void QuietusFire() {
+		if (player == null) return;
+		
+		Weapon weapon = player.ReadyWeapon;
+		if (weapon != null && !weapon.DepleteAmmo(weapon.bAltFire)) return;
+		
+		for (int i = 0; i < 5; i++) {
+			double ang = angle + 12 - 6*i;
+			SpawnPlayerMissile("cQuietusMissile", ang, 0, 0, 4*i - 8);
+		}
+		
+		A_SetBlend("33 69 29", 0.7, 20);
+		A_PlaySound ("FighterSwordFire", CHAN_WEAPON);
+	}
+}
+
+class cQuietusMissile : Actor {
+	const BLAST_DAMAGE = 70.0;
+	const NOBLAST_DAMAGE = 50.0;
+	const BLAST_RADIUS = 128;
+	
+	Default {
+		Speed 30;
+		Radius 12;
+		Height 8;
+		Projectile;
+		+EXTREMEDEATH
+		+HITTRACER
+		Decal "SwordLightning";
+		Obituary "$OB_MPFWEAPQUIETUS";
+		DeathSound "FighterSwordExplode";
+	}
+	
+	States {
+	Spawn:
+		FSFX ABC 3 Bright Light("QuietusMissile");
+		Loop;
+	Death:
+		TNT1 A 0 {
+			if (tracer && tracer.bNORADIUSDMG) {
+				A_DamageTracer(NOBLAST_DAMAGE, 'none', DMSS_AFFECTARMOR);
+			}
+			A_Explode(BLAST_DAMAGE, BLAST_RADIUS, 0, false, 22);
+			A_SpawnItemEx("cQuietusBlast");
+		}
+		Stop;
+	}
+}
+
+class cQuietusBlast : Actor {
+	Default {
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+NOINTERACTION
+		+FORCEXYBILLBOARD
+		RenderStyle "Translucent";
+		Alpha 1.0;
+	}
+	
+	States {
+	Spawn:
+		FSFX D 4 Bright Light("QuietusBlast");
+		FSFX E 3 Bright Light("QuietusBlast1");
+		FSFX F 4 Bright Light("QuietusBlast1");
+		FSFX G 3 Bright Light("QuietusBlast1");
+		FSFX H 4 Bright Light("QuietusBlast2") SpawnFlames();
+		FSFX I 3 Bright Light("QuietusBlast2");
+		FSFX JKLM 3 Bright Light("QuietusBlast3") A_FadeOut(0.2);
+		Stop;
+	}
+	
+	void SpawnFlames() {
+		int flameCount = random[QuietusFlame](0,2);
+
+		for (int i = 0; i < flameCount; i++) {
+			double xo = frandom[QuietusFlame](-18,18);
+			double yo = frandom[QuietusFlame](-18,18);
+			double zo = frandom[QuietusFlame](-12,12);
+			Spawn("cQuietusFlame", Vec3Offset(xo, yo, zo));
+		}
+	}
+}
+
+class cQuietusFlame : FSwordFlame {
+	Default {
+		+NOINTERACTION
+		RenderStyle "Add";
+		Alpha 0.8;
+	}
+	
+	States {
+	Spawn:
+		TNT1 A random(0,15);
+		FSFX NOPQRST random(3,4) Bright;
+		FSFX UVW 3 Bright A_FadeOut(0.2);
+		Stop;
+	}
+}
+
+class cQuietusLight : cPlayerLight {
+	Default {
+		Args 26, 77, 26, 48;
+	}
+	
+	override void Tick() {
+		Super.Tick();
+		
+		if(!master || !master.player || !master.player.ReadyWeapon ||
+			master.player.ReadyWeapon.GetClass() != "cQuietus") {
+			Destroy();
+		}
+	}
+}
+
+class cQuietusPiece1 : FWeaponPiece1 replaces FWeaponPiece1 {
+	Default {
+		WeaponPiece.Weapon "cQuietus";
+		-FLOATBOB
+		+INVENTORY.RESTRICTABSOLUTELY
+	}
+	
+	States {
+	Spawn:
+		WFR1 A -1 Bright Light("QuietusPiece");
+		Stop;
+	}
+}
+
+class cQuietusPiece2 : FWeaponPiece2 replaces FWeaponPiece2 {
+	Default {
+		WeaponPiece.Weapon "cQuietus";
+		-FLOATBOB
+		+INVENTORY.RESTRICTABSOLUTELY
+	}
+	
+	States {
+	Spawn:
+		WFR2 A -1 Bright Light("QuietusPiece");
+		Stop;
+	}
+}
+
+class cQuietusPiece3 : FWeaponPiece3 replaces FWeaponPiece3 {
+	Default {
+		WeaponPiece.Weapon "cQuietus";
+		-FLOATBOB
+		+INVENTORY.RESTRICTABSOLUTELY
+	}
+	
+	States {
+	Spawn:
+		WFR3 A -1 Bright Light("QuietusPiece");
+		Stop;
+	}
+}

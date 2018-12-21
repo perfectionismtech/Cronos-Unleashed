@@ -1,0 +1,115 @@
+class cReiver : Wraith replaces Wraith {
+	Default {
+		Health 150;
+		PainChance 50;
+		MeleeRange 72;
+		MeleeThreshold 130;
+		MaxTargetRange MONSTER_MAXRANGE;
+		+NOINFIGHTING
+	}
+	
+	States {
+	Spawn:
+		WRTH A 10;
+		WRTH B 5 A_WraithInit();
+		Goto Look;
+	Look:
+		WRTH AACCDD 10 A_Look();
+		Loop;
+	Pain:
+		WRTH H random(9,15) A_Pain();
+		Goto See;
+	Melee:
+		WRTH E 6 A_FaceTarget();
+		WRTH F 7 A_FaceTarget();
+		WRTH G 9 ReiverMelee();
+		Goto See;
+	Missile:
+		WRTH E 8 A_FaceTarget();
+		WRTH F 8 A_FaceTarget();
+		WRTH G 2 A_FaceTarget();
+		WRTH G 7 A_SpawnProjectile("cReiverFireball");
+		Goto See;
+	}
+	
+	void ReiverMelee() {
+		A_FaceTarget();
+		if (CheckMeleeRange()) {
+			int amount = random[StealHealth](12,18);
+			target.DamageMobj(self, self, amount, "Melee");
+			if (target.player) health += amount*2;
+		}
+	}
+}
+
+class cReiverBuried : cReiver replaces WraithBuried {
+	Default {
+		Height 68;
+		-SHOOTABLE
+		-SOLID
+		+DONTMORPH
+		+DONTBLAST
+		+SPECIALFLOORCLIP
+		+STAYMORPHED
+		+INVISIBLE
+		PainChance 0;
+	}
+	
+	States {
+	Spawn:
+		Goto Super::Look;
+	See:
+		WRTH A 2 A_WraithRaiseInit();
+		WRTH A 2 A_WraithRaise();
+		WRTH A 2 A_FaceTarget();
+		WRTH BB 2 A_WraithRaise();
+		Goto See + 1;
+	Chase:
+		Goto Super::See;
+	}
+	
+	void A_WraithRaiseInit() {
+		bInvisible = false;
+		bNonShootable = false;
+		bDontBlast = false;
+		bShootable = true;
+		bSolid = true;
+		Floorclip = Height;
+	}
+	
+	void A_WraithRaise() {
+		if (RaiseMobj(2)) {
+			bDontMorph = false;
+			bSpecialFloorClip = false;
+			SetStateLabel("Chase");
+			PainChance = GetDefaultByType("cReiver").PainChance;
+		}
+		SpawnDirt(radius);
+	}
+}
+
+class cReiverFireball : WraithFX1 replaces WraithFX1 {
+	Default {
+		Speed 13;
+		DamageFunction 16;
+		RenderStyle "Translucent";
+		+FORCEXYBILLBOARD
+		Decal "ReiverFireball";
+	}
+	
+	States {
+	Spawn:
+		WRBL A 3 Bright Light("ReiverFireball1");
+		WRBL B 3 Bright Light("ReiverFireball1") A_WraithFX2();
+		WRBL C 3 Bright Light("ReiverFireball1");
+		Loop;
+	Death:
+		WRBL D 5 Bright Light("ReiverFireball1");
+		WRBL E 4 Bright Light("ReiverFireball1") A_WraithFX2();
+		WRBL F 4 Bright;
+		WRBL G 3 A_FadeOut(0.4);
+		WRBL H 3 A_WraithFX2();
+		WRBL I 3;
+		Stop;
+	}
+}

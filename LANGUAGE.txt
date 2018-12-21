@@ -1,0 +1,25 @@
+[enu default] 
+
+MNU_INFO = "MOD INFO";
+MNU_CHOOSECLASS = "SELECT CLASS:";
+MNU_CHOOSESKILL = "SELECT DIFFICULTY:";
+
+DEATHKING_CONFIRM = "on this difficulty, hordes of korax's minions shall crush all resistance beneath them.\n\ndo you wish to proceed?";
+
+OB_FALLING = "%o fell to %p death.";
+OB_CRUSH = "%o was crushed.";
+OB_MBOSS = "%o was annihilated by Menelkir.";
+OB_CBOSS = "%o was cleansed by Traductus.";
+
+SECRETMESSAGE = "A SECRET HAS BEEN REVEALED";
+
+TXT_WEAPON_F4 = "\"AND SO THEY SHALL BE SILENCED...\"";
+TXT_WEAPON_C4 = "\"FROM THE GRAVE, TO THE GRAVE...\"";
+TXT_WEAPON_M4 = "\"WASTE BE LAIN UPON THEM...\"";
+
+C_CNTRL_USEFLECHETTE = "Use Flechette";
+C_CNTRL_USEQUARTZFLASK = "Use Quartz Flask";
+C_CNTRL_USEREPULSIONDISC = "Use Disc of Repulsion";
+C_CNTRL_USECHAOSDEVICE = "Use Chaos Device";
+C_CNTRL_USEMYSTICURN = "Use Mystic Urn";
+C_CNTRL_USEICONDEFENDER = "Use Icon of the Defender";

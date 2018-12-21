@@ -1,0 +1,83 @@
+class cPoisonCloud : Actor {
+	int cloudDuration;
+	int bobValue;
+	
+	Default {
+		Radius 35;
+		Height 20;
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		DamageType "PoisonCloud";
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+DROPOFF
+		+DONTBLAST
+		+NODAMAGETHRUST
+		+DONTSPLASH
+		+FOILINVUL
+		+BLOODLESSIMPACT
+		+BLOCKEDBYSOLIDACTORS
+		+FORCEZERORADIUSDMG
+	}
+	
+	States {
+	Spawn:
+		PSBG D 7 NoDelay A_PlaySound("PoisonShroomDeath");
+		PSBG E 2;
+		
+		TNT1 A 0 PoisonCloudDamage();
+		PSBG EEEE 2 PoisonCloudBob();
+		TNT1 A 0 PoisonCloudDamage();
+		PSBG FFFF 2 PoisonCloudBob();
+		TNT1 A 0 PoisonCloudDamage();
+		PSBG GGGG 2 PoisonCloudBob();
+		TNT1 A 0 PoisonCloudDamage();
+		PSBG HHHH 2 PoisonCloudBob();
+		TNT1 A 0 PoisonCloudDamage();
+		PSBG IIII 2 PoisonCloudBob();
+		TNT1 A 0 A_JumpIf(--cloudDuration <= 0, "Death");
+		Goto Spawn + 2;
+	Death:
+		TNT1 A 0 PoisonCloudDamage();
+		PSBG HG 7 A_FadeOut(0.15);
+		PSBG FD 6 A_FadeOut(0.15);
+		Stop;
+	}
+	
+	void PoisonCloudBob() {
+		AddZ(BobSin(bobValue) / 24);
+		bobValue = (bobValue + 1) & 63;
+	}
+	
+	void PoisonCloudDamage() {
+		int rad = 35;
+		A_Explode(1, rad, XF_HURTSOURCE, false, rad);
+	}
+	
+	override void BeginPlay() {
+		Super.BeginPlay();
+		cloudDuration = random[PoisonCloud](7, 9);
+		bobValue = 0;
+	}
+	
+	override int DoSpecialDamage(Actor victim, int damage, Name damagetype) {
+		if (victim.player) {
+			// Apply damage over time
+			if (victim.player.poisoncount < 20) {
+				if (victim.player.PoisonPlayer(self, self.target, 30)) {
+					victim.A_PlaySound("*poison", CHAN_VOICE);
+				}
+			} else {
+				victim.player.PoisonPlayer(self, self.target, 10);
+			}
+			
+			// Apply flat damage
+			victim.player.PoisonDamage(self, random[PoisonCloud](2,5), false);
+			
+			return -1;
+		} else if (victim.bISMONSTER) {
+			return 7;
+		}
+		return -1;
+	}
+}

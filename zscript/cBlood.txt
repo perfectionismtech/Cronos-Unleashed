@@ -1,0 +1,108 @@
+class cBlood : Actor replaces Blood {
+	Default {
+		Mass 5;
+		+NOBLOCKMAP
+		+NOTELEPORT
+		+ALLOWPARTICLES
+		+MISSILE
+		+THRUACTORS
+	}
+	
+	States {
+	Spawn:
+		BLUD CBA 7;
+		Stop;
+	Death:
+		BDSH BC 4;
+		BDSH D 4;
+		Stop;
+	}
+}
+
+class cBloodSplatter : Actor replaces BloodSplatter {
+	Default {
+		Mass 5;
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+NOTELEPORT
+		+ALLOWPARTICLES
+		+THRUACTORS
+	}
+	
+	States {
+	Spawn:
+		BLUD DEF 5;
+		Stop;
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		
+		if (random[Blood]() < 128) {
+			class<Actor> bloodClass = target ? target.bloodType : 'cBlood';
+			Actor mo = Spawn(bloodClass, pos, ALLOW_REPLACE);
+			if (mo) {
+				mo.target = target;
+				mo.vel = vel;
+				mo.translation = translation;
+			}
+		}
+		vel = (0, 0, 0); // Wait until after the vel has been transfered
+	}
+}
+
+class cAxeBlood : AxeBlood replaces AxeBlood {
+	Default {
+		-ALLOWPARTICLES
+	}
+	
+	States {
+	Spawn:
+		FAXE F 5;
+		FAXE GHJ 4;
+		Stop;
+	}
+}
+
+class cFloorBlood : Actor {
+	Default {
+		Radius 8;
+		Height 1;
+		+FLATSPRITE
+		+NOBLOCKMAP
+		+NOTELEPORT
+		+MOVEWITHSECTOR
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		
+		if(GetFloorTerrain().isLiquid) {
+			Destroy();
+		}
+		angle = random[Blood](0,3) * 90;
+	}
+}
+
+class cBloodPool : cFloorBlood replaces BloodPool {
+	States {
+	Spawn:
+		BDPL A -1;
+		Stop;
+	}
+}
+
+class cCorpseBloodDrip : CorpseBloodDrip replaces CorpseBloodDrip {
+	Default {
+		Mass 1;
+		DeathSound "";
+		+DONTBLAST
+	}
+	
+	States {
+	Death:
+		BDSH A 3 { if(random[Blood]() < 128) A_PlaySound("Drip"); }
+		BDSH BCD 2;
+		Stop;
+	}
+}

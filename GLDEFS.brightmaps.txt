@@ -1,0 +1,104 @@
+// Textures
+brightmap texture SW_1_A2 {	map "brightmaps/auto/SW_1_DN.png" }
+brightmap texture SW_1_A3 {	map "brightmaps/auto/SW_1_DN.png" }
+brightmap texture SW_2_A2 {	map "brightmaps/auto/SW_2_DN.png" }
+
+// Timon's Axe
+brightmap sprite FAXEL0 {	map "brightmaps/FAXEL0.png"	disablefullbright }
+brightmap sprite FAXEM0 {	map "brightmaps/FAXEM0.png"	disablefullbright }
+brightmap sprite FAXEN0 {	map "brightmaps/FAXEN0.png"	disablefullbright }
+brightmap sprite FAXEO0 {	map "brightmaps/FAXEO0.png"	disablefullbright }
+brightmap sprite FAXEP0 {	map "brightmaps/FAXEP0.png"	disablefullbright }
+brightmap sprite FAXEQ0 {	map "brightmaps/FAXEQ0.png"	disablefullbright }
+
+// Quietus
+brightmap sprite FSRDA0 {	map "brightmaps/FSRDA0.png"	disablefullbright }
+brightmap sprite FSRDB0 {	map "brightmaps/FSRDB0.png"	disablefullbright }
+brightmap sprite FSRDC0 {	map "brightmaps/FSRDC0.png"	disablefullbright }
+brightmap sprite FSRDE0 {	map "brightmaps/FSRDE0.png"	disablefullbright }
+brightmap sprite FSRDF0 {	map "brightmaps/FSRDF0.png"	disablefullbright }
+brightmap sprite FSRDG0 {	map "brightmaps/FSRDG0.png"	disablefullbright }
+brightmap sprite FSRDH0 {	map "brightmaps/FSRDH0.png"	disablefullbright }
+
+// Serpent Staff
+brightmap sprite CSSFJ0 {	map "brightmaps/CSSFJ0.png"	disablefullbright }
+brightmap sprite CSSFK0 {	map "brightmaps/CSSFK0.png"	disablefullbright }
+
+// Firestorm
+brightmap sprite CFLMA0 {	map "brightmaps/CFLMA0.png"	disablefullbright }
+brightmap sprite CFLMB0 {	map "brightmaps/CFLMB0.png"	disablefullbright }
+brightmap sprite CFLMC0 {	map "brightmaps/CFLMC0.png"	disablefullbright }
+brightmap sprite CFLMD0 {	map "brightmaps/CFLMD0.png"	disablefullbright }
+brightmap sprite CFLME0 {	map "brightmaps/CFLME0.png"	disablefullbright }
+brightmap sprite CFLMF0 {	map "brightmaps/CFLMF0.png"	disablefullbright }
+brightmap sprite CFLMG0 {	map "brightmaps/CFLMG0.png"	disablefullbright }
+
+// Wraithverge
+brightmap sprite CHLYB0 {	map "brightmaps/CHLYB0.png"	disablefullbright }
+brightmap sprite CHLYC0 {	map "brightmaps/CHLYC0.png"	disablefullbright }
+brightmap sprite CHLYD0 {	map "brightmaps/CHLYD0.png"	disablefullbright }
+brightmap sprite CHLYE0 {	map "brightmaps/CHLYE0.png"	disablefullbright }
+
+// Sapphire Wand
+brightmap sprite MWNDB0 {	map "brightmaps/MWNDB0.png"	disablefullbright }
+
+// Frost Shards
+brightmap sprite CONEC0 {	map "brightmaps/CONEC0.png"	disablefullbright }
+brightmap sprite CONED0 {	map "brightmaps/CONED0.png"	disablefullbright }
+brightmap sprite CONEE0 {	map "brightmaps/CONEE0.png"	disablefullbright }
+
+// Bloodscourge
+brightmap sprite MSTFA0 {	map "brightmaps/MSTFA0.png"	disablefullbright }
+brightmap sprite MSTFB0 {	map "brightmaps/MSTFB0.png"	disablefullbright }
+brightmap sprite MSTFC0 {	map "brightmaps/MSTFC0.png"	disablefullbright }
+brightmap sprite MSTFD0 {	map "brightmaps/MSTFD0.png"	disablefullbright }
+brightmap sprite MSTFE0 {	map "brightmaps/MSTFE0.png"	disablefullbright }
+brightmap sprite MSTFF0 {	map "brightmaps/MSTFF0.png"	disablefullbright }
+brightmap sprite MSTFG0 {	map "brightmaps/MSTFG0.png"	disablefullbright }
+brightmap sprite MSTFH0 {	map "brightmaps/MSTFH0.png"	disablefullbright }
+brightmap sprite MSTFI0 {	map "brightmaps/MSTFI0.png"	disablefullbright }
+brightmap sprite MSTFJ0 {	map "brightmaps/MSTFJ0.png"	disablefullbright }
+
+// Centaur
+brightmap sprite CENTF1 {	map "brightmaps/CENTF1.png"	disablefullbright }
+brightmap sprite CENTF2 {	map "brightmaps/CENTF2.png"	disablefullbright }
+brightmap sprite CENTF3 {	disablefullbright }
+brightmap sprite CENTF4 {	disablefullbright }
+brightmap sprite CENTF5 {	disablefullbright }
+brightmap sprite CENTF6 {	disablefullbright }
+brightmap sprite CENTF7 {	disablefullbright }
+brightmap sprite CENTF8 {	map "brightmaps/CENTF8.png"	disablefullbright }
+
+// Wendigo
+brightmap sprite ICEYG1 {	map "brightmaps/ICEYG1.png"	disablefullbright }
+brightmap sprite ICEYG2G8 {	map "brightmaps/ICEYG2G8.png"	disablefullbright }
+brightmap sprite ICEYG3G7 {	map "brightmaps/ICEYG3G7.png"	disablefullbright }
+brightmap sprite ICEYG4G6 {	map "brightmaps/ICEYG4G6.png"	disablefullbright }
+brightmap sprite ICEYG5 {	map "brightmaps/ICEYG5.png"	disablefullbright }
+
+// Reiver
+brightmap sprite WRTHE1 {	map "brightmaps/WRTHE1.png"	disablefullbright }
+brightmap sprite WRTHE2E8 {	map "brightmaps/WRTHE2E8.png"	disablefullbright }
+brightmap sprite WRTHE3E7 {	map "brightmaps/WRTHE3E7.png"	disablefullbright }
+brightmap sprite WRTHE4E6 {	map "brightmaps/WRTHE4E6.png"	disablefullbright }
+brightmap sprite WRTHE5 {	map "brightmaps/WRTHE5.png"	disablefullbright }
+brightmap sprite WRTHF1 {	map "brightmaps/WRTHF1.png"	disablefullbright }
+brightmap sprite WRTHF2F8 {	map "brightmaps/WRTHF2F8.png"	disablefullbright }
+brightmap sprite WRTHF3F7 {	map "brightmaps/WRTHF3F7.png"	disablefullbright }
+brightmap sprite WRTHF4F6 {	map "brightmaps/WRTHF4F6.png"	disablefullbright }
+brightmap sprite WRTHF5 {	map "brightmaps/WRTHF5.png"	disablefullbright }
+brightmap sprite WRTHG1 {	map "brightmaps/WRTHG1.png"	disablefullbright }
+brightmap sprite WRTHG2G8 {	map "brightmaps/WRTHG2G8.png"	disablefullbright }
+brightmap sprite WRTHG3G7 {	map "brightmaps/WRTHG3G7.png"	disablefullbright }
+brightmap sprite WRTHG4G6 {	map "brightmaps/WRTHG4G6.png"	disablefullbright }
+brightmap sprite WRTHG5 {	map "brightmaps/WRTHG5.png"	disablefullbright }
+
+// Mage
+brightmap sprite MAGEF1 {	map "brightmaps/MAGEF1.png"	disablefullbright }
+brightmap sprite MAGEF2 {	map "brightmaps/MAGEF2.png"	disablefullbright }
+brightmap sprite MAGEF3 {	map "brightmaps/MAGEF3.png"	disablefullbright }
+brightmap sprite MAGEF4 {	map "brightmaps/MAGEF4.png"	disablefullbright }
+brightmap sprite MAGEF5 {	map "brightmaps/MAGEF5.png"	disablefullbright }
+brightmap sprite MAGEF6 {	map "brightmaps/MAGEF6.png"	disablefullbright }
+brightmap sprite MAGEF7 {	map "brightmaps/MAGEF7.png"	disablefullbright }
+brightmap sprite MAGEF8 {	map "brightmaps/MAGEF8.png"	disablefullbright }

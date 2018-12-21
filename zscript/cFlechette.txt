@@ -1,0 +1,191 @@
+class cFlechette : Inventory replaces ArtiPoisonBag {
+	Default {
+		+FLOATBOB
+		-INVENTORY.PICKUPFLASH
+		-INVENTORY.FANCYPICKUPSOUND
+		-INVENTORY.INVBAR
+		-COUNTITEM
+		Inventory.DefMaxAmount;
+		Inventory.Icon "ARTIPSBG";
+		Inventory.PickupSound "misc/i_pkup";
+		Inventory.PickupMessage "$TXT_ARTIPOISONBAG";
+		Tag "$TAG_ARTIPOISONBAG";
+	}
+	
+	States {
+	Spawn:
+		PSBG A -1 Light("FlechetteItem");
+		Stop;
+	}
+	
+	private class<Actor> GetFlechetteType(Actor other) {
+		class<Actor> ftype = null;
+		PlayerPawn pp = PlayerPawn(other);
+		if(pp) ftype = pp.flechetteType;
+		return ftype;
+	}
+	
+	override bool Use(bool pickup) {
+		if (owner == null) return false;
+		
+		// Don't allow use if the player can't fire their weapon
+		if (~owner.player.weaponstate & WF_WEAPONREADY) {
+			return false;
+		}
+		
+		class<Actor> flechetteType = PlayerPawn(Owner).FlechetteType;
+		if(flechetteType == "cFlechetteGrenade") {
+			Owner.A_ThrowGrenade("cFlechetteGrenade", -6, 18, 6);
+			
+		} else if(flechetteType == "cFlechettePoison") {
+			Owner.A_ThrowGrenade("cFlechettePoison", -6, 9, 6);
+			
+		} else if(flechetteType == "cFlechetteMine") {
+			Owner.A_ThrowGrenade("cFlechetteMine", -6, 12, 7);
+			
+		} else {
+			return false;
+		}
+		
+		return true;
+	}
+}
+
+// Base class for throwable Flechettes
+class cThrowingFlechette : Actor {
+	Default {
+		Radius 8;
+		Height 10;
+		BounceType "Hexen";
+		BounceFactor 0.6;
+		WallBounceFactor 0.4;
+		BounceSound "FlechetteBounce";
+		WallBounceSound "FlechetteBounce";
+		DamageFunction 0;
+		+NOBLOCKMAP
+		+DROPOFF
+		+MISSILE
+	}
+	
+	States {
+	Spawn:
+		THRW ABCDEF 4 Light("FlechetteThrown");
+		Loop;
+	}
+}
+
+class cFlechetteGrenade : cThrowingFlechette {
+	Default {
+		BounceCount 4;
+		DamageType "Fire";
+		+FORCEPAIN
+		+NOEXTREMEDEATH
+	}
+	
+	States {
+	Death:
+		TNT1 A 12 {
+			A_Explode(95, 72, XF_HURTSOURCE, false, 24);
+			A_SpawnItemEx("cFlechetteBlast");
+			A_Quake(2, 12, 0, 220, "");
+		}
+		Stop;
+	}
+}
+
+class cFlechetteBlast : Actor {
+	Default {
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+NOINTERACTION
+		+FORCEXYBILLBOARD
+	}
+	
+	States{
+	Spawn:
+		TNT1 A 0 NoDelay A_PlaySound("FlechetteExplode");
+		TNT1 AAAAAAAAAAAA 0 SpawnParticle();
+		CFCF QRS 3 Bright Light("FlechetteBlast1");
+		CFCF TU 3 Bright Light("FlechetteBlast2");
+		CFCF VW 3 Bright Light("FlechetteBlast3");
+		CFCF XYZ 3 Bright;
+		Stop;
+	}
+	
+	void SpawnParticle() {
+		A_SpawnParticle("FCD157", SPF_FULLBRIGHT, 32, 5, 0, 
+			0, 0, 0, 
+			frandom(-5,5), frandom(-5,5), frandom(2,9), 
+			0, 0, -0.65, 
+			1, 0.024, -0.09);
+	}
+}
+
+class cFlechettePoison : cThrowingFlechette {
+	Default {
+		BounceType "None";
+		BounceCount 1;
+		+DONTREFLECT
+	}
+	
+	States {
+	Death:
+		PSBG A 3;
+		PSBG BC 5 A_NoGravity();
+		TNT1 A 0 A_SpawnItemEx("cPoisonCloud", 0, 0, 32);
+		Stop;
+	}
+}
+
+class cFlechetteMine : cThrowingFlechette {
+	Default {
+		Radius 14;
+		Height 12;
+		BounceFactor 0.4;
+		Health 1;
+		DamageType "Fire";
+		-NOBLOCKMAP
+		+NOBLOOD
+		+ALLOWBOUNCEONACTORS
+		+BOUNCEONACTORS
+	}
+	
+	States {
+	Spawn:
+		THRW ABCDEF 4 Light("FlechetteThrown") CheckLanding();
+		Loop;
+	Tail:
+		THRW H 6 Light("FlechetteThrown");
+		THRW F 5 Light("FlechetteThrown");
+		THRW G 6 Light("FlechetteThrown");
+		THRW F 1 Light("FlechetteThrown");
+		Wait;
+	Burn:
+		THRW F random(5,9) Light("FlechetteThrown");
+	Death:
+		TNT1 A 12 {
+			bFORCEPAIN = true;
+			A_Explode(80, 64, XF_HURTSOURCE, false, 32, damagetype: "Fire");
+			A_SpawnItemEx("cFlechetteBlast");
+			A_Quake(2, 12, 0, 256, "");
+		}
+		Stop;
+	}
+	
+	void CheckLanding() {
+		if (Vel.Z < 2.0 && Vel.Length() < 2.0) {
+			SetStateLabel("Tail");
+			ClearBounce();
+			bMISSILE = false;
+			bSHOOTABLE = true;
+		}
+	}
+	
+	override int DoSpecialDamage(Actor target, int damage, Name damageType) {
+		if (target.player) {
+			return Super.DoSpecialDamage(target, damage, damageType)/2;
+		}
+		
+		return Super.DoSpecialDamage(target, damage, damageType);
+	}
+}

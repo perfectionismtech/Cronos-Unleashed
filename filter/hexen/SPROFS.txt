@@ -1,0 +1,58 @@
+PAUSED, 44, -12, iwad
+
+CENTK0, 42, 71, iwad
+CENTL0, 37, 76, iwad
+CENTM0, 47, 79, iwad
+CENTN0, 49, 82, iwad
+CENTO0, 45, 82, iwad
+CENTP0, 47, 77, iwad
+CENTQ0, 55, 64, iwad
+CENTR0, 53, 40, iwad
+CENTS0, 43, 28, iwad
+CENTT0, 43, 28, iwad
+CENTU0, 42, 68, iwad
+
+SHB2A0, 33, 38, iwad
+TRE3A0, 46, 150, iwad
+LOGGA0, 20, 57, iwad
+
+FBULA0, 30, 80, iwad
+FBULB0, 30, 80, iwad
+FBULC0, 30, 80, iwad
+FBULD0, 30, 80, iwad
+FBULE0, 30, 80, iwad
+FBULF0, 30, 80, iwad
+FBULG0, 30, 80, iwad
+FBULH0, 30, 80, iwad
+FBULI0, 30, 80, iwad
+FBULJ0, 30, 80, iwad
+
+TWTRA0, 16, 80, iwad
+TWTRB0, 16, 82, iwad
+TWTRC0, 16, 84, iwad
+TWTRD0, 16, 84, iwad
+TWTRE0, 16, 80, iwad
+TWTRF0, 16, 81, iwad
+TWTRG0, 16, 83, iwad
+TWTRH0, 16, 81, iwad
+TWTRI0, 16, 66, iwad
+
+STTNA0, 29, 83, iwad
+STTNB0, 29, 83, iwad
+STTWA0, 32, 83, iwad
+
+LVASA0, 12, 11, iwad
+LVASB0, 13, 16, iwad
+LVASC0, 14, 14, iwad
+LVASD0, 13, 11, iwad
+LVASE0, 12, 9, iwad
+LVASF0, 12, 5, iwad
+
+WCFMA0, 11, 50, iwad
+WCFMB0, 7, 52, iwad
+WCFMC0, 8, 46, iwad
+WCFMD0, 13, 49, iwad
+WCFME0, 14, 48, iwad
+WCFMF0, 9, 43, iwad
+WCFMG0, 7, 43, iwad
+WCFMH0, 11, 46, iwad

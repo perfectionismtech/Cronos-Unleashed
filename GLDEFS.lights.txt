@@ -1,0 +1,276 @@
+// Weapons
+
+flickerlight AxeGlowPuff {
+	color 0.2 0.5 0.7
+	size 32
+	secondarySize 24
+	chance 0.3
+}
+
+pointlight ThrownHammer {	color 0.8 0.1 0.0	size 48 }
+
+pointlight HammerBlast1 {	color 1.0 0.6 0.0	size 72 }
+pointlight HammerBlast2 {	color 0.8 0.5 0.0	size 64 }
+pointlight HammerBlast3 {	color 0.6 0.4 0.0	size 56 }
+
+pointlight QuietusMissile {	color 0.2 0.4 0.1	size 56 }
+
+pointlight QuietusBlast1 {	color 0.3 0.6 0.2	size 64 }
+pointlight QuietusBlast2 {	color 0.2 0.4 0.1	size 48 }
+pointlight QuietusBlast3 {	color 0.1 0.2 0.1	size 32 }
+
+pointlight SerpentStaffMissile {	color 0.2 0.4 0.1	size 32 }
+
+pointlight SerpentStaffBlast1 {	color 0.2 0.4 0.1	size 32 }
+pointlight SerpentStaffBlast2 {	color 0.1 0.2 0.0	size 24 }
+
+pointlight FirestormBlast {
+	color 0.6 0.3 0.1
+	size 64
+	offset 0 12 0
+}
+
+flickerlight2 FirestormWeapon {
+	color 0.6 0.3 0.1
+	size 32
+	secondarysize 24
+	interval 0.1
+	offset 0 20 0
+}
+
+pointlight SapphireWand {	color 0.1 0.3 0.8	size 32 }
+
+pointlight FrostShardsWeapon1 {	color 0.1 0.1 0.4	size 16	offset 0 16 0 }
+pointlight FrostShardsWeapon2 {	color 0.1 0.1 0.4	size 24	offset 0 16 0 }
+pointlight FrostShardsWeapon3 {	color 0.1 0.1 0.4	size 32	offset 0 16 0 }
+
+pointlight FrostShard1 {	color 0.0 0.1 0.4	size 24 }
+pointlight FrostShard2 {	color 0.0 0.0 0.2	size 24 }
+
+flickerlight2 ArcOfDeathWeapon {
+	color 0.0 0.1 0.5
+	size 32
+	secondarysize 24
+	offset 0 32 0
+}
+
+pointlight Bloodscourge1 {	color 0.6 0.1 0.0 size 80 }
+pointlight Bloodscourge2 {	color 0.5 0.0 0.0 size 60 }
+pointlight Bloodscourge3 {	color 0.4 0.0 0.0 size 48 }
+pointlight Bloodscourge4 {	color 0.3 0.0 0.0 size 32 }
+
+pulselight QuietusPiece {
+	color 0.1 0.5 0.1
+	size 24
+	secondarySize 32
+	interval 1.5
+	offset 0 10 0
+}
+
+pulselight WraithvergePiece {
+	color 0.1 0.2 0.6
+	size 24
+	secondarySize 32
+	interval 1.5
+	offset 0 10 0
+}
+
+pulselight BloodscourgePiece {
+	color 0.6 0.1 0.1
+	size 24
+	secondarySize 32
+	interval 1.5
+	offset 0 10 0
+}
+
+// Artifacts
+
+pointlight BlueMana {
+	color 0.0 0.0 0.4
+	size 20
+	offset 0 30 0
+}
+
+pointlight GreenMana {
+	color 0.0 0.3 0.0
+	size 20
+	offset 0 30 0
+}
+
+pointlight RedMana {
+	color 0.3 0.0 0.0
+	size 24
+	offset 0 30 0
+}
+
+pointlight PurpleMana {
+	color 0.2 0.0 0.3
+	size 24
+	offset 0 30 0
+}
+
+pointlight CrystalVialItem {
+	color 0.0 0.1 0.5
+	size 24
+	offset 0 30 0
+}
+
+pointlight QuartzFlaskItem {
+	color 0.4 0.0 0.5
+	size 24
+	offset 0 25 0
+}
+
+pointlight RepulsionItem {
+	color 0.4 0.3 0.0
+	size 24
+	offset 0 30 0
+}
+
+pointlight FlechetteItem {
+	color 0.1 0.3 0.0
+	size 24
+	offset 0 25 0
+}
+
+pointlight FlechetteThrown {	color 0.2 0.9 0.0	size 32 }
+
+pointlight FlechetteBlast1 {	color 0.8 0.6 0.0	size 80 }
+pointlight FlechetteBlast2 {	color 0.7 0.5 0.0	size 64 }
+pointlight FlechetteBlast3 {	color 0.5 0.3 0.0	size 40 }
+
+pointlight TorchItem {
+	color 0.5 0.3 0.0
+	size 32
+	offset 0 30 0
+}
+
+pointlight BracerItem {
+	color 0.4 0.1 0.6
+	size 32
+	offset 0 30 0
+}
+
+pointlight IconItem {
+	color 0.3 0.1 0.6
+	size 24
+	offset 0 30 0
+}
+
+// Monsters
+
+pointlight Afrit1 {	color 0.4 0.2 0.0	size 56 }
+pointlight Afrit2 {	color 0.5 0.3 0.0	size 72 }
+
+pointlight AfritFireball {	color 0.4 0.2 0.0	size 40 }
+
+pointlight CentaurFireball {	color 0.5 0.9 1.0	size 40 }
+
+pointlight ChaosFireball1 {	color 0.6 0.3 0.1	size 56 }
+pointlight ChaosFireball2 {	color 0.4 0.2 0.0	size 48 }
+
+pointlight BishopBall1 {	color 0.6 0.9 0.1	size 32 }
+
+pointlight StalkerSlimeball {	color 0.2 0.4 0.1	size 32 }
+
+pointlight ReiverFireball1 {	color 0.6 0.1 0.0	size 48 }
+
+// Decorations
+
+flickerlight2 BrassTorch {
+	color 0.8 0.5 0.1
+	size 72
+	secondarysize 64
+	interval 0.1
+	offset 0 40 0
+}
+
+flickerlight2 TwinedTorch {
+	color 0.8 0.5 0.1
+	size 72
+	secondarysize 64
+	interval 0.1
+	offset 0 64 0
+}
+
+flickerlight2 SkullTorch {
+	color 0.8 0.5 0.1
+	size 56
+	secondarysize 48
+	interval 0.1
+	offset 0 30 0
+}
+
+flickerlight2 WallTorch {
+	color 0.6 0.4 0.1
+	size 28
+	secondarysize 32
+	interval 0.1
+	offset 0 24 0
+}
+
+flickerlight2 BullTorch {
+	color 0.8 0.5 0.1
+	size 72
+	secondarysize 64
+	interval 0.1
+	offset 0 30 0
+}
+
+pointlight Chandelier {
+	color 0.5 0.3 0.0
+	size 112
+	offset 0 10 0
+}
+
+flickerlight2 Candle {
+	color 0.4 0.2 0.0
+	size 32
+	secondarysize 24
+	interval 0.1
+	offset 0 10 0
+}
+
+flickerlight2 BlueCandle {
+	color 0.1 0.2 0.5
+	size 24
+	secondarysize 16
+	interval 0.1
+	offset 0 20 0
+}
+
+flickerlight2 FlameLarge {
+	color 0.6 0.3 0.0
+	size 32
+	secondarysize 24
+	interval 0.1
+	offset 0 10 0
+}
+
+flickerlight2 FlameSmall {
+	color 0.4 0.2 0.0
+	size 24
+	secondarysize 16
+	interval 0.1
+	offset 0 5 0
+}
+
+flickerlight2 TeleSmoke {
+	color 0.8 0.0 0.0
+	size 80
+	secondarysize 64
+	interval 0.1
+	offset 0 40 0
+}
+
+flickerlight TeleFog {
+	color 0.5 0.0 0.0
+	size 40
+	secondarysize 24
+	chance 0.1
+}
+
+pointlight FireballLight {
+	color 0.6 0.1 0.0
+	size 64
+}

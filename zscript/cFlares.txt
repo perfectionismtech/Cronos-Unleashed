@@ -1,0 +1,62 @@
+class cFlare : Actor {
+	int vertOffset;
+	double baseOpacity;
+	bool shouldCheckOwner;
+	
+	Default {
+		RenderStyle "Add";
+		+BRIGHT
+		+FORCEXYBILLBOARD
+		+NOINTERACTION
+		+NOCLIP
+		+NOTONAUTOMAP
+	}
+	
+	States {
+	Spawn:
+		Stop;
+	}
+	
+	void Flicker(double amount, bool negative = true) {
+		self.Alpha = self.baseOpacity + frandom[FlickeringFlare](negative ? -amount : 0, amount);
+	}
+	
+	override void Tick() {
+		Super.Tick();
+		
+		if (master && (!shouldCheckOwner || !Inventory(master).owner) ) {
+			SetOrigin(master.pos + (0, 0, vertOffset), true);
+		} else {
+			Destroy();
+		}
+	}
+	
+	void Init(actor source, int vertOffset, int flareRadius, double opacity, bool pickup = false) {
+		self.master = source;
+		self.vertOffset = vertOffset;
+		Scale.X = Scale.Y = flareRadius/128.0;
+		self.Alpha = self.baseOpacity = opacity;
+		
+		if (master.bFloatBob) {
+			bFloatBob = true;
+			FloatBobPhase = master.FloatBobPhase;
+			FloatBobStrength = master.FloatBobStrength;
+		}
+		
+		if (pickup) {
+			if (master is "Inventory") {
+				shouldCheckOwner = true;
+			}
+		}
+		
+		SetOrigin(master.pos + (0, 0, vertOffset), false); // Prevents issues with interpolation
+	}
+}
+
+class cFlareTorch : cFlare {
+	States {
+	Spawn:
+		FLRE B 6 Flicker(0.05);
+		Loop;
+	}
+}

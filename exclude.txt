@@ -1,0 +1,8 @@
+exclude.txt
+readme.md
+build.pk3
+Builds/*
+maps/*
+*.command
+.*
+*/.*

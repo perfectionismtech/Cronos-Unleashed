@@ -1,0 +1,141 @@
+// Lava
+flat X_001
+	pic 1 tics 5
+	pic 2 tics 5
+	pic 3 tics 5
+	pic 4 tics 5
+
+warp2 flat X_001 0.15
+warp2 flat X_002 0.15
+warp2 flat X_003 0.15
+warp2 flat X_004 0.15
+
+texture X_FIRE01
+	pic 1 tics 5
+	pic 2 tics 5
+	pic 3 tics 5
+	pic 4 tics 5
+
+// Water
+flat X_005
+	pic X_005 tics 3
+	pic X_005_1 tics 3
+	pic X_005_2 tics 3
+	pic X_005_3 tics 3
+	pic X_005_4 tics 3
+	pic X_006 tics 3
+	pic X_006_1 tics 3
+	pic X_006_2 tics 3
+	pic X_006_3 tics 3
+	pic X_006_4 tics 3
+	pic X_007 tics 3
+	pic X_007_1 tics 3
+	pic X_007_2 tics 3
+	pic X_007_3 tics 3
+	pic X_007_4 tics 3
+	pic X_008 tics 3
+	pic X_008_1 tics 3
+	pic X_008_2 tics 3
+	pic X_008_3 tics 3
+	pic X_008_4 tics 3
+
+texture X_WATER1
+	pic X_005 tics 3
+	pic X_005_1 tics 3
+	pic X_005_2 tics 3
+	pic X_005_3 tics 3
+	pic X_005_4 tics 3
+	pic X_006 tics 3
+	pic X_006_1 tics 3
+	pic X_006_2 tics 3
+	pic X_006_3 tics 3
+	pic X_006_4 tics 3
+	pic X_007 tics 3
+	pic X_007_1 tics 3
+	pic X_007_2 tics 3
+	pic X_007_3 tics 3
+	pic X_007_4 tics 3
+	pic X_008 tics 3
+	pic X_008_1 tics 3
+	pic X_008_2 tics 3
+	pic X_008_3 tics 3
+	pic X_008_4 tics 3
+
+warp2 flat X_005
+warp2 flat X_005_1
+warp2 flat X_005_2
+warp2 flat X_005_3
+warp2 flat X_005_4
+warp2 flat X_006
+warp2 flat X_006_1
+warp2 flat X_006_2
+warp2 flat X_006_3
+warp2 flat X_006_4
+warp2 flat X_007
+warp2 flat X_007_1
+warp2 flat X_007_2
+warp2 flat X_007_3
+warp2 flat X_007_4
+warp2 flat X_008
+warp2 flat X_008_1
+warp2 flat X_008_2
+warp2 flat X_008_3
+warp2 flat X_008_4
+
+// Slime
+flat X_009
+	pic 1 tics 9
+	pic 2 tics 9
+	pic 3 tics 9
+	pic 2 tics 9
+
+warp2 flat X_009 0.5
+warp2 flat X_010 0.5
+warp2 flat X_011 0.5
+
+texture X_SWMP1
+	pic 1 tics 6
+	pic 2 tics 6
+	pic 3 tics 6
+
+warp2 texture X_SWMP1 0.5
+warp2 texture X_SWMP2 0.5
+warp2 texture X_SWMP3 0.5
+
+// Teleportal
+texture tport1
+	pic TPORT1 tics 4
+	pic TPORT2 tics 4
+	pic TPORT3 tics 4
+	pic TPORT4 tics 4
+	pic TPORT5 tics 4
+	pic TPORT6 tics 4
+	pic TPORT7 tics 4
+	pic TPORT8 tics 4
+	pic TPORT9 tics 4
+
+// Switches 
+switch SW_1_UP
+	on sound Switch1
+		pic SW_1_A1 tics 2
+		pic SW_1_A2 tics 2
+		pic SW_1_A3 tics 2
+		pic SW_1_DN tics 0
+
+switch SW_2_UP
+	on sound Switch1
+		pic SW_2_A1 tics 2
+		pic SW_2_A2 tics 2
+		pic SW_2_DN tics 0
+
+switch SW53_UP
+	on sound RopePull
+		pic SW_3_A1 tics 2
+		pic SW_3_A2 tics 2
+		pic SW_3_A3 tics 2
+		pic SW53_DN tics 0
+
+switch PUZZLE5 on sound Switch2 pic PUZZLE9 tics 0
+switch PUZZLE6 on sound Switch2 pic PUZZLE10 tics 0
+switch PUZZLE7 on sound Switch2 pic PUZZLE11 tics 0
+switch PUZZLE8 on sound Switch2 pic PUZZLE12 tics 0

@@ -1,0 +1,40 @@
+DefaultListMenu {
+	Font "BigFont", "Untranslated", "Untranslated"
+	Selector "M_SLCTR1", -28, -1
+	Linespacing 20
+}
+
+// Main Menu
+ListMenu "MainMenu" {
+	StaticPatch 160, 36, "Graphics/HEXEN.png"
+	Position 112, 115
+	TextItem "$MNU_NEWGAME",		"n", "PlayerclassMenu"
+	TextItem "$MNU_GAMEFILES",	"g", "GameFilesMenu"
+	TextItem "$MNU_OPTIONS",		"o", "OptionsMenu"
+	TextItem "$MNU_INFO",		"i", "ReadThisMenu"
+	TextItem "$MNU_QUITGAME",	"q", "QuitMenu"
+}
+
+// Game Files Menu
+ListMenu "GameFilesMenu" {
+	StaticPatch 160, 36, "Graphics/HEXEN.png"
+	Position 112, 125
+	TextItem "$MNU_LOADGAME",	"l", "LoadGameMenu"
+	TextItem "$MNU_SAVEGAME",	"s", "SaveGameMenu"
+}
+
+// Player Class Menu
+ListMenu "PlayerClassMenu" {
+	NetgameMessage "$NEWGAME"
+	StaticText 50, 40, "$MNU_CHOOSECLASS"
+	Position 50, 70
+	PlayerDisplay 180, 40, "00 07 00", "40 53 40"
+	MouseWindow 0, 174
+}
+
+// Difficulty Menu
+ListMenu "SkillMenu" {
+	StaticTextCentered 160, 40, "$MNU_CHOOSESKILL"
+	Position 160, 70
+	CenterMenu
+}

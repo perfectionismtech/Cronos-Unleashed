@@ -1,0 +1,17 @@
+// Water
+flat X_005_1, 64, 64 { patch X_005, 0, 0 patch X_006, 0, 0 { Style Translucent; Alpha 0.2 }}
+flat X_005_2, 64, 64 { patch X_005, 0, 0 patch X_006, 0, 0 { Style Translucent; Alpha 0.4 }}
+flat X_005_3, 64, 64 { patch X_005, 0, 0 patch X_006, 0, 0 { Style Translucent; Alpha 0.6 }}
+flat X_005_4, 64, 64 { patch X_005, 0, 0 patch X_006, 0, 0 { Style Translucent; Alpha 0.8 }}
+flat X_006_1, 64, 64 { patch X_006, 0, 0 patch X_007, 0, 0 { Style Translucent; Alpha 0.2 }}
+flat X_006_2, 64, 64 { patch X_006, 0, 0 patch X_007, 0, 0 { Style Translucent; Alpha 0.4 }}
+flat X_006_3, 64, 64 { patch X_006, 0, 0 patch X_007, 0, 0 { Style Translucent; Alpha 0.6 }}
+flat X_006_4, 64, 64 { patch X_006, 0, 0 patch X_007, 0, 0 { Style Translucent; Alpha 0.8 }}
+flat X_007_1, 64, 64 { patch X_007, 0, 0 patch X_008, 0, 0 { Style Translucent; Alpha 0.2 }}
+flat X_007_2, 64, 64 { patch X_007, 0, 0 patch X_008, 0, 0 { Style Translucent; Alpha 0.4 }}
+flat X_007_3, 64, 64 { patch X_007, 0, 0 patch X_008, 0, 0 { Style Translucent; Alpha 0.6 }}
+flat X_007_4, 64, 64 { patch X_007, 0, 0 patch X_008, 0, 0 { Style Translucent; Alpha 0.8 }}
+flat X_008_1, 64, 64 { patch X_008, 0, 0 patch X_005, 0, 0 { Style Translucent; Alpha 0.2 }}
+flat X_008_2, 64, 64 { patch X_008, 0, 0 patch X_005, 0, 0 { Style Translucent; Alpha 0.4 }}
+flat X_008_3, 64, 64 { patch X_008, 0, 0 patch X_005, 0, 0 { Style Translucent; Alpha 0.6 }}
+flat X_008_4, 64, 64 { patch X_008, 0, 0 patch X_005, 0, 0 { Style Translucent; Alpha 0.8 }}

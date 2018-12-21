@@ -1,0 +1,148 @@
+class cBossHealthBars : EventHandler {
+	Array<actor> bosses;
+	TextureID barTex;
+	Vector2 barSize;
+	Vector2 barOff;
+	Vector2 barPos;
+	int barSpace;
+	
+	override void OnRegister() {
+		barTex = TexMan.CheckForTexture("BOSSBAR", TexMan.Type_Any);
+		barSize = (30, 3); // Size of the filled part of the bar
+		barOff = (1, 1); // Bar offset from the top-left of the graphic
+		barPos = (15, 25); // Where the first bar should be drawn
+		barSpace = 10; // Spacing between bars
+	}
+	
+	override void WorldThingSpawned(WorldEvent e) {
+		if (e.Thing.bBOSS) {
+			bosses.Push(e.thing);
+		}
+	}
+	
+	override void WorldThingDied(WorldEvent e) {
+		if (e.Thing.bBOSS && bosses.Find(e.thing) != bosses.Size()) {
+			bosses.Delete(bosses.Find(e.thing));
+		}
+	}
+	
+	override void WorldThingDestroyed(WorldEvent e) {
+		if (e.Thing.bBOSS && bosses.Find(e.thing) != bosses.Size()) {
+			bosses.Delete(bosses.Find(e.thing));
+		}
+	}
+	
+	override void RenderOverlay(RenderEvent e) {
+		if (bosses.Size() == 0) return;
+		
+		Vector2 hudScaleVec = StatusBar.GetHUDScale();
+		int hudScale = int(hudScaleVec.x);
+		int vw = screen.GetWidth() / hudScale;
+		int vh = screen.GetHeight() / hudScale;
+		
+		// Apply the HUD size scalings
+		Vector2 barSizeS = barSize * hudScale;
+		Vector2 barOffS = barOff * hudScale;
+		Vector2 barPosS = barPos / hudScale;
+		
+		int right = int(barPos.x + barOffS.x + barSizeS.x);
+		
+		int barCount = 0;
+		for (int i = 0; i < bosses.Size(); i++) {
+			// Don't draw for bosses that aren't targeting the player
+			if (!bosses[i].target || !bosses[i].target.player) continue;
+			
+			int vertOffset = barCount * barSpace;
+			
+			// Amount of health the boss has, 1.0 = full health
+			double healthRatio = bosses[i].health / Double(bosses[i].SpawnHealth());
+			healthRatio = clamp(healthRatio, 0, 1);
+			
+			int left = int(floor(right - barSizeS.x * (1 - healthRatio)));
+			int top = int(barPos.y + barOffS.y) + vertOffset * hudScale;
+			int bottom = top + int(barSizeS.y);
+			
+			// Draw the bar and fill in the empty part
+			Screen.DrawTexture(barTex, true, barPosS.x, barPosS.y+vertOffset, 
+				DTA_KeepRatio, true, DTA_VirtualWidth, vw, DTA_VirtualHeight, vh);
+			Screen.Clear(left, top, right, bottom, "#000000");
+			
+			barcount++;
+		}
+	}
+}
+
+class cMapEntry : StaticEventHandler {
+	override void WorldLoaded(WorldEvent e) {
+		if (!e.IsSaveGame) {
+			players[consoleplayer].mo.A_SetBlend("000000", 1.0, 30);
+		}
+	}
+}
+
+class cMapName : StaticEventHandler {
+	const DELAY = 20;
+	const FADEIN = 35;
+	const HOLD = 35*3;
+	const FADEOUT = 35;
+	
+	const FADEIN_END = DELAY + FADEIN;
+	const FADEOUT_END = DELAY + FADEIN + HOLD;
+	const END = DELAY + FADEIN + HOLD + FADEOUT;
+	
+	int time;
+	String mapName;
+	int fontMiddle;
+	
+	override void OnRegister() {
+		fontMiddle = BigFont.GetHeight() / 2;
+	}
+	
+	override void RenderOverlay(RenderEvent e) {
+		if (time > END || time < DELAY) return;
+		
+		// Get the scaled screen size
+		Vector2 hudScaleVec = StatusBar.GetHUDScale();
+		int hudScale = int(hudScaleVec.x);
+		int vw = screen.GetWidth() / hudScale;
+		int vh = screen.GetHeight() / hudScale;
+		
+		// Calculate the position
+		int x = (vw - BigFont.StringWidth(mapName)) >> 1; // Bit shift to divide by 2
+		int y = (vh >> 3) - fontMiddle; // Bit shift to divide by 8
+		
+		// Calculate the alpha
+		double a;
+		if (time < FADEIN_END) {
+			a = (time - DELAY + e.fracTic) / FADEIN;
+		} else if (time < FADEOUT_END) {
+			a = 1.0;
+		} else {
+			a = 1 - (time - FADEOUT_END - 1 + e.fracTic) / FADEOUT;
+		}
+		
+		// Draw the text
+		Screen.DrawText(BigFont, Font.CR_UNTRANSLATED, x, y, mapName, DTA_Alpha, a, 
+			DTA_KeepRatio, true, DTA_VirtualWidth, vw, DTA_VirtualHeight, vh);
+	}
+	
+	override void WorldLoaded(WorldEvent e) {
+		if (CVar.GetCVar("map_name_on_entry", players[consoleplayer]).GetBool()) {
+			if (!e.isSaveGame && level.mapName != "TITLEMAP") {
+				mapName = level.levelName;
+				if (mapName == "") {
+					mapName = "UNNAMED";
+				}
+				
+				time = 0;
+				return;
+			}
+		}
+		
+		time = END + 1;
+	}
+	
+	override void WorldTick() {
+		time++;
+	}
+}

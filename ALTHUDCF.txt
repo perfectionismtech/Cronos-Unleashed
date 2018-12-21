@@ -1,0 +1,14 @@
+cFists WFSTA0
+cAxe WFAXA0
+cHammer WFHMA0
+cQuietus WSRDA0
+
+cMace WMCEA0
+cSerpentStaff WCSSA0
+cFirestorm WCFMD0
+cWraithverge WHLYA0
+
+cSapphireWand WWNDA0
+cFrostShards WMCSB0
+cArcOfDeath WMLGF0
+cBloodscourge WSTFA0

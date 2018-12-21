@@ -1,0 +1,106 @@
+class cZedek : FighterBoss replaces FighterBoss {
+	Default {
+		Health 1400;
+		Speed 25;
+		PainThreshold 35;
+		SelfDamageFactor 0;
+		+NODROPOFF
+		+BOSS
+	}
+	
+	States {
+	See:
+		PLAY ABCD 4 A_Chase("Missile", "Missile", CHF_FASTCHASE);
+		Loop;
+	Pain:
+		PLAY G 4;
+		PLAY G 4 A_Pain();
+		Goto See;
+	Melee:
+	Missile:
+		PLAY EEE 4 A_FaceTarget();
+		PLAY F 8 A_FighterAttack();
+		Play A random(4,6);
+		Goto See;
+	XDeath:
+	Death:
+		PLAY H 6;
+		PLAY I 6 A_Scream();
+		PLAY JK 6;
+		PLAY L 6 A_NoBlocking();
+		PLAY M 6;
+		PLAY N -1;
+		Stop;
+	}
+}
+
+class cTraductus : ClericBoss replaces ClericBoss {
+	Default {
+		Health 1200;
+		Speed 19;
+		PainThreshold 35;
+		Translation "97:106=0:9", "122:123=3:4", "240:240=6:6";
+		+NODROPOFF
+		+BOSS
+	}
+	
+	States {
+	See:
+		CLER ABCD 4 A_Chase(null, "Missile", 0);
+		Loop;
+	Pain:
+		CLER H 4;
+		CLER H 4 A_Pain();
+		Goto See;
+	Missile:
+		CLER EEEEF 4 A_FaceTarget();
+		CLER G 8 A_ClericAttack();
+		CLER A random(5,8);
+		Goto See;
+	XDeath:
+	Death:
+		CLER I 6;
+		CLER K 6 A_Scream();
+		CLER LL 6;
+		CLER M 6 A_NoBlocking();
+		CLER NOP 6;
+		CLER Q -1;
+		Stop;
+	}
+}
+
+class cMenelkir : MageBoss replaces MageBoss {
+	Default {
+		Health 800;
+		Speed 22;
+		PainThreshold 35;
+		SelfDamageFactor 0;
+		Translation "246:254=34:42", "124:125=35:35", "97:104=2:9", "240:240=6:6";
+		+NODROPOFF
+		+BOSS
+	}
+	
+	States {
+	See:
+		MAGE ABCD 4 A_Chase(null, "Missile", 0);
+		Loop;
+	Pain:
+		MAGE G 4;
+		MAGE G 4 A_Pain();
+		Goto See;
+	Missile:
+		MAGE EEE 4 A_FaceTarget();
+		MAGE F 8 Bright A_MageAttack();
+		MAGE A random(5,8);
+		Goto See;
+	XDeath:
+	Death:
+		MAGE H 6;
+		MAGE I 6 A_Scream();
+		MAGE JK 6;
+		MAGE L 6 A_NoBlocking();
+		MAGE M 6;
+		MAGE N -1;
+		Stop;
+	}
+}

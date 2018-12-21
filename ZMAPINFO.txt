@@ -1,0 +1,71 @@
+GameInfo {
+	PlayerClasses = "cFighterPlayer", "cClericPlayer", "cMagePlayer"
+	NoRandomPlayerClass = true
+	DimAmount = 0.35
+	DimColor = "0F 0F 2F"
+	TitleTime = 9999
+	InfoPage = "INFO1", "INFO2"
+	BorderFlat = "BORDER"
+	AddEventHandlers = "cBossHealthBars", "cMapEntry", "cMapName"
+}
+
+ClearSkills
+
+Skill Easy {
+	Name = "easy"
+	PlayerClassName = "Fighter", "squire"
+	PlayerClassName = "Cleric", "acolyte"
+	PlayerClassName = "Mage", "apprentice"
+	SpawnFilter = Easy
+	DamageFactor = 0.8
+	DoubleAmmoFactor = 1.5
+}
+
+Skill Normal {
+	DefaultSkill
+	Name = "normal"
+	PlayerClassName = "Fighter", "knight"
+	PlayerClassName = "Cleric", "priest"
+	PlayerClassName = "Mage", "magus"
+	SpawnFilter = Normal
+	DoubleAmmoFactor = 1.5
+}
+
+Skill Hard {
+	Name = "hard"
+	PlayerClassName = "Fighter", "warrior"
+	PlayerClassName = "Cleric", "cardinal"
+	PlayerClassName = "Mage", "sorcerer"
+	SpawnFilter = Hard
+	DoubleAmmoFactor = 1.5
+}
+
+Skill Master {
+	Name = "master"
+	PlayerClassName = "Fighter", "berserker"
+	PlayerClassName = "Cleric", "pope"
+	PlayerClassName = "Mage", "warlock"
+	SpawnFilter = Hard
+	DamageFactor = 1.5
+	DoubleAmmoFactor = 1.5
+}
+
+Skill Deathking {
+	Name = "deathking"
+	PlayerClassName = "Fighter", "titan"
+	PlayerClassName = "Cleric", "mystic"
+	PlayerClassName = "Mage", "archimage"
+	MustConfirm = "$DEATHKING_CONFIRM"
+	SpawnFilter = Nightmare
+	DamageFactor = 2.5
+	DoubleAmmoFactor = 1.5
+	FastMonsters
+	ReplaceActor = "Centaur", "CentaurLeader"
+	ReplaceActor = "Serpent", "SerpentLeader"
+	ReplaceActor = "ArtiInvulnerability2", "ArtiSuperHealth"
+	ReplaceActor = "ArtiTeleport", "ArtiBoostArmor"
+}
+
+DamageType Falling {
+	NoArmor
+}

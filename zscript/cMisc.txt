@@ -1,0 +1,101 @@
+class cPickupFlash : PickupFlash replaces PickupFlash {
+	Default {
+		+NOTIMEFREEZE
+	}
+	
+	States {
+	Spawn:
+		ACLO DCDCBCBABA 3 Bright;
+		Stop;
+	}
+}
+
+class cFireball : FireBall replaces FireBall {
+	Default {
+		RenderStyle "Normal";
+		Alpha 1.0;
+		+FORCEXYBILLBOARD
+	}
+	
+	States {
+	Spawn:
+		FBL1 AB 5 Bright Light("FireballLight");
+		Loop;
+	Death:
+		TNT1 A 0 A_NoGravity();
+		TNT1 A 0 A_SetRenderStyle(1.0, STYLE_Add);
+		XPL1 ABC 4 Bright Light("FireballLight");
+		XPL1 DEF 4 Bright;
+		Stop;
+	}
+}
+
+class cWaterSplashBase : WaterSplashBase replaces WaterSplashBase {
+	Default {
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		+MOVEWITHSECTOR
+	}
+}
+
+class cWaterSplash : WaterSplash replaces WaterSplash {
+	Default {
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		+THRUACTORS
+		+FORCEXYBILLBOARD
+	}
+	
+	States {
+	Spawn:
+		SPSH ABCD 7 A_FadeOut(0.1);
+		Stop;
+	Death:
+		Stop;
+	}
+}
+
+class cLavaSplash : LavaSplash replaces LavaSplash {
+	Default {
+		+MOVEWITHSECTOR
+	}
+}
+
+class cSludgeSplash : SludgeSplash replaces SludgeSplash {
+	Default {
+		+MOVEWITHSECTOR
+	}
+}
+
+class cBloodDummy : Actor {
+	Default {
+		Radius 16;
+		Height 72;
+		+SOLID
+		+SHOOTABLE
+		+NODAMAGE
+	}
+	
+	States {
+	Spawn:
+		ZSUI A -1;
+	}
+}
+
+class cDistanceDummy : Actor {
+	Default {
+		Radius 16;
+		Height 72;
+		+SOLID
+		+LOOKALLAROUND
+	}
+	
+	States {
+	Spawn:
+		ZSUI A 1 NoDelay A_LookEx();
+		Wait;
+	See:
+		ZSUI A 35 { if (target) A_LogFloat(Distance3D(target)); }
+		Wait;
+	}
+}

@@ -1,0 +1,69 @@
+class cEttinMash : cEttin replaces EttinMash {
+	Default {
+		+NOBLOOD
+		+NOICEDEATH
+		RenderStyle "Translucent";
+		Alpha 0.4;
+	}
+	
+	States {
+	Death:
+	XDeath:
+	Ice:
+		Stop;
+	}
+}
+
+class cCentaurMash : cCentaur replaces CentaurMash {
+	Default {
+		+NOBLOOD
+		+BLASTED
+		-TELESTOMP
+		+NOICEDEATH
+		RenderStyle "Translucent";
+		Alpha 0.4;
+	}
+	
+	States {
+	Death:
+	XDeath:
+	Ice:
+		Stop;
+	}
+}
+
+class cChaosSerpentMash : cChaosSerpent replaces Demon1Mash {
+	Default {
+		+NOBLOOD
+		+BLASTED
+		-TELESTOMP
+		+NOICEDEATH
+		RenderStyle "Translucent";
+		Alpha 0.4;
+	}
+	
+	States {
+	Death:
+	XDeath:
+	Ice:
+		Stop;
+	}
+}
+
+class cBrownChaosSerpentMash : cBrownChaosSerpent replaces Demon2Mash {
+	Default {
+		+NOBLOOD
+		+BLASTED
+		-TELESTOMP
+		+NOICEDEATH
+		RenderStyle "Translucent";
+		Alpha 0.4;
+	}
+	
+	States {
+	Death:
+	XDeath:
+	Ice:
+		Stop;
+	}
+}

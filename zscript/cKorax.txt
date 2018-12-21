@@ -1,0 +1,26 @@
+class cKorax : Korax replaces Korax {
+	Default {
+		Health 8000;
+		Radius 50;
+		ActiveSound "";
+		BloodColor "13 50 09";
+		ActiveSound "";
+	}
+	
+	States {
+	Death:
+		KORX I 6 A_FaceTarget();
+		KORX J 6;
+		KORX K 6 A_Scream();
+		KORX L 5 A_NoBlocking();
+		KORX MN 5;
+		TNT1 A 0 A_Quake(2, 6, 0, 960, "");
+		KORX O 5 A_PlaySound("KoraxStep");
+		KORX P 5;
+		KORX Q 7;
+		KORX R 5 A_KoraxBonePop();
+		KORX STU 5;
+		KORX V -1;
+		Stop;
+	}
+}

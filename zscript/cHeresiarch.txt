@@ -1,0 +1,6 @@
+class cHeresiarch : Heresiarch replaces Heresiarch {	
+	Default {
+		-FLOORCLIP
+		Health 5500;
+	}
+}

@@ -1,0 +1,47 @@
+class cWendigo : IceGuy replaces IceGuy {
+	Default {
+		Health 80;
+		Speed 13;
+		DamageFactor "Ice", 0.5;
+		MaxTargetRange MONSTER_MAXRANGE;
+		+NOINFIGHTING
+	}
+	
+	States {
+	Spawn:
+		ICEY E 10 A_IceGuyLook();
+		Loop;
+	See:
+		ICEY A 6 A_Chase();
+		ICEY B 6 A_IceGuyChase();
+		ICEY CD 6 A_Chase();
+		Loop;
+	Missile:
+		ICEY E 5 Fast A_FaceTarget();
+		ICEY F 8 Fast A_FaceTarget();
+		ICEY G 8 Bright WendigoAttack();
+		ICEY F random(7,13) A_FaceTarget();
+		Goto See;
+	}
+	
+	void WendigoAttack() {
+		if(!target) return;
+		
+		SpawnMissileXYZ(Vec3Angle(radius/2, angle+90, 40.0), target, "cWendigoMissile");
+		SpawnMissileXYZ(Vec3Angle(radius/2, angle-90, 40.0), target, "cWendigoMissile");
+		
+		A_PlaySound(AttackSound, CHAN_WEAPON);
+	}
+}
+
+class cWendigoMissile : IceGuyFX replaces IceGuyFX {
+	Default {
+		DamageFunction 6;
+	}
+}
+
+class cWendigoMissile2 : IceGuyFX2 replaces IceGuyFX2 {
+	Default {
+		DamageFunction random[WendigoDamage](3,5);
+	}
+}

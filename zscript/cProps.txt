@@ -1,0 +1,334 @@
+class cBrassTorch : BrassTorch replaces BrassTorch {
+	Default {
+		Height 36;
+	}
+	
+	States {
+	Spawn:
+		BRTR AB 3 Bright Light("BrassTorch");
+		BRTR C 3 Bright Light("BrassTorch") DoSpawnParticle();
+		BRTR DE 3 Bright Light("BrassTorch");
+		BRTR F 3 Bright Light("BrassTorch") DoSpawnParticle();
+		BRTR GHI 3 Bright Light("BrassTorch");
+		BRTR J 3 Bright Light("BrassTorch") DoSpawnParticle();
+		BRTR KL 3 Bright Light("BrassTorch");
+		BRTR M 3 Bright Light("BrassTorch") DoSpawnParticle();
+		Loop;
+	}
+	
+	void DoSpawnParticle() {
+		A_SpawnParticle("FF9C38", SPF_FULLBRIGHT, 60, 3, 0, 
+			frandom(-4,4), frandom(-4,4), 37, 
+			frandom(-0.3,0.3), frandom(-0.3,0.3), 0.05, 
+			0, 0, 0.06, 
+			1, -1, -0.03);
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareTorch")).Init(self, 40, 30, 0.3);
+		A_PlaySound("FireMedium", CHAN_6, 0.8, true, 10);
+	}
+}
+
+class cSkullTorch : FireThing replaces FireThing {
+	Default {
+		Height 25;
+	}
+	
+	States {
+	Spawn:
+		FSKL A 4 Bright Light("SkullTorch") DoSpawnParticle();
+		FSKL B 3 Bright Light("SkullTorch");
+		FSKL C 4 Bright Light("SkullTorch");
+		FSKL D 3 Bright Light("SkullTorch") DoSpawnParticle();
+		FSKL E 4 Bright Light("SkullTorch");
+		FSKL F 3 Bright Light("SkullTorch");
+		FSKL G 4 Bright Light("SkullTorch") DoSpawnParticle();
+		FSKL H 3 Bright Light("SkullTorch");
+		FSKL I 4 Bright Light("SkullTorch");
+		Loop;
+	}
+	
+	void DoSpawnParticle() {
+		A_SpawnParticle("FF9C38", SPF_FULLBRIGHT, 60, 3, 0, 
+			frandom(-4,4), frandom(-4,4), 32, 
+			frandom(-0.2,0.2), frandom(-0.2,0.2), 0.05, 
+			0, 0, 0.06, 
+			1, -1, -0.03);
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareTorch")).Init(self, 25, 25, 0.3);
+		A_PlaySound("FireMedium", CHAN_6, 0.7, true, 10);
+	}
+}
+
+class cTwinedTorch : ZTwinedTorch replaces ZTwinedTorch {
+	cFlare flare;
+	
+	States {
+	Active:
+		TNT1 A 0 A_PlaySound("Ignite");
+	Spawn:
+		TWTR AB 4 Bright Light("TwinedTorch");
+		TWTR C 4 Bright Light("TwinedTorch") DoSpawnParticle();
+		TWTR DE 4 Bright Light("TwinedTorch");
+		TWTR F 4 Bright Light("TwinedTorch") DoSpawnParticle();
+		TWTR G 4 Bright Light("TwinedTorch");
+		TWTR H 4 Bright Light("TwinedTorch") DoSpawnParticle();
+		Loop;
+	Inactive:
+		TWTR I -1;
+		Stop;
+	}
+	
+	void DoSpawnParticle() {
+		A_SpawnParticle("FF9C38", SPF_FULLBRIGHT, 60, 3, 0, 
+			frandom(-4,4), frandom(-4,4), 66, 
+			frandom(-0.2,0.2), frandom(-0.2,0.2), 0.05, 
+			0, 0, 0.06, 
+			1, -1, -0.03);
+	}
+	
+	void StartEffects() {
+		if (!flare) {
+			flare = cFlare(Spawn("cFlareTorch"));
+			flare.Init(self, 65, 30, 0.3);
+		}
+		A_PlaySound("FireSmall", CHAN_6, 1.0, true, 7);
+	}
+	
+	void StopEffects() {
+		if (flare) flare.Destroy();
+		A_StopSound(CHAN_6);
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		if (!InStateSequence(CurState, ResolveState("Inactive"))) {
+			StartEffects();
+		}
+	}
+	
+	override void Activate (Actor activator) {
+		super.Activate(activator);
+		StartEffects();
+	}
+	
+	override void Deactivate (Actor activator) {
+		super.Deactivate(activator);
+		StopEffects();
+	}
+}
+
+class cTwinedTorchUnlit : cTwinedTorch replaces ZTwinedTorchUnlit {
+	States {
+	Spawn:
+		Goto Super::Inactive;
+	}
+}
+
+class cBullTorch : ZFireBull replaces ZFireBull {
+	cFlare flare;
+	
+	Default {
+		Height 74;
+	}
+	
+	States {
+	Active:
+		FBUL I 4 Bright A_PlaySound("Ignite");
+		FBUL J 4 Bright Light("BullTorch");
+	Spawn:
+		FBUL A 5 Bright Light("BullTorch") DoSpawnParticle();
+		FBUL B 5 Bright Light("BullTorch");
+		FBUL C 5 Bright Light("BullTorch") DoSpawnParticle();
+		FBUL D 5 Bright Light("BullTorch");
+		FBUL E 5 Bright Light("BullTorch") DoSpawnParticle();
+		FBUL FG 5 Bright Light("BullTorch");
+		Loop;
+	Inactive:
+		FBUL JI 4 Bright;
+		FBUL H -1;
+		Stop;
+	}
+	
+	void DoSpawnParticle() {
+		A_SpawnParticle("FF9C38", SPF_FULLBRIGHT, 90, 4, 0, 
+			frandom(-6,6), frandom(-6,6), 30, 
+			frandom(-0.3,0.3), frandom(-0.3,0.3), 0.05, 
+			0, 0, 0.06, 
+			1, -1, -0.02);
+	}
+	
+	void StartEffects() {
+		if (!flare) {
+			flare = cFlare(Spawn("cFlareTorch"));
+			flare.Init(self, 40, 50, 0.4);
+		}
+		A_PlaySound("FireMedium", CHAN_6, 1.0, true, 7);
+	}
+	
+	void StopEffects() {
+		if (flare) flare.Destroy();
+		A_StopSound(CHAN_6);
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		if (!InStateSequence(CurState, ResolveState("Inactive"))) {
+			StartEffects();
+		}
+	}
+	
+	override void Activate (Actor activator) {
+		super.Activate(activator);
+		StartEffects();
+	}
+	
+	override void Deactivate (Actor activator) {
+		super.Deactivate(activator);
+		StopEffects();
+	}
+}
+
+class cBullTorchUnlit : cBullTorch replaces ZFireBullUnlit {
+	States {
+	Spawn:
+		Goto Super::Inactive+2;
+	}
+}
+
+class cWallTorch : ZWallTorch replaces ZWallTorch {
+	cFlare flare;
+	
+	States {
+	Active:
+		TNT1 A 0 A_PlaySound("Ignite");
+	Spawn:
+		WLTR AB 4 Bright Light("WallTorch");
+		WLTR C 4 Bright Light("WallTorch") DoSpawnParticle();
+		WLTR DE 4 Bright Light("WallTorch");
+		WLTR F 4 Bright Light("WallTorch") DoSpawnParticle();
+		WLTR G 4 Bright Light("WallTorch");
+		WLTR H 4 Bright Light("WallTorch") DoSpawnParticle();
+		Loop;
+	Inactive:
+		WLTR I -1;
+		Stop;
+	}
+	
+	void DoSpawnParticle() {
+		A_SpawnParticle("FF9C38", SPF_FULLBRIGHT, 40, 3, 0, 
+			frandom(-3,3), frandom(-3,3), 30, 
+			frandom(-0.2,0.2), frandom(-0.2,0.2), 0.05, 
+			0, 0, 0.06, 
+			1, -1, -0.03);
+	}
+	
+	void StartEffects() {
+		if (!flare) {
+			flare = cFlare(Spawn("cFlareTorch"));
+			flare.Init(self, 30, 20, 0.2);
+		}
+		A_PlaySound("FireSmall", CHAN_6, 0.6, true, 10);
+	}
+	
+	void StopEffects() {
+		if (flare) flare.Destroy();
+		A_StopSound(CHAN_6);
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		if (!InStateSequence(CurState, ResolveState("Inactive"))) {
+			StartEffects();
+		}
+	}
+	
+	override void Activate (Actor activator) {
+		super.Activate(activator);
+		StartEffects();
+	}
+	
+	override void Deactivate (Actor activator) {
+		StopEffects();
+	}
+}
+
+class cWallTorchUnlit : cWallTorch replaces ZWallTorchUnlit {
+	States {
+	Spawn:
+		Goto Super::Inactive;
+	}
+}
+
+class cChandelier : ZChandelier replaces ZChandelier {
+	States {
+	Spawn:
+		CDLR ABAC 5 Light("Chandelier") Bright;
+		Loop;
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareTorch")).Init(self, 20, 45, 0.2);
+	}
+}
+
+class cCandle : ZCandle replaces ZCandle {
+	States {
+	Spawn:
+		CNDL ABC 5 Bright Light("Candle");
+		Loop;
+	}
+}
+
+class cBlueCandle : ZBlueCandle replaces ZBlueCandle {
+	States {
+	Spawn:
+		BCAN A 5 Bright Light("BlueCandle");
+		BCAN B 5 Bright Light("BlueCandle") DoSpawnParticle();
+		BCAN C 5 Bright Light("BlueCandle");
+		BCAN D 5 Bright Light("BlueCandle") DoSpawnParticle();
+		BCAN E 5 Bright Light("BlueCandle");
+		Loop;
+	}
+	
+	void DoSpawnParticle() {
+		A_SpawnParticle("1546CB", SPF_FULLBRIGHT, 40, 3, 0, 
+			frandom(-2,2), frandom(-2,2), 24, 
+			frandom(-0.1,0.1), frandom(-0.1,0.1), 0.03, 
+			0, 0, 0.05, 
+			1, -1, -0.02);
+	}
+}
+
+class cBannerTattered : ZBannerTattered replaces ZBannerTattered {
+	Default {
+		Radius 6;
+	}
+	
+	States {
+	Spawn:
+		BNR1 ABCBAD random(13,17);
+		Loop;
+	}
+}
+
+class cShrub1 : ZShrub1 replaces ZShrub1 {
+	Default {
+		Height 18;
+		-SOLID
+		+SHOOTABLE
+	}
+}
+
+class cShrub2 : ZShrub2 replaces ZShrub2 {
+	Default {
+		-SOLID
+		+SHOOTABLE
+	}
+}

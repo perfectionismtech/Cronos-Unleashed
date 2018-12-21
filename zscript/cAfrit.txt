@@ -1,0 +1,86 @@
+class cAfrit : FireDemon replaces FireDemon {
+	Default {
+		Health 60;
+		Height 40;
+		Speed 14;
+		PainChance 40;
+		PainChance "Melee", 96;
+		MaxTargetRange MONSTER_MAXRANGE;
+		+NOINFIGHTING
+		+NOBLOOD
+		+LOOKALLAROUND
+	}
+	
+	States {
+	Spawn:
+		FDMN X 5;
+		FDMN EFG 10 Bright Light("Afrit1") A_Look();
+		Goto Spawn + 1;
+	See:
+		FDMN E 6 Bright Light("Afrit1");
+		FDMN F 6 Bright Light("Afrit1");
+		FDMN G 7 Bright Light("Afrit1") A_FiredRocks();
+		FDMN H 5 Bright Light("Afrit1") {
+			A_UnSetInvulnerable();
+			vel.z += 1.8;
+		}
+		FDMN I 7 Bright Light("Afrit1");
+		FDMN B 4 Bright Light("Afrit1") A_FaceTarget();
+	Chase:
+		FDMN ABC 5 Bright Light("Afrit1") A_FiredChase();
+		Loop;
+	Missile:
+		FDMN K 3 Bright Light("Afrit2") A_FaceTarget();
+		FDMN KKK 5 Bright Light("Afrit2") AfritAttack();
+		TNT1 A 0 A_JumpIf(random[AfritAttack]() > (104 + skill*24), "Chase");
+		FDMN KK 5 Bright Light("Afrit2") AfritAttack();
+		Goto Chase;
+	Pain:
+		FDMN D 6 Bright Light("Afrit1") {
+			A_UnSetInvulnerable();
+			A_Pain();
+			vel.z -= 0.6;
+		}
+		Goto Chase;
+	Crash:
+	XDeath:
+		FDMN M 4 A_Scream();
+		FDMN N 5 A_NoBlocking();
+		FDMN O 5 A_FiredSplotch();
+		Stop;
+	Death:
+		FDMN D 5 Bright Light("Afrit1") A_FaceTarget();
+		FDMN L 210 Bright {
+			A_Pain();
+			A_NoBlocking();
+		}
+		Stop;
+	}
+	
+	void AfritAttack() {
+		if (target == null)	return;
+		
+		SpawnMissile(target, "cAfritFireball");
+		A_PlaySound("FireDemonAttack", CHAN_BODY);
+	}
+}
+
+class cAfritFireball : FireDemonMissile replaces FireDemonMissile {
+	Default {
+		DamageFunction random[AfritAttack](2,4);
+		Speed 12;
+		FastSpeed 18;
+		RenderStyle "Normal";
+		Decal "AfritFireball";
+	}
+	
+	States {
+	Spawn:
+		FDMB A 5 Bright Light("AfritFireball");
+		Loop;
+	Death:
+		FDMB BCD 5 Bright Light("AfritFireball");
+		FDMB E 5 Bright;
+		Stop;
+	}
+}

@@ -1,0 +1,198 @@
+class cCentaur : Centaur replaces Centaur {
+	Default {
+		Health 140;
+		Speed 14;
+		MeleeRange 60;
+		MaxTargetRange 125;
+		MinMissileChance 255;
+		DamageFactor "PoisonCloud", 1.5;
+		PainChance 104;
+		PainChance "Melee", 72;
+		PainChance "PoisonCloud", 128;
+		PainChance "Crush", 255;
+		AttackSound "";
+		CrushPainSound "PuppyBeat";
+		+NOINFIGHTING
+	}
+	
+	States {	
+	Spawn:
+		CENT B 10 A_Look();
+		Loop;
+	See:
+		CENT ABCD 4 A_Chase();
+		Loop;
+	Melee:
+		CENT H 6 A_FaceTarget();
+		CENT I 3 CentaurSwing();
+		CENT J 6 CentaurHit();
+		CENT B random(3,6);
+		Goto See;
+	Missile:
+	Leap:
+		TNT1 A 0 A_JumpIf(!CheckIfCloser(target, maxTargetRange), "See");
+		CENT H 8 Fast A_FaceTarget();
+		CENT H 1;
+		CENT I 9 CentaurLeap();
+		CENT J 5 CentaurHit();
+		CENT B random(4,9) Fast;
+		Goto See;
+	Pain:
+		TNT1 A 0 LowerShield();
+		CENT G random(9,15) A_Pain();
+		TNT1 A 0 RaiseShield();
+		CENT EE 8 ShieldUpCheck(false);
+		CENT EEEE 8 ShieldUpCheck(true);
+		CENT C 4 LowerShield();
+		Goto See;
+	Death:
+		CENT L 4 A_Scream();
+		CENT MN 4;
+		CENT O 4 A_NoBlocking();
+		CENT P 4;
+		CENT Q 4 {
+			friction = 0.7;
+			maxStepHeight = 0;
+		}
+		CENT RS 4;
+		CENT T -1;
+		Stop;
+	XDeath:
+		CTXD A random(3,7);
+		CTXD B 4 A_NoBlocking();
+		CTXD C 4 ThrowShieldSword();
+		CTXD D 3 {
+			A_Scream();
+			friction = 0.8;
+			maxStepHeight = 0;
+		}
+		CTXD E 4;
+		CTXD F 3;
+		CTXD G 4;
+		CTXD H 3;
+		CTXD I 4;
+		CTXD J 3;
+		CTXD K -1;
+	}
+	
+	void CentaurSwing() {
+		A_FaceTarget();
+		A_Recoil(-2);
+		A_PlaySound("FighterHammerMiss", CHAN_WEAPON);
+	}
+	
+	void CentaurHit() {
+		A_CustomMeleeAttack(random[CentaurAttack](8,14), "FighterHammerHitThing");
+	}
+	
+	void CentaurLeap() {
+		A_FaceTarget();
+		if (pos.z <= GetZAt()) vel.z = 6.2;
+		A_Recoil(-7.6);
+		A_PlaySound("FighterPunchMiss", CHAN_WEAPON);
+	}
+	
+	void RaiseShield() {
+		A_FaceTarget();
+		A_SetReflectiveInvulnerable();
+		bDONTTHRUST = true;
+	}
+	
+	void LowerShield() {
+		A_UnsetReflectiveInvulnerable();
+		bDONTTHRUST = false;
+	}
+	
+	void ShieldUpCheck(bool meleeCheck) {
+		A_FaceTarget(10);
+		
+		if (meleeCheck && CheckMeleeRange() && frandom[CentaurDefend](0,1) < 0.4) {
+			A_UnsetReflectiveInvulnerable();
+			SetState(MeleeState);
+		}
+		
+		if (!CheckIfTargetInLOS(120)) {
+			A_UnsetReflectiveInvulnerable();
+			A_PlaySound("CentaurActive", CHAN_VOICE);
+			SetState(SeeState);
+		}
+	}
+	
+	void ThrowShieldSword() {
+		A_SpawnItemEx("cCentaurShield", 0, 0, 45,
+		 frandom(-3.0,5.0), frandom(-3.0,5.0), frandom(8.0,11.5), 90);
+		
+		A_SpawnItemEx("cCentaurSword", 0, 0, 45,
+		 frandom(-3.0,5.0), frandom(-3.0,5.0), frandom(8.0,11.5), 270);
+	}
+}
+
+class cCentaurLeader : cCentaur replaces CentaurLeader {
+	Default {
+		Health 160;
+		MaxTargetRange MONSTER_MAXRANGE;
+		MeleeThreshold 300;
+		MinMissileChance 200; // Default actor value
+		Obituary "$OB_SLAUGHTAUR";
+		HitObituary "$OB_SLAUGHTAURHIT";
+	}
+	
+	States {
+	Missile:
+		TNT1 A 0 A_JumpIfCloser(125, "Leap");
+		CENT E 8 A_FaceTarget();
+		CENT F 3 Bright A_FaceTarget();
+		CENT F 8 Bright A_SpawnProjectile("cCentaurFireball", 45);
+		TNT1 A 0 A_JumpIf(random[CentaurAttack]() > (104 + skill*24), "See");
+		CENT E 8 A_FaceTarget();
+		CENT F 3 Bright A_FaceTarget();
+		CENT F 8 Bright A_SpawnProjectile("cCentaurFireball", 45);
+		CENT C random(3,6);
+		Goto See;
+	}
+}
+
+class cCentaurFireball : CentaurFX replaces CentaurFX {
+	Default {
+		Radius 10;
+		DamageFunction 12;
+		Speed 18;
+		FastSpeed 24;
+		RenderStyle "Normal";
+		Decal "CentaurFireball";
+	}
+	
+	States {
+	Spawn:
+		CTFX A -1 Bright Light("CentaurFireball");
+		Stop;
+	Death:
+		CTFX B 4 Bright Light("CentaurFireball");
+		CTFX C 3 Bright Light("CentaurFireball");
+		CTFX D 4 Bright Light("CentaurFireball");
+		CTFX E 3 Bright;
+		CTFX F 2 Bright;
+		Stop;
+	}
+}
+
+class cCentaurShield : CentaurShield {
+	States {
+	Crash:
+		CTDP G 4 A_PlaySound("MetalBounce");
+		CTDP H 4 A_QueueCorpse();
+		CTDP I 4;
+		CTDP J -1;
+		Stop;
+	}
+}
+
+class cCentaurSword : CentaurSword {
+	States {
+	Crash:
+		CTDP R 4 A_PlaySound("MetalImpact");
+		CTDP S 4 A_QueueCorpse();
+		CTDP T -1;
+		Stop;
+	}
+}

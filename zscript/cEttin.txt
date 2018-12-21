@@ -1,0 +1,83 @@
+class cEttin : Ettin replaces Ettin {
+	Default {
+		Health 110;
+		Speed 14;
+		MeleeRange 55;
+		PainChance 50;
+		PainChance "Melee", 90;
+		PainChance "PoisonCloud", 255;
+		AttackSound "";
+		CrushPainSound "PuppyBeat";
+		+NOINFIGHTING
+	}
+	
+	States {
+	Spawn:
+		ETTN A 10 A_Look();
+		Loop;
+	See:
+		ETTN ABCD 5 A_Chase();
+		Loop;
+	Pain:
+		ETTN H random(11,17) A_Pain();
+		Goto See;
+	Melee:
+		ETTN E 6 Fast A_FaceTarget();
+		ETTN F 5 Fast EttinSwing();
+		ETTN G 6 EttinHit();
+		ETTN A random(4,9) Fast;
+		Goto See;
+	Death:
+		ETTN J 4 A_Scream();
+		ETTN K 4 {
+			A_FaceTarget();
+			A_Recoil(frandom(1,2));
+			friction = 1.6;
+		}
+		ETTN L 4 A_NoBlocking();
+		ETTN MNO 4;
+		ETTN Q 1 {
+			friction = 0.7;
+			maxStepHeight = 0;
+		}
+		ETTN Q -1;
+		Stop;
+	XDeath:
+		ETTB A random(2,6);
+		ETTB B 4 A_NoBlocking();
+		ETTB C 4 DropMace();
+		ETTB D 4 {
+			A_Scream();
+			friction = 0.8;
+			maxStepHeight = 0;
+		}
+		ETTB EFGHIJK 4;
+		ETTB L -1;
+		Stop;
+	}
+	
+	void EttinSwing() {
+		A_Recoil(-3.5);
+		A_PlaySound("FighterPunchMiss", CHAN_WEAPON);
+	}
+	
+	void EttinHit() {
+		A_CustomMeleeAttack(random[EttinAttack](10,16), "FighterHammerHitThing");
+	}
+	
+	void DropMace() {
+		A_SpawnItemEx("cEttinMace", 0, 0, 45, 
+		 frandom(-4.0,4.0), frandom(-4.0,4.0), frandom(9.5,13.5),
+		 0, SXF_ABSOLUTEVELOCITY);
+	}
+}
+
+class cEttinMace : EttinMace {
+	States {
+	Crash:
+		ETTB Q 5 A_PlaySound("MetalImpact");
+		ETTB R 5 A_QueueCorpse();
+		ETTB S -1;
+		Stop;	
+	}
+}

@@ -1,0 +1,163 @@
+fader MonsterFadeAway {
+	DecayStart 10.0
+	DecayTime 5.0
+}
+
+decal AfritFireball1 {
+	pic CBALSCR1
+	shade "00 00 00"
+	x-scale 0.4
+	y-scale 0.4
+	randomflipx
+	randomflipy
+	animator MonsterFadeAway
+}
+
+decal AfritFireball2 {
+	pic CBALSCR2
+	shade "00 00 00"
+	x-scale 0.4
+	y-scale 0.4
+	randomflipx
+	randomflipy
+	animator MonsterFadeAway
+}
+
+decalgroup AfritFireball {
+	AfritFireball1 1
+	AfritFireball2 1
+}
+
+decal BishopJade1 {
+	pic PLASMA1
+	shade "00 00 00"
+	x-scale 0.5
+	y-scale 0.5
+	randomflipx
+	randomflipy
+	animator MonsterFadeAway
+}
+
+decal BishopJade2 {
+	pic PLASMA2
+	shade "00 00 00"
+	x-scale 0.5
+	y-scale 0.5
+	randomflipx
+	randomflipy
+	animator MonsterFadeAway
+}
+
+decalgroup BishopJade {
+	BishopJade1 1
+	BishopJade2 1
+}
+
+decal CentaurFireball {
+	pic PLASMA1
+	shade "00 00 00"
+	x-scale 0.7
+	y-scale 0.7
+	randomflipx
+	randomflipy
+	animator MonsterFadeAway
+}
+
+decal ChaosFireball1 {
+	pic TWIRL
+	shade "00 00 00"
+	x-scale 0.7
+	y-scale 0.7
+	flipx
+	animator MonsterFadeAway
+}
+
+decal ChaosFireball2 {
+	pic TWIRL
+	shade "00 00 00"
+	x-scale 0.7
+	y-scale 0.7
+	flipy
+	animator MonsterFadeAway
+}
+
+decalgroup ChaosFireball {
+	ChaosFireball1 1
+	ChaosFireball2 1
+}
+
+decal ChaosPoisonball {
+	pic SCORCH1
+	shade "10 20 10"
+	x-scale 0.5
+	y-scale 0.5
+	randomflipx
+	randomflipy
+	animator GoAway2
+}
+
+decal StalkerSlimeball {
+	pic CBALSCR2
+	shade "00 00 00"
+	x-scale 0.78125
+	y-scale 0.78125
+	randomflipx
+	randomflipy
+	animator MonsterFadeAway
+}
+
+decal ReiverFireball {
+	pic SCORCH1
+	shade "00 00 00"
+	x-scale 0.4
+	y-scale 0.4
+	randomflipx
+	randomflipy
+	animator MonsterFadeAway
+}
+
+// Blood
+
+decal BloodSmall1 {
+	pic BLOODSM1
+	shade "BloodDefault"
+	randomflipx
+	randomflipy
+}
+
+decal BloodSmall2 {
+	pic BLOODSM2
+	shade "BloodDefault"
+	randomflipx
+	randomflipy
+}
+
+decal BloodSmall3 {
+	pic BLOODSM3
+	shade "BloodDefault"
+	randomflipx
+	randomflipy
+}
+
+decal BloodLarge1 {
+	pic BLOODLR1
+	shade "BloodDefault"
+	randomflipx
+}
+
+decal BloodLarge2 {
+	pic BLOODLR2
+	shade "BloodDefault"
+	randomflipx
+}
+
+decalgroup BloodSplat {
+	BloodSmall1 1
+	BloodSmall2 1
+	BloodSmall3 1
+}
+
+decalgroup BloodSmear {
+	BloodLarge1 1
+	BloodLarge2 1
+}

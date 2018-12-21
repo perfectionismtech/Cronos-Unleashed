@@ -1,0 +1,151 @@
+class cStalker : Serpent replaces Serpent {
+	Default {
+		Health 90;
+		Mass 200;
+		PainChance 128;
+		PainChance "Melee", 208;
+		MaxTargetRange MONSTER_MAXRANGE;
+		+NOINFIGHTING
+		-NOBLOOD
+	}
+	
+	States {
+	Spawn:
+		SSPT H 10 A_LookEx(maxseedist: 2048);
+		Loop;
+	See:
+		SSPT HH 1 A_Chase("Surface", null, CHF_NIGHTMAREFAST);
+		SSPT H 2 StalkerDecide();
+		Loop;
+	Hump:
+		SSPT H 3 A_SerpentUnHide();
+		SSPT EFGEF 3 A_SerpentRaiseHump();
+		SSPT GEF 3;
+		SSPT GEFGE 3 A_SerpentLowerHump();
+		SSPT F 3 A_SerpentHide();
+		Goto See;
+	Melee:
+	Surface:
+		SSPT A 1 A_UnHideThing();
+		SSPT A 1 A_PlaySound("SerpentBirth");
+		SSPT B 3 A_SetShootable();
+		SSPT C 3;
+		SSPT D 4 A_SerpentCheckForAttack();
+		Goto Dive;
+	Walk:
+		SSPT IJI 5 A_Chase("Attack", null, CHF_NIGHTMAREFAST);
+		SSPT J 5 A_SerpentCheckForAttack();
+		Goto Dive;
+	Attack:
+		SSPT K 6 A_FaceTarget();
+		SSPT L 5 A_SerpentChooseAttack();
+		Goto MeleeAttack;
+	MeleeAttack:
+		SSPT N 5 StalkerMeleeAttack();
+		Goto Dive;
+	Dive:
+		SSDV ABC 5;
+		SSDV D 4;
+		SSDV E 3 A_UnSetShootable();
+		TNT1 A 0 A_PlaySound("SerpentActive");
+		SSDV F 3;
+		SSDV GH 4;
+		SSDV I 3;
+		SSDV J 3 A_SerpentHide();
+		SSPT H 14;
+		Goto See;
+	Pain:
+		SSPT L 3;
+		SSPT L random(6, 12) A_Pain();
+		Goto Dive;
+	XDeath:
+		SSXD A 1;
+		SSXD A 3 A_Scream();
+		SSXD B 4 A_SpawnItemEx("SerpentHead", 0, 0, 45);
+		SSXD C 4 A_NoBlocking();
+		SSXD DE 4;
+		SSXD FG 3;
+		SSXD H 3 { if (GetFloorTerrain().isLiquid) A_SerpentSpawnGibs(); }
+		Stop;
+	}
+	
+	// Jumps to the hump state, the attack state (for missile), or no jump at all
+	action state StalkerDecide() {
+		if (!CheckMeleeRange()) {
+			if (random[StalkerDecide]() < 6) {
+				A_PlaySound("SerpentActive");
+				return ResolveState("Hump");
+			}
+			
+			if (MissileState != null) {
+				if (random[StalkerDecide]() < 8) {
+					if (CheckLOF(CLOFF_SKIPOBJECT, maxTargetRange, meleeThreshold)) {
+						return ResolveState("Surface");
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	void StalkerMeleeAttack() {
+		if (!target) return;
+		
+		if (CheckMeleeRange()) {
+			int damage = random[StalkerAttack](15,18);
+			target.DamageMobj(self, self, damage, 'Melee');
+			target.TraceBleed(damage, self);
+			A_PlaySound("SerpentMeleeHit");
+		}
+		
+		if (random[StalkerAttack]() < 96) {
+			A_SerpentCheckForAttack();
+		}
+	}
+	
+}
+
+class cStalkerBoss: cStalker replaces SerpentLeader {
+	Default {
+		MaxTargetRange 1600;
+		Obituary "$OB_SERPENT";
+	}
+	States {
+	Missile:
+		SSPT N 7 A_SpawnProjectile("cStalkerSlimeball", 32, 0);
+		Goto Dive;
+	}
+}
+
+class cStalkerSlimeball : SerpentFX replaces SerpentFX {
+	Default {
+		Speed 12;
+		FastSpeed 18;
+		Damage 3;
+		RenderStyle "Normal";
+		Decal "StalkerSlimeball";
+	}
+	
+	States {
+	Spawn:
+		TNT1 A 0 NoDelay A_PlaySound("SerpentFXContinuous", CHAN_BODY, 1.0, true);
+		SSFX ABAB 4 Bright Light("StalkerSlimeball") FlyParticles();
+		Goto Spawn+1;
+	Death:
+		TNT1 A 0 A_StopSound(CHAN_BODY);
+		SSFX C 4 Bright Light("StalkerSlimeball") ImpactParticles();
+		SSFX DEFGH 4 Bright Light("StalkerSlimeball");
+		Stop;
+	}
+	
+	void FlyParticles() {
+		A_SpawnParticle("27EC30", SPF_FULLBRIGHT, 30, 3, 0, frandom(-3,3), frandom(-3,3), 2, 0, 0, frandom(0,1), 0, 0, -0.5, 1, 0, -0.09);
+	}
+	
+	void ImpactParticles() {
+		for (int i = 0; i < 8; i++) {
+			A_SpawnParticle("27EC30", SPF_FULLBRIGHT, 30, 4, 0, 0, 0, 0, frandom(-2,2), frandom(-2,2), frandom(1,4), 0, 0, -0.4, 1, 0, -0.08);
+		}
+	}
+}

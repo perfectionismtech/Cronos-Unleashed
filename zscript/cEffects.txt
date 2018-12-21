@@ -1,0 +1,162 @@
+class cPlayerLight : PointLight {
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		
+		if (master && master.player) {
+			// Prevents issues with interpolation
+			SetOrigin(master.pos + (0, 0, master.player.viewHeight), false);
+		} else {
+			Destroy();
+		}
+	}
+	
+	override void Tick() {
+		Super.Tick();
+		
+		if (master && master.player) {
+			SetOrigin(master.pos + (0, 0, master.player.viewHeight), true);
+		} else {
+			Destroy();
+		}
+	}
+}
+
+class cTeleportFog : Actor replaces TeleportFog {
+	Default {
+		+NOBLOCKMAP
+		+NOTELEPORT
+		+NOGRAVITY
+		+FORCEXYBILLBOARD
+		RenderStyle "Add";
+	}
+	
+	States {
+	Spawn:
+		TELE A 5 Bright Light("TeleFog");
+		TELE BCDEF 3 Bright Light("TeleFog");
+		TELE HG 5 Bright Light("TeleFog");
+		TELE HGHG 5 Bright Light("TeleFog") A_FadeOut(0.1);
+		TELE FFDDD 2 Bright Light("TeleFog") A_FadeOut(0.1);
+		Stop;
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		
+		A_PlaySound("misc/teleport", CHAN_BODY);
+		if (target && target.radius > 16) {
+			A_SetScale(1.0 + target.radius*0.01);
+		}
+	}
+}
+
+class cTeleSmoke : TeleSmoke replaces TeleSmoke {
+	Default {
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		+MOVEWITHSECTOR
+	}
+	
+	States {
+	Spawn:
+		// Why Raven
+		TSMK A 4 Light("TeleSmoke");
+		TSMK B 3 Light("TeleSmoke");
+		TSMK C 4 Light("TeleSmoke");
+		TSMK D 3 Light("TeleSmoke");
+		TSMK E 4 Light("TeleSmoke");
+		TSMK F 3 Light("TeleSmoke");
+		TSMK G 4 Light("TeleSmoke");
+		TSMK H 3 Light("TeleSmoke");
+		TSMK I 4 Light("TeleSmoke");
+		TSMK J 3 Light("TeleSmoke");
+		TSMK K 4 Light("TeleSmoke");
+		TSMK L 3 Light("TeleSmoke");
+		TSMK M 4 Light("TeleSmoke");
+		TSMK N 3 Light("TeleSmoke");
+		TSMK O 4 Light("TeleSmoke");
+		TSMK P 3 Light("TeleSmoke");
+		TSMK Q 4 Light("TeleSmoke");
+		TSMK R 3 Light("TeleSmoke");
+		TSMK S 4 Light("TeleSmoke");
+		TSMK T 3 Light("TeleSmoke");
+		TSMK U 4 Light("TeleSmoke");
+		TSMK V 3 Light("TeleSmoke");
+		TSMK W 4 Light("TeleSmoke");
+		TSMK X 3 Light("TeleSmoke");
+		TSMK Y 4 Light("TeleSmoke");
+		TSMK Z 3 Light("TeleSmoke");
+		Loop;
+	}
+}
+
+class cBatSpawner : BatSpawner replaces BatSpawner {
+	States {
+	Spawn:
+	Active:
+		TNT1 A 2 { special1 = 0; }
+		TNT1 A 2 A_PlaySound("BatActive", attenuation: ATTN_STATIC);
+		TNT1 A 2 A_BatSpawn();
+		Wait;
+	Inactive:
+		TNT1 A -1;
+		Stop;
+	}
+}
+
+class cBat : Bat replaces Bat {
+	States {
+	Spawn:
+		ABAT ABC 3 BatMove();
+		Loop;
+	Death:
+		ABAT ABC 3;
+		Stop;
+	}
+	
+	void BatMove() {
+		if (special2 < 0) {
+			SetStateLabel ("Death");
+		}
+		special2 -= 2;
+		
+		VelFromAngle(speed, (random[Bat](0,1)) ? angle+args[4] : angle-args[4]);
+		
+		if (random[Bat]() < 15) {
+			A_PlaySound("BatScream", CHAN_VOICE, 1.0, false, ATTN_STATIC);
+		}
+		
+		AddZ(2.2 + BobSin(args[0]));
+		args[0] = (args[0] + 3) & 63;
+	}
+}
+
+class cFlameLarge : FlameLarge replaces FlameLarge {
+	States {
+	Active:
+		TNT1 A 0 A_PlaySound("Ignite", attenuation: ATTN_STATIC);
+	Spawn:
+		TNT1 A 2 Bright Light("FlameLarge");
+		FFLG A 2 Bright Light("FlameLarge") A_UnHideThing();
+		FFLG ABCDEFGHIJKLMNOP 4 Light("FlameLarge") Bright;
+		Goto Spawn+6;
+	}
+}
+
+class cFlameSmall : FlameSmall replaces FlameSmall {
+	States {
+	Active:
+		TNT1 A 0 A_PlaySound("Ignite", attenuation: ATTN_STATIC);
+	Spawn:
+		TNT1 A 3 Bright Light("FlameSmall");
+		FFSM A 3 Bright Light("FlameSmall") A_UnHideThing();
+		FFSM ABCDE 3 Bright Light("FlameSmall");
+		Goto Spawn+2;
+	}
+}
+
+class cLeafSpawner : LeafSpawner replaces LeafSpawner {
+	Default {
+		+NOGRAVITY
+	}
+}

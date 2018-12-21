@@ -1,0 +1,109 @@
+class cArcOfDeath : MWeapLightning replaces MWeapLightning {
+	Actor weaponLight;
+	
+	Default {
+		Weapon.AmmoUse1 6;
+		Weapon.AmmoGive1 25;
+		Weapon.YAdjust 4;
+		Weapon.BobStyle "Smooth";
+		Weapon.BobRangeX 1.0;
+		Weapon.BobRangeY 0.7;
+		Weapon.BobSpeed 1.4;
+		+WEAPON.NOALERT
+		+INVENTORY.RESTRICTABSOLUTELY
+	}
+	
+	States {
+	Spawn:
+		WMLG HGFEDCBA 5 Bright Light("ArcOfDeathWeapon");
+		Loop;
+	Select:
+		TNT1 A 0 A_SetCrosshair(60);
+		TNT1 A 0 SpawnWeapLight();
+		MLNG A 1 Bright A_Raise(15);
+		Wait;
+	Deselect:
+		MLNG A 1 Bright A_Lower(15);
+		Wait;
+	Ready:
+		MLNG AAAAAAA 1 Bright A_WeaponReady();
+		TNT1 A 0 PlayReadySound();
+		MLNG BBBBBB 1 Bright A_WeaponReady();
+		MLNG CCCCCCC 1 Bright A_WeaponReady();
+		TNT1 A 0 PlayReadySound();
+		MLNG BBBBBB 1 Bright A_WeaponReady();
+		Loop;
+	Fire:
+		MLNG D 4 Bright;
+		MLNG E 4 Bright;
+		MLNG F 4 Bright ArcOfDeathFire();
+		MLNG G 4 Bright;
+		MLNG H 3 Bright;
+		MLNG I 3 Bright;
+		TNT1 A 11;
+		Goto WindDown;
+	WindDown:
+		MLNG C 2 Bright Offset(0, 55);
+		MLNG B 2 Bright Offset(0, 50);
+		MLNG B 2 Bright Offset(0, 45);
+		MLNG B 2 Bright Offset(0, 40);
+		Goto Ready;
+	}
+	
+	action void SpawnWeapLight() {
+		if (!invoker.weaponLight) {
+			invoker.weaponLight = Spawn("cArcOfDeathLight");
+			invoker.weaponLight.master = invoker.owner;
+		}
+	}
+	
+	action void ArcOfDeathFire() {
+		if (player == null) return;
+		
+		Weapon weapon = player.ReadyWeapon;
+		if (weapon != null) weapon.DepleteAmmo(weapon.bAltFire);
+		
+		LightningFloor fmo = LightningFloor(SpawnPlayerMissile("LightningFloor"));
+		LightningCeiling cmo = LightningCeiling(SpawnPlayerMissile("LightningCeiling"));
+		if (fmo) {
+			fmo.special1 = 0;
+			fmo.lastenemy = cmo;
+			fmo.A_LightningZap();
+		}
+		if (cmo) {
+			cmo.tracer = NULL;
+			cmo.lastenemy = fmo;
+			cmo.A_LightningZap();
+		}
+		
+		A_AlertMonsters(1500);
+		A_PlaySound("MageLightningFire", CHAN_WEAPON);
+	}
+	
+	action void PlayReadySound() {
+		if (random() < 144) {
+			A_PlaySound("MageLightningReady", CHAN_WEAPON);
+		}
+	}
+}
+
+class cArcOfDeathLight : cPlayerLight {
+	Default {
+		Args 26, 26, 77, 40, 32;
+		DynamicLight.Type "Flicker";
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		specialf1 = 340;
+	}
+	
+	override void Tick() {
+		Super.Tick();
+		
+		if(!master || !master.player || !master.player.ReadyWeapon ||
+			master.player.ReadyWeapon.GetClass() != "cArcOfDeath") {
+			Destroy();
+		}
+	}
+}

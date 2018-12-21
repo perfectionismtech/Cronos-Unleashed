@@ -1,0 +1,13 @@
+class cWyvern : Dragon replaces Dragon {
+	Default {
+		Health 600;
+		-NOICEDEATH
+	}
+	
+	States {
+	Ice:
+		DRAG N 5 A_FreezeDeath();
+		DRAG N 1 A_FreezeDeathChunks();
+		Wait;
+	}
+}

@@ -1,0 +1,50 @@
+FireSmall		FIRESM
+FireMedium		FIREMD
+BatActive		BATACT
+MetalImpact		MTLIMPA
+MetalBounce		MTLBNCE
+
+misc/armor_pkup	ARMUP
+misc/secret		SECRET
+
+$playersound Fighter	male	*dive	PLADIVE1
+$playeralias Fighter	male	*gasp	PlayerGasp
+$playersound Cleric	male	*dive	PLADIVE1
+$playeralias Cleric	male	*gasp	PlayerGasp
+$playersound Mage	male	*dive	PLADIVE1
+$playeralias Mage	male	*gasp	PlayerGasp
+
+$random PlayerGasp { PlayerGasp1 PlayerGasp2 }
+PlayerGasp1 PLAGASP1
+PlayerGasp2 PLAGASP2
+
+$limit FireSmall 4 128
+$limit FireMedium 4 128
+$limit PotteryExplode 4
+$limit GlassShatter 4
+$limit world/drip 8
+
+$limit MageShardsExplode 8
+$limit BishopMissileExplode 8
+$limit FlechetteExplode 8
+$limit SerpentSight 1
+
+$limit PlatformStart 4
+$limit PlatformStop 4
+$limit PlatformStartMetal 4
+$limit DoorOpen 4
+$limit DoorCloseLight 4
+$limit DoorCloseHeavy 4
+$limit DoorOpenMetal 4
+$limit DoorCloseMetal 4
+
+// Pitch shifting makes Korax sound weird
+$pitchshift KoraxVoiceGreetings 0
+$pitchshift KoraxVoiceReady 0
+$pitchshift KoraxVoiceBlood 0
+$pitchshift KoraxVoiceGame 0
+$pitchshift KoraxVoiceBoard 0
+$pitchshift KoraxVoiceWorship 0
+$pitchshift KoraxVoiceMaybe 0
+$pitchshift KoraxVoiceStrong 0
+$pitchshift KoraxVoiceFace 0
