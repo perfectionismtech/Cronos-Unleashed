@@ -44,8 +44,8 @@ pointlight FrostShardsWeapon1 {	color 0.1 0.1 0.4	size 16	offset 0 16 0 }
 pointlight FrostShardsWeapon2 {	color 0.1 0.1 0.4	size 24	offset 0 16 0 }
 pointlight FrostShardsWeapon3 {	color 0.1 0.1 0.4	size 32	offset 0 16 0 }
 
-pointlight FrostShard1 {	color 0.0 0.1 0.4	size 24 }
-pointlight FrostShard2 {	color 0.0 0.0 0.2	size 24 }
+pointlight FrostShard1 {	color 0.0 0.0 0.4	size 32 }
+pointlight FrostShard2 {	color 0.0 0.0 0.3	size 24 }
 
 flickerlight2 ArcOfDeathWeapon {
 	color 0.0 0.1 0.5
