@@ -49,7 +49,7 @@ class cSapphireWand : MWeapWand {
 		} else {
 			Vector2 spread = AngletoVector(random[SapphireWandSpread](0,360), frandom[SapphireWandSpread](0,spread));
 			spread.y *= V_SPREAD_FAC;
-			A_FireProjectile("cSapphireWandMissile", angle: spread.x, pitch: pitchDelta + spread.y);
+			A_FireProjectile("cSapphireWandMissile", spread.x, pitch: pitchDelta + spread.y);
 		}
 		
 		A_AlertMonsters(1500);

@@ -52,7 +52,7 @@ class cFrostShards : MWeapFrost replaces MWeapFrost {
 	
 	action void FrostShardAttack() {
 		Vector2 spread = (SPREAD_X*frandom[FrostShardSpread](-1,1), SPREAD_Y*frandom[FrostShardSpread](-1,1));
-		A_FireProjectile("cFrostShardMissile", angle: spread.x, pitch: spread.y-.3);
+		A_FireProjectile("cFrostShardMissile", spread.x, pitch: spread.y-.3);
 		
 		A_AlertMonsters(1500);
 		invoker.special1++;
