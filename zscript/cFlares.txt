@@ -22,10 +22,9 @@ class cFlare : Actor {
 	}
 	
 	override void Tick() {
-		Super.Tick();
-		
 		if (master && (!shouldCheckOwner || !Inventory(master).owner) ) {
-			SetOrigin(master.pos + (0, 0, vertOffset), true);
+			vel = master.Vec3Offset(0, 0, vertOffset) - pos;
+			Super.Tick();
 		} else {
 			Destroy();
 		}
