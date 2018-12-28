@@ -146,12 +146,78 @@ class cIconDefender: ArtiInvulnerability2 replaces ArtiInvulnerability2 {
 	Default {
 		Radius 20;
 		Height 32;
+		Powerup.Type "cDefenderInvulnerability";
 	}
 	
 	States {
 	Spawn:
 		DEFN ABCD 4 Bright Light("IconItem");
 		Loop;
+	}
+}
+
+class cDefenderInvulnerability : Powerup {
+	Default {
+		Powerup.Duration -25;
+		Inventory.Icon "SPSHLD0";
+	}
+	
+	override void InitEffect() {
+		Super.InitEffect();
+		
+		if (owner is "PlayerPawn") {
+			mode = PlayerPawn(owner).invulMode;
+		}
+		
+		owner.bRESPAWNINVUL = false;
+		owner.bINVULNERABLE = true;
+		
+		switch (mode) {
+		case 'Berserk':
+			owner.A_SetBlend("ff0000", 0.3, 150);
+			break;
+		
+		case 'Ghost':
+			owner.bNONSHOOTABLE = true;
+			if (!owner.bSHADOW) {
+				owner.A_SetRenderStyle(0.1, STYLE_Translucent);
+			}
+			break;
+		
+		case 'Reflective':
+			owner.bREFLECTIVE = true;
+			break;
+		}
+	}
+	
+	override void EndEffect() {
+		Super.EndEffect();
+		
+		if (owner == null) return;
+		
+		owner.bRESPAWNINVUL = false;
+		owner.bINVULNERABLE = false;
+		
+		switch (mode) {
+		case 'Ghost':
+			owner.bNONSHOOTABLE = false;
+			if (!owner.bSHADOW) {
+				owner.A_SetRenderStyle(1.0, STYLE_Normal);
+			}
+			break;
+		
+		case 'Reflective':
+			owner.bREFLECTIVE = false;
+			break;
+		}
+	}
+	
+	override void AlterWeaponSprite(VisStyle vis, in out int changed) {
+		if (owner == null) return;
+		
+		if (mode == 'Ghost' && !owner.bSHADOW) {
+			vis.alpha = 0.2;
+		}
 	}
 }
 

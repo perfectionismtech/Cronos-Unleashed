@@ -83,7 +83,7 @@ class cAxe : FWeapAxe replaces FWeapAxe {
 		
 		int attackDamage = poweredAttack ? CHARGED_DAMAGE : EMPTY_DAMAGE;
 		attackDamage = int( attackDamage * frandom[AxeDamage](0.9,1.1) );
-		if (FindInventory("PowerInvulnerable")) attackDamage *= 2;
+		if (FindInventory("cDefenderInvulnerability")) attackDamage *= 2;
 		
 		class<Actor> puffType = poweredAttack ? "cAxePuffGlow" : "cAxePuff";
 		

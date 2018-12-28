@@ -47,7 +47,7 @@ class cHammer : FWeapHammer replaces FWeapHammer {
 		if (player == null) return;
 		
 		int dam = int( HAMMER_DAMAGE * frandom[HammerDamage](0.9,1.1) );
-		if (FindInventory("PowerInvulnerable")) dam *= 2;
+		if (FindInventory("cDefenderInvulnerability")) dam *= 2;
 		if(GetCVar("weapon_shake")) A_Quake(2, 6, 0, 1, "");
 		
 		// Try to hit an actor nearby

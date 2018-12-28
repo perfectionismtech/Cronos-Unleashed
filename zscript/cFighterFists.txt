@@ -69,7 +69,7 @@ class cFists : FWeapFist {
 	action void PunchAttack(bool bigPunch = false) {
 		int attackDamage = bigPunch ? LARGE_DAMAGE : SMALL_DAMAGE;
 		attackDamage = int( attackDamage * frandom[FistDamage](0.9,1.1) );
-		if (FindInventory("PowerInvulnerable")) attackDamage *= 2;
+		if (FindInventory("cDefenderInvulnerability")) attackDamage *= 2;
 		
 		FTranslatedLineTarget t;
 		for (int i=0; i<=8; i=(i>0 ? -i : -i+2) ) {
