@@ -158,7 +158,7 @@ class cIconDefender: ArtiInvulnerability2 replaces ArtiInvulnerability2 {
 
 class cDefenderInvulnerability : Powerup {
 	Default {
-		Powerup.Duration -25;
+		Powerup.Duration -20;
 		Inventory.Icon "SPSHLD0";
 	}
 	
