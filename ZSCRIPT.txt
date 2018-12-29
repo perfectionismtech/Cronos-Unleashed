@@ -55,3 +55,5 @@ version "3.4"
 // Constant definitions
 
 const MONSTER_MAXRANGE = 2048;
+const PICKUP_RADIUS = 20;
+const PICKUP_HEIGHT = 32;

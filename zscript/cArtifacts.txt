@@ -1,7 +1,7 @@
 class cCrystalVial : CrystalVial replaces CrystalVial {
 	Default {
 		Radius 12;
-		Height 32;
+		Height PICKUP_HEIGHT;
 		+INVENTORY.NOSCREENFLASH
 	}
 	
@@ -34,8 +34,8 @@ class cCrystalVial : CrystalVial replaces CrystalVial {
 
 class cQuartzFlask : ArtiHealth replaces ArtiHealth {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 		Inventory.PickupFlash "";
 		-INVENTORY.FANCYPICKUPSOUND
 		-INVENTORY.INVBAR
@@ -88,8 +88,8 @@ class cQuartzRegen : Powerup {
 
 class cRepulsionDisc : ArtiBlastRadius replaces ArtiBlastRadius {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 		Inventory.PickupFlash "";
 		-INVENTORY.FANCYPICKUPSOUND
 		-INVENTORY.INVBAR
@@ -108,8 +108,8 @@ class cRepulsionDisc : ArtiBlastRadius replaces ArtiBlastRadius {
 
 class cMysticUrn : Inventory replaces ArtiSuperHealth {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 		+NOGRAVITY
 		+FLOATBOB
 		+COUNTITEM
@@ -144,8 +144,8 @@ class cMysticUrn : Inventory replaces ArtiSuperHealth {
 
 class cIconDefender: ArtiInvulnerability2 replaces ArtiInvulnerability2 {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 		Powerup.Type "cDefenderInvulnerability";
 	}
 	
@@ -223,8 +223,8 @@ class cDefenderInvulnerability : Powerup {
 
 class cDragonskinBracers : ArtiBoostArmor replaces ArtiBoostArmor {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 	}
 	
 	States {
@@ -236,8 +236,8 @@ class cDragonskinBracers : ArtiBoostArmor replaces ArtiBoostArmor {
 
 class cTorch : ArtiTorch replaces ArtiTorch {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 	}
 	
 	States {
@@ -319,8 +319,8 @@ class cTorchLight : cPlayerLight {
 
 class cWingsOfWrath : ArtiFly replaces ArtiFly {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 		Inventory.MaxAmount 0;
 		+INVENTORY.AUTOACTIVATE
 		-COUNTITEM
@@ -329,8 +329,8 @@ class cWingsOfWrath : ArtiFly replaces ArtiFly {
 
 class cMana1 : Mana1 replaces Mana1 {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 	}
 	
 	States {
@@ -342,8 +342,8 @@ class cMana1 : Mana1 replaces Mana1 {
 
 class cMana2 : Mana2 replaces Mana2 {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 		+FORCEXYBILLBOARD
 	}
 	
@@ -356,8 +356,8 @@ class cMana2 : Mana2 replaces Mana2 {
 
 class cMana3 : Mana3 replaces Mana3 {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 		+FORCEXYBILLBOARD
 	}
 	
@@ -370,8 +370,8 @@ class cMana3 : Mana3 replaces Mana3 {
 
 class cMana4 : Inventory {
 	Default {
-		Radius 20;
-		Height 32;
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 		+FORCEXYBILLBOARD
 		+COUNTITEM
 		+FLOATBOB

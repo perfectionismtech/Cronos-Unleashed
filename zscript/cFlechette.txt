@@ -1,5 +1,7 @@
 class cFlechette : Inventory replaces ArtiPoisonBag {
 	Default {
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
 		+FLOATBOB
 		-INVENTORY.FANCYPICKUPSOUND
 		-INVENTORY.INVBAR
