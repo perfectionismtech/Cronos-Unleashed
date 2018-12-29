@@ -1,7 +1,6 @@
 class cFlechette : Inventory replaces ArtiPoisonBag {
 	Default {
 		+FLOATBOB
-		-INVENTORY.PICKUPFLASH
 		-INVENTORY.FANCYPICKUPSOUND
 		-INVENTORY.INVBAR
 		-COUNTITEM

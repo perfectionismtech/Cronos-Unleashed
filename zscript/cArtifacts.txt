@@ -36,7 +36,7 @@ class cQuartzFlask : ArtiHealth replaces ArtiHealth {
 	Default {
 		Radius 20;
 		Height 32;
-		-INVENTORY.PICKUPFLASH
+		Inventory.PickupFlash "";
 		-INVENTORY.FANCYPICKUPSOUND
 		-INVENTORY.INVBAR
 		-COUNTITEM
@@ -90,7 +90,7 @@ class cRepulsionDisc : ArtiBlastRadius replaces ArtiBlastRadius {
 	Default {
 		Radius 20;
 		Height 32;
-		-INVENTORY.PICKUPFLASH
+		Inventory.PickupFlash "";
 		-INVENTORY.FANCYPICKUPSOUND
 		-INVENTORY.INVBAR
 		-COUNTITEM
@@ -376,7 +376,7 @@ class cMana4 : Inventory {
 		+COUNTITEM
 		+FLOATBOB
 		+INVENTORY.INVBAR
-		+INVENTORY.PICKUPFLASH
+		Inventory.PickupFlash "PickupFlash";
 		+INVENTORY.FANCYPICKUPSOUND
 		Inventory.DefMaxAmount;
 		Inventory.Icon "ARTIMAN4";
