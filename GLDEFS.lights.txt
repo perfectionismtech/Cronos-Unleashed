@@ -157,6 +157,12 @@ pointlight IconItem {
 	offset 0 30 0
 }
 
+pointlight BootItem {
+	color 0.0 0.0 0.4
+	size 24
+	offset 0 30 0
+}
+
 // Monsters
 
 pointlight Afrit1 {	color 0.4 0.2 0.0	size 56 }

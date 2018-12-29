@@ -234,6 +234,27 @@ class cDragonskinBracers : ArtiBoostArmor replaces ArtiBoostArmor {
 	}
 }
 
+class cBootsOfSpeed : ArtiSpeedBoots replaces ArtiSpeedBoots {
+	Default {
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
+		Powerup.Type "cPowerSpeedBoots";
+	}
+	
+	States {
+	Spawn:
+		SPED ABCDEFGH 3 Bright Light("BootItem");
+		Loop;
+	}
+}
+
+class cPowerSpeedBoots : PowerSpeed {
+	Default {
+		Powerup.Duration -65;
+		Speed 1.6;
+	}
+}
+
 class cTorch : ArtiTorch replaces ArtiTorch {
 	Default {
 		Radius PICKUP_RADIUS;
