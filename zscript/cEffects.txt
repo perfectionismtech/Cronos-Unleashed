@@ -43,10 +43,41 @@ class cTeleportFog : Actor replaces TeleportFog {
 	override void PostBeginPlay() {
 		Super.PostBeginPlay();
 		
-		A_PlaySound("misc/teleport", CHAN_BODY);
-		if (target && target.radius > 16) {
-			A_SetScale(1.0 + target.radius*0.01);
+		int r = 32;
+		
+		if (target) {
+			if (target.radius > 16) {
+				A_SetScale(1.0 + target.radius*0.01);
+			}
+			
+			if (target.radius > 24) {
+				r = 8 + int(target.radius);
+			}
 		}
+		
+		for (int i = 0; i < 25; i++) {
+			Spawn("cTeleportGlitter", Vec3Offset(random(-r,r), random(-r,r), random(-32, 24)));
+		}
+		A_PlaySound("misc/teleport", CHAN_BODY);
+	}
+}
+
+class cTeleportGlitter : Actor {
+	Default {
+		+NOINTERACTION
+		RenderStyle "Add";
+		Alpha 0.9;
+	}
+	
+	States {
+	Spawn:
+		TGLT ABCD random(3,5) Bright A_FadeOut(0.1);
+		Stop;
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		vel.z = frandom(1.6, 2.8);
 	}
 }
 
