@@ -39,7 +39,7 @@ statusbar Normal {
 		}
 	} else {
 		DrawImage "HAMOBACK", 77, 164;
-		usessecondaryammo {
+		UsesSecondaryAmmo {
 			DrawImage ammoicon1, 89, 172, center;
 			DrawImage ammoicon2, 113, 172, center;
 			DrawNumber 3, INDEXFONT_RAVEN, untranslated, ammo1, 98, 182;
@@ -100,26 +100,39 @@ StatusBar fullscreen, fullscreenoffsets {
 	DrawNumber 2, HUDFONT_RAVEN, untranslated, armorclass, 62, -19, 1;
 	
 	// Ammo
-	DrawImage "FBAR_MN", 69, -31;
-	weaponammo Mana1 {
-		DrawImage "MANABRT1", 69, -31;
-		DrawBar "MANAVL1", "nullimage", ammo(Mana1), vertical, interpolate(4), 86, -31, 1;
+	weaponammo Mana1 && Mana2 {
+		DrawImage "FBAR_MN", 69, -31;
+		weaponammo Mana1 {
+			DrawImage "MANABRT1", 69, -31;
+			DrawBar "MANAVL1", "nullimage", ammo(Mana1), vertical, interpolate(4), 86, -31, 1;
+		} else {
+			DrawImage "MANADIM1", 69, -31;
+			DrawBar "MANAVL1D", "nullimage", ammo(Mana1), vertical, interpolate(4), 86, -31, 1;
+		}
+		InInventory Mana1 {
+			DrawNumber 3, INDEXFONT_RAVEN, untranslated, ammo(Mana1), 84, -14;
+		}
+		weaponammo Mana2 {
+			DrawImage "MANABRT2", 102, -31;
+			DrawBar "MANAVL2", "nullimage", ammo(Mana2), vertical, interpolate(4), 94, -31, 1;
+		} else {
+			DrawImage "MANADIM2", 102, -31;
+			DrawBar "MANAVL2D", "nullimage", ammo(Mana2), vertical, interpolate(4), 94, -31, 1;
+		}
+		InInventory Mana2 {
+			DrawNumber 3, INDEXFONT_RAVEN, untranslated, ammo(Mana2), 116, -14;
+		}
 	} else {
-		DrawImage "MANADIM1", 69, -31;
-		DrawBar "MANAVL1D", "nullimage", ammo(Mana1), vertical, interpolate(4), 86, -31, 1;
-	}
-	InInventory Mana1 {
-		DrawNumber 3, INDEXFONT_RAVEN, untranslated, ammo(Mana1), 84, -14;
-	}
-	weaponammo Mana2 {
-		DrawImage "MANABRT2", 102, -31;
-		DrawBar "MANAVL2", "nullimage", ammo(Mana2), vertical, interpolate(4), 94, -31, 1;
-	} else {
-		DrawImage "MANADIM2", 102, -31;
-		DrawBar "MANAVL2D", "nullimage", ammo(Mana2), vertical, interpolate(4), 94, -31, 1;
-	}
-	InInventory Mana2 {
-		DrawNumber 3, INDEXFONT_RAVEN, untranslated, ammo(Mana2), 116, -14;
+		DrawImage "FBAR_AM", 69, -31;
+		UsesSecondaryAmmo {
+			DrawImage ammoicon1, 83, -19, center;
+			DrawNumber 3, INDEXFONT_RAVEN, untranslated, ammo1, 96, -13;
+			DrawImage ammoicon2, 103, -19, center;
+			DrawNumber 3, INDEXFONT_RAVEN, untranslated, ammo2, 116, -13;
+		} else {
+			DrawImage ammoicon1, 93, -19, center;
+			DrawNumber 3, INDEXFONT_RAVEN, untranslated, ammo1, 108, -13;
+		}
 	}
 	
 	// Inventory
