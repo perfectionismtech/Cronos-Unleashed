@@ -74,8 +74,9 @@ class cBossHealthBars : EventHandler {
 
 class cMapEntry : StaticEventHandler {
 	override void WorldLoaded(WorldEvent e) {
-		if (!e.IsSaveGame) {
-			players[consoleplayer].mo.A_SetBlend("000000", 1.0, 30);
+		if (!e.isSaveGame && !(level.mapName ~== "TITLEMAP")) {
+			PlayerPawn mo = players[consoleplayer].mo;
+			if (mo) mo.A_SetBlend("000000", 1.0, 30);
 		}
 	}
 }
@@ -128,7 +129,7 @@ class cMapName : StaticEventHandler {
 	
 	override void WorldLoaded(WorldEvent e) {
 		if (CVar.GetCVar("map_name_on_entry", players[consoleplayer]).GetBool()) {
-			if (!e.isSaveGame && level.mapName != "TITLEMAP") {
+			if (!e.isSaveGame && !(level.mapName ~== "TITLEMAP")) {
 				mapName = level.levelName;
 				if (mapName == "") {
 					mapName = "UNNAMED";
