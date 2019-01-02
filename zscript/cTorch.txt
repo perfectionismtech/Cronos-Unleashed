@@ -1,0 +1,82 @@
+class cTorch : ArtiTorch replaces ArtiTorch {
+	Default {
+		Radius PICKUP_RADIUS;
+		Height PICKUP_HEIGHT;
+	}
+	
+	States {
+	Spawn:
+		TRCH ABC 3 Bright Light("TorchItem");
+		Loop;
+	}
+	
+	override bool Use(bool pickup) {
+		if (!GetCVar("classic_torch")) {
+			PowerupType = "cPowerTorch";
+		} else {
+			PowerupType = "PowerTorch";
+		}
+		
+		return Super.Use(pickup);
+	}
+}
+
+class cPowerTorch : Powerup {
+	cTorchLight light;
+	
+	Default {
+		Powerup.Duration -120;
+	}
+	
+	override void InitEffect() {
+		Super.InitEffect();
+		
+		if (owner) owner.GiveInventoryType("cTorchCancel");
+	}
+	
+	override void DoEffect() {
+		Super.DoEffect();
+		
+		if (!light) {
+			light = cTorchLight(Spawn("cTorchLight"));
+			//light.target = owner; https://forum.zdoom.org/viewtopic.php?t=59923
+			light.master = owner;
+		}
+		
+		light.bDORMANT = isBlinking();
+	}
+	
+	override void EndEffect() {
+		Super.EndEffect();
+		
+		if (light) light.Destroy();
+		if (owner) owner.TakeInventory("cTorchCancel", 1);
+	}
+}
+
+class cTorchCancel : Inventory {
+	Default {
+		Inventory.Icon "ARTITRCX";
+		Tag "Cancel Torch";
+		+INVENTORY.INVBAR
+		+INVENTORY.UNTOSSABLE
+	}
+	
+	override bool Use(bool pickup) {
+		owner.TakeInventory("cPowerTorch", 1); // This also calls EndEffect
+		return true;
+	}
+}
+
+class cTorchLight : cPlayerLight {
+	Default {
+		Args 120, 105, 80, 300, 390;
+		DynamicLight.Type "RandomFlicker";
+		+DYNAMICLIGHT.DONTLIGHTSELF
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		specialf1 = 3;
+	}
+}

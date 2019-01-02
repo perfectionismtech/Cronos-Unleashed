@@ -23,6 +23,9 @@ version "3.4"
 
 #include "zscript/cArtifacts.txt"
 #include "zscript/cFlechette.txt"
+#include "zscript/cRepulsionDisc.txt"
+#include "zscript/cIconDefender.txt"
+#include "zscript/cTorch.txt"
 #include "zscript/cPig.txt"
 
 // Monsters
