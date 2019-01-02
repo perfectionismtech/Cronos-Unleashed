@@ -86,23 +86,88 @@ class cQuartzRegen : Powerup {
 	}
 }
 
-class cRepulsionDisc : ArtiBlastRadius replaces ArtiBlastRadius {
+class cRepulsionDisc : Inventory replaces ArtiBlastRadius {
 	Default {
 		Radius PICKUP_RADIUS;
 		Height PICKUP_HEIGHT;
-		Inventory.PickupFlash "";
-		-INVENTORY.FANCYPICKUPSOUND
-		-INVENTORY.INVBAR
 		-COUNTITEM
+		+FLOATBOB
+		Inventory.DefMaxAmount;
+		Inventory.Icon "ARTIBLST";
 		Inventory.PickupSound "misc/i_pkup";
+		Inventory.PickupMessage "$TXT_ARTIBLASTRADIUS";
+		Tag "$TAG_ARTIBLASTRADIUS";
 	}
 	
 	States {
 	Spawn:
 		BLST ABCDEFGH 4 Bright Light("RepulsionItem");
 		Loop;
-	Use:
-		TNT1 A 0 A_Blast(BF_DONTWARN, 255, 180.0, 12.0);
+	}
+	
+	const BLAST_RADIUS = 150;
+	const MISSILE_BLAST_RADIUS = 250;
+	const BLAST_SPEED = 12;
+	
+	override bool Use(bool pickup) {
+		if (owner == null) return false;
+		
+		owner.A_AlertMonsters(BLAST_RADIUS);
+		owner.A_PlaySound("BlastRadius", CHAN_AUTO);
+		
+		Actor mo;
+		let iterator = ThinkerIterator.Create("Actor");
+		while ((mo = Actor(iterator.Next()))) {
+			if (mo == owner) continue;
+			if (mo.bDONTBLAST || mo.bDORMANT || mo.bBOSS ) continue;
+			
+			// Always blast frozen corpses or actors with the explicit flag
+			if (!mo.bCANBLAST && !mo.bICECORPSE) {
+				// Don't blast corpses
+				if (mo.bISMONSTER && mo.health <= 0) continue;
+				// Very specific check from gzdoom.pk3
+				if (!mo.player && !mo.bMISSILE && !mo.bISMONSTER && !mo.bCANBLAST && !mo.bTOUCHY && !mo.bVULNERABLE) continue;
+			}
+			// Don't blast your own missiles
+			if (mo.bMISSILE && mo.target && mo.target == owner) continue;
+			// Distance check
+			if (owner.Distance2D(mo) > (mo.bMISSILE ? MISSILE_BLAST_RADIUS : BLAST_RADIUS)) continue;
+			// Line of sight check
+			if (mo.curSector.portalGroup != curSector.portalGroup && !owner.CheckSight(mo)) continue;
+			
+			// Check the actor's SpecialBlastHandling
+			if (!mo.SpecialBlastHandling(owner, 255)) continue;
+			
+			double angTo = owner.AngleTo(mo);
+			
+			mo.vel.xy = owner.AngleToVector(angTo, BLAST_SPEED);
+			if (mo.bMISSILE) {
+				mo.vel.z *= -1;
+			} else {
+				mo.vel.z = 700.0 / mo.mass;
+			}
+			
+			// Spawn blast effect
+			Vector3 effPos = mo.pos + AngleToVector(angTo - 180.0, mo.radius + 1);
+			effPos.z += mo.height/2 - mo.floorClip;
+			Actor effect = Spawn('BlastEffect', effPos);
+			if (effect) {
+				effect.vel.xy = mo.vel.xy;
+			}
+			
+			// Set the BLASTED flag to do damage
+			if (!mo.player) {
+				mo.bBLASTED = true;
+			}
+			
+			// Kill Touchy actors when blasted
+			if (mo.bTOUCHY) {
+				mo.bARMED = false;
+				mo.DamageMobj(owner, owner, mo.health, 'Melee', DMG_FORCED|DMG_EXPLOSION);
+			}
+		}
+		
+		return true;
 	}
 }
 
