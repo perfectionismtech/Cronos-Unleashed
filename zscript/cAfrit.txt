@@ -1,7 +1,7 @@
 class cAfrit : FireDemon replaces FireDemon {
 	Default {
 		Health 60;
-		Height 40;
+		Height 48;
 		Speed 14;
 		PainChance 40;
 		PainChance "Melee", 96;
