@@ -1,7 +1,129 @@
+class cWeapon : Weapon {
+	const SELECT_SPEED = 15;
+	
+	const MELEERANGE_SHORT = 64;
+	const MELEERANGE_MED = 80;
+	const MELEERANGE_LONG = 96;
+	
+	Actor weaponLight;
+	
+	Default {
+		+WEAPON.NOALERT
+		+WEAPON.NOAUTOAIM
+		+INVENTORY.RESTRICTABSOLUTELY
+	}
+	
+	static int RandomizeDamage(int damage) {
+		return int(damage * frandom[WeaponDamage](0.9, 1.1) + 0.5);
+	}
+	
+	action void WeaponShake(int intensity, int duration) {
+		if (self.player && CVar.GetCVar('weapon_shake', self.player).GetBool()) {
+			A_Quake(intensity, duration, 0, 1, "");
+		}
+	}
+	
+	/**
+	 * Returns:
+	 * - The actor that was hit
+	 * - The puff that was spawned
+	 * - The amount of damage dealt
+	 */
+	action Actor, Actor, int MeleeAttack(int damage, double range, double knockback = 0.0, int arc = 0, class<Actor> puffType = null, Name damageType = 'Melee') {
+		if (player == null) return null, null, 0;
+		
+		Actor victim; // The enemy that was hit
+		Actor puff; // The puff that was spawned
+		int damDealt; // Actual amount of damage dealt
+		
+		// Allow hits slightly above/below, unless arc is 0
+		double vRange = (arc == 0) ? 0.5 : 1.5; // 0.5 is considered the minimum, see p_map.cpp
+		
+		// Apply berserk damage
+		if (player.mo.invulMode == 'Berserk' && FindInventory("cDefenderInvulnerability")) {
+			damage *= 2;
+		}
+		
+		FTranslatedLineTarget lt;
+		
+		// Try to hit something
+		for (int i = 0; i <= arc; i = (i>0 ? -i : -i+2) ) {
+			double slope = AimLineAttack(angle+i, range, lt, vRange, ALF_FORCENOSMART|ALF_CHECK3D|ALF_NOFRIENDS);
+			// Check if an actor was found
+			if (lt.lineTarget) {
+				[puff, damDealt] = LineAttack(angle+i, range, slope, damage, damageType, puffType, LAF_ISMELEEATTACK, lt);
+				
+				if (lt.lineTarget) {
+					victim = lt.lineTarget;
+					// Apply knockback
+					if (knockback > 0 && victim.mass < LARGE_MASS && !victim.bDONTTHRUST && !victim.bDORMANT) {
+						if (victim.bISMONSTER || victim.player) {
+							victim.Thrust(knockback, lt.attackAngleFromSource);
+						}
+					}
+					return victim, puff, damDealt;
+				}
+			}
+		}
+		
+		// Failed to find anything to hit, so just attack straight ahead
+		puff = LineAttack(angle, range, pitch, damage, damageType, puffType, LAF_ISMELEEATTACK, lt);
+		
+		return null, puff, 0;
+	}
+	
+	/**
+	 * Returns:
+	 * - The missile that was fired
+	 */
+	action Actor FireAdjustedMissile(class<Actor> missileType, double angOff = 0.0, double pitchOff = 0.0, double heightOff = 0.0, double aimRange = 1000.0) {
+		if (player == null) return null;
+		
+		Actor missile;
+		
+		FLineTraceData tr;
+		bool traceHit = LineTrace(angle+angOff, aimRange, pitch+pitchOff, TRF_NOSKY, player.viewHeight, data: tr);
+		
+		// Save the old pitch to set it back later
+		double oldPitch = self.pitch;
+		self.pitch += pitchOff;
+		
+		missile = SpawnPlayerMissile(missileType, angle+angOff, 0, 0, heightOff, null, false, true);
+		
+		// Set the pitch back
+		self.pitch = oldPitch;
+		
+		if (traceHit && missile) {
+			Vector3 dir = (tr.hitLocation - missile.pos).Unit();
+			missile.vel = dir * missile.speed;
+		}
+		
+		return missile;
+	}
+	
+	static Vector2 GetSpreadOval(float spread, float vertSpreadFac = 1.0) {
+		Vector2 spread = AngleToVector(random[WeaponSpread](0, 359), frandom[WeaponSpread](0, spread));
+		spread.y *= vertSpreadFac;
+		return spread;
+	}
+	
+	static Vector2 GetSpreadRect(float spreadX, float spreadY) {
+		return (spreadX * frandom[WeaponSpread](-1, 1), spreadY * frandom[WeaponSpread](-1, 1));
+	}
+	
+	action void SpawnWeaponLight(Name lightClass) {
+		if (!invoker.weaponLight) {
+			Actor mo = Spawn(lightClass);
+			if (mo) {
+				invoker.weaponLight = mo;
+				invoker.weaponLight.master = invoker.owner;
+			}
+		}
+	}
+}
+
 class cPuff : Actor {
 	Default {
-		+NOBLOCKMAP
-		+NOGRAVITY
 		+NOINTERACTION
 		+HITTARGET
 		+PUFFONACTORS

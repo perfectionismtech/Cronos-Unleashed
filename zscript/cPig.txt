@@ -38,7 +38,6 @@ class cPigSnout : Snout {
 	Default {
 		+WEAPON.NOAUTOAIM
 		+WEAPON.NOALERT
-		Weapon.Kickback 9;
 		Weapon.YAdjust 10;
 	}
 

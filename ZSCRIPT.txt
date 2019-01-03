@@ -58,5 +58,8 @@ version "3.4"
 // Constant definitions
 
 const MONSTER_MAXRANGE = 2048;
+
+const ALERT_DIST_NORM = 1500;
+const ALERT_DIST_NEAR = 140;
 const PICKUP_RADIUS = 20;
 const PICKUP_HEIGHT = 32;

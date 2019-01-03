@@ -1,29 +1,35 @@
-class cQuietus: FWeapQuietus replaces FWeapQuietus {
-	Actor weaponLight;
-	
+class cQuietus: cWeapon replaces FWeapQuietus {
 	Default {
+		Inventory.RestrictedTo "cFighterPlayer";
+		Health 3; // Weapon Pieces
+		+INVENTORY.NOATTENPICKUPSOUND
+		Weapon.AmmoType1 "Mana1";
+		Weapon.AmmoType2 "Mana2";
 		Weapon.AmmoUse1 12;
 		Weapon.AmmoUse2 12;
 		Weapon.AmmoGive1 25;
 		Weapon.AmmoGive2 25;
+		+WEAPON.PRIMARY_USES_BOTH;
+		-BLOODSPLATTER
+		Weapon.YAdjust 5;
 		Weapon.BobStyle "Smooth";
+		Weapon.BobSpeed 1.4;
 		Weapon.BobRangeX 1.0;
 		Weapon.BobRangeY 1.0;
-		Weapon.BobSpeed 1.4;
-		Weapon.YAdjust 5;
-		-BLOODSPLATTER
-		+WEAPON.NOAUTOAIM
-		+WEAPON.NOALERT
+		Weapon.SelectionOrder 2900;
+		Inventory.PickupMessage "$TXT_WEAPON_F4";
+		Inventory.PickupSound "WeaponBuild";
+		Tag "$TAG_FWEAPQUIETUS";
 	}
-
+	
 	States {
 	Select:
 		TNT1 A 0 A_SetCrosshair(53);
-		TNT1 A 0 SpawnWeapLight();
-		FSRD A 1 Bright A_Raise(15);
+		TNT1 A 0 SpawnWeaponLight('cQuietusLight');
+		FSRD A 1 Bright A_Raise(SELECT_SPEED);
 		Wait;
 	Deselect:
-		FSRD A 1 Bright A_Lower(15);
+		FSRD A 1 Bright A_Lower(SELECT_SPEED);
 		Wait;
 	Ready:
 		FSRD AAAABBBBCCCCBBBB 1 Bright A_WeaponReady();
@@ -44,24 +50,18 @@ class cQuietus: FWeapQuietus replaces FWeapQuietus {
 		Goto Ready;
 	}
 	
-	action void SpawnWeapLight() {
-		if (!invoker.weaponLight) {
-			invoker.weaponLight = Spawn("cQuietusLight");
-			invoker.weaponLight.master = invoker.owner;
-		}
-	}
-	
 	action void QuietusFire() {
 		if (player == null) return;
 		
-		Weapon weapon = player.ReadyWeapon;
-		if (weapon != null && !weapon.DepleteAmmo(weapon.bAltFire)) return;
+		Weapon weap = player.ReadyWeapon;
+		if (weap != null && !weap.DepleteAmmo(weap.bAltFire)) return;
 		
 		for (int i = 0; i < 5; i++) {
 			double ang = angle + 12 - 6*i;
 			SpawnPlayerMissile("cQuietusMissile", ang, 0, 0, 4*i - 8);
 		}
 		
+		A_AlertMonsters(ALERT_DIST_NORM);
 		A_SetBlend("33 69 29", 0.7, 20);
 		A_PlaySound ("FighterSwordFire", CHAN_WEAPON);
 	}

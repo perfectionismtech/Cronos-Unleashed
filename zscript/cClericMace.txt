@@ -1,18 +1,18 @@
-class cMace : CWeapMace {
-	const MACE_RANGE = 96.0;
-	const MACE_DAMAGE = 26;
-	
+class cMace : CWeapon {
 	Default {
+		Inventory.RestrictedTo "cClericPlayer";
+		+WEAPON.AXEBLOOD
+		Weapon.YAdjust -8;
 		Weapon.BobStyle "Smooth";
+		Weapon.BobSpeed 1.4;
 		Weapon.BobRangeX 0.8;
 		Weapon.BobRangeY 1.0;
-		Weapon.BobSpeed 1.4;
-		+WEAPON.AXEBLOOD
-		-BLOODSPLATTER
-		+WEAPON.NOAUTOAIM
-		+WEAPON.NOALERT
-		+INVENTORY.RESTRICTABSOLUTELY
+		Weapon.SelectionOrder 3500;
+		Obituary "$OB_MPCWEAPMACE";
+		Tag "$TAG_CWEAPMACE";
 	}
+	
+	const MACE_DAMAGE = 26;
 	
 	States {
 	Spawn:
@@ -20,11 +20,11 @@ class cMace : CWeapMace {
 		Stop;
 	Select:
 		TNT1 A 0 A_SetCrosshair(54);
-		CMCE A 1 A_Raise(15);
-		Loop;
+		CMCE A 1 A_Raise(SELECT_SPEED);
+		Wait;
 	Deselect:
-		CMCE A 1 A_Lower(15);
-		Loop;
+		CMCE A 1 A_Lower(SELECT_SPEED);
+		Wait;
 	Ready:
 		CMCE A 1 A_WeaponReady();
 		Loop;
@@ -33,7 +33,7 @@ class cMace : CWeapMace {
 		CMCE B 2 Offset(4, 37);
 		CMCE B 2 Offset(-12, 44);
 		CMCE C 1 Offset(8, 44);
-		CMCE D 1 Offset(23, 44) { if(GetCVar("weapon_shake")) A_Quake(1, 5, 0, 1, ""); }
+		CMCE D 1 Offset(23, 44) WeaponShake(1, 5);
 		CMCE D 1 Offset(5, 60);
 		CMCE E 1 Offset(-6, 76) MaceAttack();
 		CMCE F 1 Offset(17, 49);
@@ -56,18 +56,17 @@ class cMace : CWeapMace {
 	}
 	
 	action void MaceAttack() {
-		int attackDamage = int( MACE_DAMAGE * frandom[MaceAttack](0.9,1.1) );
+		if (player == null) return;
 		
-		FTranslatedLineTarget t;
-		for (int i=0; i<=6; i=i>0 ? -i : -i+2 ) {
-			if (LineAttack(angle + i, MACE_RANGE, pitch, attackDamage, "Melee", "cMacePuff", 0, t)) {
-				A_AlertMonsters(1500);
-				if (GetCVar("weapon_shake")) A_Quake(2, 6, 0, 1, "");
-				return;
-			}
+		Actor victim, puff;
+		[victim, puff] = MeleeAttack(RandomizeDamage(MACE_DAMAGE), MELEERANGE_LONG, 0, 6, "cMacePuff");
+		
+		if (victim || puff) {
+			WeaponShake(2, 6);
+			A_AlertMonsters(ALERT_DIST_NORM);
+		} else {
+			A_AlertMonsters(ALERT_DIST_NEAR);
 		}
-		A_AlertMonsters(120);
-		return;
 	}
 }
 

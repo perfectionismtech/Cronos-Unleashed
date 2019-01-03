@@ -1,35 +1,43 @@
-class cHammer : FWeapHammer replaces FWeapHammer {
-	const HAMMER_RANGE = 64.0;
-	const HAMMER_DAMAGE = 70;
-	
+class cHammer : cWeapon replaces FWeapHammer {
 	Default {
+		Inventory.RestrictedTo "cFighterPlayer";
+		Weapon.AmmoType1 "Mana2";
 		Weapon.AmmoUse1 5;
 		Weapon.AmmoGive1 0;
+		+WEAPON.AMMO_OPTIONAL
+		Weapon.YAdjust -10;
 		Weapon.BobStyle "Smooth";
+		Weapon.BobSpeed 1.4;
 		Weapon.BobRangeX 1.0;
 		Weapon.BobRangeY 1.0;
-		Weapon.BobSpeed 1.4;
-		-BLOODSPLATTER
-		+WEAPON.NOAUTOAIM
-		+WEAPON.NOALERT
-		+INVENTORY.RESTRICTABSOLUTELY
+		Weapon.SelectionOrder 900;
+		+WEAPON.MELEEWEAPON
+		Inventory.PickupMessage "$TXT_WEAPON_F3";
+		Obituary "$OB_MPFWEAPHAMMERM";
+		Tag "$TAG_FWEAPHAMMER";
 	}
 	
+	const HAMMER_DAMAGE = 70;
+	
 	States {
+	Spawn:
+		WFHM A -1;
+		Stop;
 	Select:
 		TNT1 A 0 A_SetCrosshair(52);
-		FHMR A 1 A_Raise(15);
+		FHMR A 1 A_Raise(SELECT_SPEED);
 		Wait;
 	Deselect:
-		FHMR A 1 A_Lower(15);
+		FHMR A 1 A_Lower(SELECT_SPEED);
 		Wait;
+	Ready:
+		FHMR A 1 A_WeaponReady();
+		Loop;
 	Fire:
 		FHMR B 3 Offset (20, 38);
 		FHMR B 3 Offset (12, 22);
 		FHMR B 5 Offset (1, 0);
-		FHMR C 3 Offset (35, 30) {
-			A_PlaySound("FighterGrunt", CHAN_VOICE);;
-		}
+		FHMR C 3 Offset (35, 30) A_PlaySound("FighterGrunt", CHAN_VOICE);
 		FHMR C 2 Offset (6, 65) HammerAttack();
 		FHMR D 2 Offset (36, 30);
 		FHMR E 2 Offset (36, 30) HammerThrow();
@@ -46,47 +54,35 @@ class cHammer : FWeapHammer replaces FWeapHammer {
 	action void HammerAttack() {
 		if (player == null) return;
 		
-		int dam = int( HAMMER_DAMAGE * frandom[HammerDamage](0.9,1.1) );
-		if (FindInventory("cDefenderInvulnerability")) dam *= 2;
-		if(GetCVar("weapon_shake")) A_Quake(2, 6, 0, 1, "");
+		WeaponShake(2, 6);
 		
-		// Try to hit an actor nearby
-		FTranslatedLineTarget t;
-		for (int i=0; i<=12; i=(i>0 ? -i : -i+2) ) {
-			if (LineAttack(angle + i, HAMMER_RANGE, pitch, dam, "Melee", "cHammerPuff", 0, t)) {
-				if(t.linetarget != null) {
-					if(t.linetarget.mass < LARGE_MASS && !t.linetarget.bDontThrust) {
-						if(t.linetarget.bIsMonster) {
-							t.linetarget.Thrust(6, t.attackAngleFromSource);
-						}
-					}
-				}
-				A_AlertMonsters(1500);
-				weaponspecial = false; // Don't throw a hammer
-				return;
-			}
+		Actor victim, puff;
+		[victim, puff] = MeleeAttack(RandomizeDamage(HAMMER_DAMAGE), MELEERANGE_SHORT, 6, 12, "cHammerPuff");
+		
+		if (victim || puff) {
+			A_AlertMonsters(ALERT_DIST_NORM);
+			weaponSpecial = false; // Don't throw a hammer
+		} else {
+			A_AlertMonsters(ALERT_DIST_NEAR);
+			weaponSpecial = true; // Prepare to throw a hammer
 		}
-		A_AlertMonsters(120);
-		weaponspecial = true; // Prepare to throw a hammer
-		return;
 	}
 	
 	action void HammerThrow() {
 		if (player == null) return;
 		
-		if (!weaponspecial) return;
+		if (!weaponSpecial) return;
 		
-		Weapon weapon = player.ReadyWeapon;
-		if (weapon != null) {
-			if (!weapon.CheckAmmo(weapon.bAltFire ? weapon.AltFire : weapon.PrimaryFire, false, true)) return;
-			if (!weapon.DepleteAmmo(weapon.bAltFire, false)) return;
+		Weapon weap = player.readyWeapon;
+		if (weap != null) {
+			if (!weap.CheckAmmo(weap.bAltFire ? weap.altFire : weap.primaryFire, false, true)) return;
+			if (!weap.DepleteAmmo(weap.bAltFire, false)) return;
 		} else {
 			return;
 		}
 		
 		A_FireProjectile("cHammerMissile", 0, false, 0, 0);
 	}
-	
 }
 
 class cHammerMissile : HammerMissile {
@@ -114,7 +110,6 @@ class cHammerMissile : HammerMissile {
 				A_DamageTracer(noBlastDamage, 'none', DMSS_AFFECTARMOR);
 			}
 			A_Explode(blastDamage, 128, XF_NOSPLASH);
-			A_AlertMonsters(1500);
 			A_SpawnItemEx("cHammerBlast");
 			A_Quake(2, 14, 0, 120, "");
 		}

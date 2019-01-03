@@ -1,53 +1,59 @@
-class cAxe : FWeapAxe replaces FWeapAxe {
-	Actor weaponLight;
+class cAxe : cWeapon replaces FWeapAxe {
+	Default {
+		Inventory.RestrictedTo "cFighterPlayer";
+		Weapon.AmmoType1 "Mana1";
+		Weapon.AmmoUse1 3;
+		Weapon.AmmoGive1 0;
+		+WEAPON.AMMO_OPTIONAL
+		+WEAPON.AXEBLOOD
+		-BLOODSPLATTER
+		Weapon.YAdjust -12;
+		Weapon.BobStyle "Smooth";
+		Weapon.BobSpeed 1.4;
+		Weapon.BobRangeX 0.8;
+		Weapon.BobRangeY 1.0;
+		Weapon.SelectionOrder 1500;
+		+WEAPON.MELEEWEAPON
+		Inventory.PickupMessage "$TXT_WEAPON_F2";
+		Obituary "$OB_MPFWEAPAXE";
+		Tag "$TAG_FWEAPAXE";
+	}
 	
-	const AXE_RANGE = 96.0;
 	const EMPTY_DAMAGE = 40;
 	const CHARGED_DAMAGE = 64;
 	
-	Default {
-		Weapon.AmmoUse1 3;
-		Weapon.AmmoGive1 0;
-		Weapon.BobStyle "Smooth";
-		Weapon.BobRangeX 0.8;
-		Weapon.BobRangeY 1.0;
-		Weapon.BobSpeed 1.4;
-		-BLOODSPLATTER
-		+WEAPON.NOAUTOAIM
-		+WEAPON.NOALERT
-		+INVENTORY.RESTRICTABSOLUTELY
-	}
-	
 	States {
+	Spawn:
+		WFAX A -1;
+		Stop;
 	Select:
 		TNT1 A 0 A_SetCrosshair(51);
-		TNT1 A 0 SpawnAxeLight();
-		FAXE A 1 A_Raise(15);
+		TNT1 A 0 SpawnWeaponLight('cAxeLight');
+		FAXE A 1 A_Raise(SELECT_SPEED);
 		Wait;
-	SelectGlow:
+	Select.Glow:
 		TNT1 A 0 A_SetCrosshair(51);
-		TNT1 A 0 SpawnAxeLight();
-		FAXE L 1 Bright A_Raise(15);
+		TNT1 A 0 SpawnWeaponLight('cAxeLight');
+		FAXE L 1 Bright A_Raise(SELECT_SPEED);
 		Wait;
 	Deselect:
-		FAXE A 1 A_Lower(15);
+		FAXE A 1 A_Lower(SELECT_SPEED);
 		Wait;
-	DeselectGlow:
-		FAXE L 1 Bright A_Lower(15);
+	Deselect.Glow:
+		FAXE L 1 Bright A_Lower(SELECT_SPEED);
 		Wait;
 	Ready:
-		FAXE A 1 A_FAxeCheckReady();
+		FAXE A 1 AxeWeapReady();
 		Loop;
-	ReadyGlow:
-		FAXE MMMMMMMMMMMMMMMM 1 Bright A_FAxeCheckReadyG();
-		FAXE LLL 1 Bright A_FAxeCheckReadyG();
-		FAXE MMMMMMMMMMM 1 Bright A_FAxeCheckReadyG();
-		FAXE LLL 1 Bright A_FAxeCheckReadyG();
-		FAXE MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 1 Bright A_FAxeCheckReadyG();
-		FAXE LLL 1 Bright A_FAxeCheckReadyG();
+	Ready.Glow:
+		FAXE MMMMMMMMMMMMMMMM 1 Bright AxeWeapReady();
+		FAXE LLL 1 Bright AxeWeapReady();
+		FAXE MMMMMMMMMMM 1 Bright AxeWeapReady();
+		FAXE LLL 1 Bright AxeWeapReady();
+		FAXE MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 1 Bright AxeWeapReady();
+		FAXE LLL 1 Bright AxeWeapReady();
 		Loop;
 	Fire:
-		TNT1 A 0 A_JumpIfInventory("Mana1", 1, "FireGlow");
 		FAXE B 3 Offset(15, 32);
 		FAXE C 3 Offset(18, 32);
 		FAXE D 2 Offset(25, 32);
@@ -61,7 +67,7 @@ class cAxe : FWeapAxe replaces FWeapAxe {
 		FAXE A 1 Offset(0, 36);
 		FAXE A 1;
 		Goto Ready;
-	FireGlow:
+	Fire.Glow:
 		FAXE N 3 Bright Offset(15, 32);
 		FAXE O 3 Bright Offset(18, 32);
 		FAXE P 2 Bright Offset(25, 32);
@@ -74,48 +80,57 @@ class cAxe : FWeapAxe replaces FWeapAxe {
 		FAXE M 1 Bright Offset(0, 44);
 		FAXE M 1 Bright Offset(0, 36);
 		FAXE M 1;
-		Goto ReadyGlow;
+		Goto Ready.Glow;
+	}
+	
+	override State GetUpState() {
+		return Ammo1.Amount ? FindState('Select.Glow') : FindState('Select');
+	}
+	
+	override State GetDownState() {
+		return Ammo1.Amount ? FindState('Deselect.Glow') : FindState('Deselect');
+	}
+	
+	override State GetReadyState() {
+		return Ammo1.Amount ? FindState('Ready.Glow') : FindState('Ready');
+	}
+	
+	override State GetAtkState(bool hold) {
+		return Ammo1.Amount ? FindState('Fire.Glow') : Super.GetAtkState(hold);
+	}
+	
+	action void AxeWeapReady() {
+		if (player == null) return;
+		
+		Weapon weap = player.readyWeapon;
+		if (weap != null) {
+			if ( weap.InStateSequence(player.GetPSprite(PSP_WEAPON).curState, weap.GetReadyState())) {
+				A_WeaponReady();
+			} else {
+				player.SetPSprite(PSP_WEAPON, weap.GetReadyState());
+			}
+		}
 	}
 	
 	action void AxeAttack(bool poweredAttack) {
 		if (player == null) return;
 		Weapon weapon = player.ReadyWeapon;
 		
-		int attackDamage = poweredAttack ? CHARGED_DAMAGE : EMPTY_DAMAGE;
-		attackDamage = int( attackDamage * frandom[AxeDamage](0.9,1.1) );
-		if (FindInventory("cDefenderInvulnerability")) attackDamage *= 2;
-		
+		int attackDamage = RandomizeDamage(poweredAttack ? CHARGED_DAMAGE : EMPTY_DAMAGE);
 		class<Actor> puffType = poweredAttack ? "cAxePuffGlow" : "cAxePuff";
 		
-		FTranslatedLineTarget t;
-		for (int i=0; i<=10; i=(i>0 ? -i : -i+2) ) {
-			if (LineAttack(angle + i, AXE_RANGE, pitch, attackDamage, "Melee", puffType, 0, t)) {
-				if(t.linetarget != null) {
-					if(poweredAttack) {
-						weapon.DepleteAmmo(weapon.bAltFire);
-					}
-					
-					if(t.linetarget.mass < LARGE_MASS && !t.linetarget.bDONTTHRUST) {
-						if(t.linetarget.bIsMonster) {
-							t.linetarget.Thrust(3, t.attackAngleFromSource);
-						}
-					}
-				}
-				A_AlertMonsters(1500);
-				
-				if(GetCVar("weapon_shake")) A_Quake(2, 6, 0, 1, "");
-				return;
-			}
+		Actor victim, puff;
+		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_LONG, 3, 10, puffType);
+		
+		if (poweredAttack && victim) {
+			weapon.DepleteAmmo(weapon.bAltFire);
 		}
 		
-		A_AlertMonsters(120);
-		return;
-	}
-	
-	action void SpawnAxeLight() {
-		if (!invoker.weaponLight) {
-			invoker.weaponLight = Spawn("cAxeLight");
-			invoker.weaponLight.master = invoker.owner;
+		if (victim || puff) {
+			WeaponShake(2, 6);
+			A_AlertMonsters(ALERT_DIST_NORM);
+		} else {
+			A_AlertMonsters(ALERT_DIST_NEAR);
 		}
 	}
 }

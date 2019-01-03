@@ -1,18 +1,19 @@
-class cFrostShards : MWeapFrost replaces MWeapFrost {
-	const SPREAD_X = 1.8;
-	const SPREAD_Y = 0.4;
-	
+class cFrostShards : cWeapon replaces MWeapFrost {
 	Default {
+		Inventory.RestrictedTo "cMagePlayer";
+		Weapon.AmmoType1 "Mana1";
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoGive1 25;
+		+BLOODSPLATTER
 		Weapon.YAdjust 18;
 		Weapon.BobStyle "Smooth";
+		Weapon.BobSpeed 1.4;
 		Weapon.BobRangeX 1.0;
 		Weapon.BobRangeY 0.7;
-		Weapon.BobSpeed 1.4;
-		+WEAPON.NOAUTOAIM
-		+WEAPON.NOALERT
-		+INVENTORY.RESTRICTABSOLUTELY
+		Weapon.SelectionOrder 1700;
+		Inventory.PickupMessage "$TXT_WEAPON_M2";
+		Obituary "$OB_MPMWEAPFROST";
+		Tag "$TAG_MWEAPFROST";
 	}
 	
 	States {
@@ -24,11 +25,14 @@ class cFrostShards : MWeapFrost replaces MWeapFrost {
 		Loop;
 	Select:
 		TNT1 A 0 A_SetCrosshair(59);
-		CONE A 1 A_Raise(15);
+		CONE A 1 A_Raise(SELECT_SPEED);
 		Wait;
 	Deselect:
-		CONE A 1 A_Lower(15);
+		CONE A 1 A_Lower(SELECT_SPEED);
 		Wait;
+	Ready:
+		CONE A 1 A_WeaponReady();
+		Loop;
 	Fire:
 		CONE B 4 { invoker.special1 = 0; }
 		CONE C 2;
@@ -51,10 +55,10 @@ class cFrostShards : MWeapFrost replaces MWeapFrost {
 	}
 	
 	action void FrostShardAttack() {
-		Vector2 spread = (SPREAD_X*frandom[FrostShardSpread](-1,1), SPREAD_Y*frandom[FrostShardSpread](-1,1));
-		A_FireProjectile("cFrostShardMissile", spread.x, pitch: spread.y-.3);
+		Vector2 spread = GetSpreadRect(1.8, 0.4);
+		FireAdjustedMissile("cFrostShardMissile", spread.x, spread.y);
 		
-		A_AlertMonsters(1500);
+		A_AlertMonsters(ALERT_DIST_NORM);
 		invoker.special1++;
 	}
 	
@@ -62,7 +66,7 @@ class cFrostShards : MWeapFrost replaces MWeapFrost {
 		if (invoker.special1 > 15) {
 			if (random() < invoker.special1) {
 				invoker.special1 = 0;
-				return invoker.ResolveState("Cooldown");
+				return invoker.ResolveState('Cooldown');
 			}
 		}
 		return null;
@@ -75,7 +79,7 @@ class cFrostShardMissile : Actor {
 		Height 8;
 		Projectile;
 		Speed 45;
-		DamageFunction int(21 * frandom[FrostShardDamage](0.9,1.1));
+		DamageFunction cWeapon.RandomizeDamage(21);
 		DamageType "Ice";
 		DeathSound "MageShardsExplode";
 		Obituary "$OB_MPMWEAPFROST";

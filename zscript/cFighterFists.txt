@@ -1,18 +1,19 @@
-class cFists : FWeapFist {
-	const PUNCH_RANGE = 80.0;
-	const SMALL_DAMAGE = 34;
-	const LARGE_DAMAGE = 49;
-	
+class cFists : cWeapon {
 	Default {
+		Inventory.RestrictedTo "cFighterPlayer";
+		+BLOODSPLATTER
 		Weapon.BobStyle "Smooth";
+		Weapon.BobSpeed 1.4;
 		Weapon.BobRangeX 1.0;
 		Weapon.BobRangeY 0.7;
-		Weapon.BobSpeed 1.4;
-		+BLOODSPLATTER
-		+WEAPON.NOAUTOAIM
-		+WEAPON.NOALERT
-		+INVENTORY.RESTRICTABSOLUTELY
+		Weapon.SelectionOrder 3400;
+		+WEAPON.MELEEWEAPON
+		Obituary "$OB_MPFWEAPFIST";
+		Tag "$TAG_FWEAPFIST";
 	}
+	
+	const SMALL_DAMAGE = 34;
+	const LARGE_DAMAGE = 49;
 	
 	States {
 	Spawn:
@@ -20,17 +21,20 @@ class cFists : FWeapFist {
 		Stop;
 	Select:
 		TNT1 A 0 A_SetCrosshair(50);
-		FPCH A 1 A_Raise(15);
+		FPCH A 1 A_Raise(SELECT_SPEED);
 		Wait;
 	Deselect:
-		FPCH A 1 A_Lower(15);
+		FPCH A 1 A_Lower(SELECT_SPEED);
 		Wait;
+	Ready:
+		FPCH A 1 A_WeaponReady();
+		Loop;
 	Fire:
 		FPCH B 2 Offset(8, 46);
 		FPCH C 2 Offset(34, 30);
 		FPCH C 1 Offset(8, 24);
 		FPCH D 1 Offset(22, 26);
-		FPCH D 3 Offset(8, 22) PunchAttack();
+		FPCH D 3 Offset(8, 22) PunchAttack(false);
 		FPCH D 2 Offset(37, 28);
 		FPCH C 1 Offset(26, 30);
 		TNT1 A 0 A_ReFire("Fire2");
@@ -67,31 +71,18 @@ class cFists : FWeapFist {
 	}
 	
 	action void PunchAttack(bool bigPunch = false) {
-		int attackDamage = bigPunch ? LARGE_DAMAGE : SMALL_DAMAGE;
-		attackDamage = int( attackDamage * frandom[FistDamage](0.9,1.1) );
-		if (FindInventory("cDefenderInvulnerability")) attackDamage *= 2;
+		if (player == null) return;
 		
-		FTranslatedLineTarget t;
-		for (int i=0; i<=8; i=(i>0 ? -i : -i+2) ) {
-			if (LineAttack(angle + i, PUNCH_RANGE, pitch, attackDamage, "Melee", "cPunchPuff", 0, t)) {
-				if (t.linetarget != null) {
-					if (t.linetarget.mass < LARGE_MASS && !t.linetarget.bDontThrust) {
-						if (t.linetarget.bIsMonster) {
-							t.linetarget.Thrust(bigPunch ? 5 : 2, t.attackAngleFromSource);
-						}
-					}
-				}
-				A_AlertMonsters(1500);
-				
-				if (bigpunch) {
-					if(GetCVar("weapon_shake")) A_Quake(2, 6, 0, 1, "");
-				} else {
-					if(GetCVar("weapon_shake")) A_Quake(1, 6, 0, 1, "");
-				}
-				return;
-			}
+		int attackDamage = RandomizeDamage(bigPunch ? LARGE_DAMAGE : SMALL_DAMAGE);
+		double knockback = bigPunch ? 5 : 2;
+		
+		Actor victim, puff;
+		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_MED, knockback, 8, "cPunchPuff");
+		
+		if (victim || puff) {
+			WeaponShake(bigpunch ? 2 : 1, 6);
+			A_AlertMonsters(ALERT_DIST_NORM);
 		}
-		return;
 	}
 }
 
