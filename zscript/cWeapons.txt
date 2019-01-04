@@ -13,14 +13,42 @@ class cWeapon : Weapon {
 		+INVENTORY.RESTRICTABSOLUTELY
 	}
 	
-	static int RandomizeDamage(int damage) {
-		return int(damage * frandom[WeaponDamage](0.9, 1.1) + 0.5);
-	}
-	
-	action void WeaponShake(int intensity, int duration) {
-		if (self.player && CVar.GetCVar('weapon_shake', self.player).GetBool()) {
-			A_Quake(intensity, duration, 0, 1, "");
+	// Alternate fire aware replacement for A_ReFire
+	action void A_AltReFire(statelabel fireState, statelabel altState = null) {
+		if (player == null) return;
+		
+		Weapon weap = player.readyWeapon;
+		bool pending = (player.pendingWeapon != WP_NOCHANGE && player.weaponState & WF_REFIRESWITCHOK);
+		
+		if (altState == null) {
+			A_ReFire(fireState);
+			return;
+		} else if (!pending && player.Health > 0) {
+			if (weap.bAltFire) {
+				if (player.cmd.buttons & BT_ALTATTACK) {
+					player.refire++;
+					player.mo.FireWeaponAlt(ResolveState(altState));
+					return;
+				} else if (player.cmd.buttons & BT_ATTACK) {
+					player.refire++;
+					player.mo.FireWeapon(ResolveState(fireState));
+					return;
+				}
+			} else {
+				if (player.cmd.buttons & BT_ATTACK) {
+					player.refire++;
+					player.mo.FireWeapon(ResolveState(fireState));
+					return;
+				} else if (player.cmd.buttons & BT_ALTATTACK) {
+					player.refire++;
+					player.mo.FireWeaponAlt(ResolveState(altState));
+					return;
+				}
+			}
 		}
+		
+		player.refire = 0;
+		weap.CheckAmmo(weap.bAltFire? Weapon.AltFire : Weapon.PrimaryFire, true);
 	}
 	
 	/**
@@ -99,6 +127,16 @@ class cWeapon : Weapon {
 		}
 		
 		return missile;
+	}
+	
+	static int RandomizeDamage(int damage) {
+		return int(damage * frandom[WeaponDamage](0.9, 1.1) + 0.5);
+	}
+	
+	action void WeaponShake(int intensity, int duration) {
+		if (self.player && CVar.GetCVar('weapon_shake', self.player).GetBool()) {
+			A_Quake(intensity, duration, 0, 1, "");
+		}
 	}
 	
 	static Vector2 GetSpreadOval(float spread, float vertSpreadFac = 1.0) {
