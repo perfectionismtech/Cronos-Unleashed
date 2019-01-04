@@ -30,6 +30,18 @@ class cSapphireWand : cWeapon {
 		MWND A 5 Offset(0, 38);
 		MWND A 3 Offset(0, 36) A_ReFire();
 		Goto Ready;
+	AltFire:
+		MWND A 2 A_JumpIf(!AltFireDepleteAmmo(), "Ready");
+		MWND B 5 Bright Offset(0, 36) WandAttack(2.3);
+		MWND A 2 Offset(0, 34);
+		MWND B 5 Bright Offset(0, 39) WandAttack(3.6);
+		MWND A 2 Offset(0, 37);
+		MWND B 5 Bright Offset(0, 42) WandAttack(4.8);
+		MWND A 3 Offset(0, 38);
+		MWND A 3 Offset(0, 36);
+		MWND A 3 Offset(0, 34);
+		MWND A 4 Offset(0, 32);
+		Goto Ready;
 	}
 	
 	action void WandAttack(float spread) {
@@ -42,6 +54,36 @@ class cSapphireWand : cWeapon {
 		
 		A_AlertMonsters(ALERT_DIST_NORM);
 		A_PlaySound("MageWandFire", CHAN_WEAPON);
+	}
+	
+	const ALTFIRE_COST = 1;
+	
+	action bool AltFireDepleteAmmo() {
+		if (sv_infiniteammo || FindInventory("PowerInfiniteAmmo", true)) {
+			return false;
+		}
+		
+		Ammo manaBl = Ammo(FindInventory("Mana1"));
+		Ammo manaGr = Ammo(FindInventory("Mana2"));
+		
+		if (manaBl && manaBl.amount >= ALTFIRE_COST) {
+			// Check if the player has more green mana than blue
+			if (manaGr && manaGr.amount > manaBl.amount) {
+				manaGr.amount -= ALTFIRE_COST;
+				return true;
+			} else {
+				manaBl.amount -= ALTFIRE_COST;
+				return true;
+			}
+		} else {
+			// No blue mana, try to deplete green mana
+			if (manaGr && manaGr.amount >= ALTFIRE_COST) {
+				manaGr.amount -= ALTFIRE_COST;
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
 
