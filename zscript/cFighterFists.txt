@@ -62,9 +62,9 @@ class cFists : cWeapon {
 		FPCH D 1 Offset(31, 25);
 		FPCH D 2 Offset(18, 31);
 		FPCH D 2 Offset(2, 46);
-		FPCH D 2 Offset(-13, 63);
-		FPCH D 2 Offset(-25, 85);
-		FPCH D 2 Offset(-31, 117);
+		FPCH D 2 Offset(-7, 63);
+		FPCH D 2 Offset(-14, 85);
+		FPCH D 2 Offset(-18, 114);
 		TNT1 A 11;
 		Goto Ready;
 	}
