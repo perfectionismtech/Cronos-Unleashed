@@ -47,10 +47,16 @@ class cSapphireWand : cWeapon {
 	action void WandAttack(float spread) {
 		if (player == null) return;
 		
-		// to do: re-add flechette targeting
+		FLineTraceData lt;
+		LineTrace(angle, 800, pitch, 0, player.viewheight, data: lt);
 		
-		Vector2 spread = GetSpreadOval(spread, 0.7);
-		FireAdjustedMissile("cSapphireWandMissile", spread.x, spread.y);
+		if (lt.hitActor && lt.hitActor.getClass() == 'cFlechetteMine') {
+			// Shooting a Flechette, perfect accuracy
+			FireAdjustedMissile("cSapphireWandMissile");
+		} else {
+			Vector2 spread = GetSpreadOval(spread, 0.7);
+			FireAdjustedMissile("cSapphireWandMissile", spread.x, spread.y);
+		}
 		
 		A_AlertMonsters(ALERT_DIST_NORM);
 		A_PlaySound("MageWandFire", CHAN_WEAPON);
