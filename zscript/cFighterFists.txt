@@ -12,9 +12,6 @@ class cFists : cWeapon {
 		Tag "$TAG_FWEAPFIST";
 	}
 	
-	const SMALL_DAMAGE = 34;
-	const LARGE_DAMAGE = 49;
-	
 	States {
 	Spawn:
 		WFST A -1;
@@ -30,48 +27,55 @@ class cFists : cWeapon {
 		FPCH A 1 A_WeaponReady();
 		Loop;
 	Fire:
-		FPCH B 2 Offset(8, 46);
-		FPCH C 2 Offset(34, 30);
-		FPCH C 1 Offset(8, 24);
-		FPCH D 1 Offset(22, 26);
-		FPCH D 3 Offset(8, 22) PunchAttack(false);
-		FPCH D 2 Offset(37, 28);
-		FPCH C 1 Offset(26, 30);
-		TNT1 A 0 A_ReFire("Fire2");
-		FPCH C 2 Offset(50, 47);
-		FPCH B 3 Offset(22, 65);
+	FireRight:
+		FPCH B 2 Offset(21, 46);
+		FPCH B 2 Offset(-11, 37);
+		FPCH C 1 Offset(32, 30);
+		FPCH C 1 Offset(6, 23);
+		FPCH C 3 Offset(-21, 18) PunchAttack(false);
+		FPCH C 2 Offset(-10, 23);
+		FPCH C 1 Offset(9, 36);
+		FPCH B 1 Offset(-43, 54);
+		FPCH B 2 Offset(-22, 79) A_AltReFire("FireLeft", "AltFire");
 		Goto Ready;
-	Fire2:
-		FPCH F 1 Offset(-8, 46);
-		FPCH G 1 Offset(-37, 26);
-		FPCH G 1 Offset(-8, 24);
-		FPCH H 3 Offset(-8, 22) PunchAttack(false);
-		FPCH H 2 Offset(-37, 28);
-		FPCH G 1 Offset(-26, 30);
-		TNT1 A 0 A_ReFire("Fire3");
-		FPCH G 2 Offset(-50, 47);
-		FPCH F 3 Offset(-22, 65);
+	FireLeft:
+		FPCH E 2 Offset(-21, 46);
+		FPCH E 2 Offset(11, 37);
+		FPCH F 1 Offset(-32, 30);
+		FPCH F 1 Offset(-6, 23);
+		FPCH F 3 Offset(21, 18) PunchAttack(false);
+		FPCH F 2 Offset(10, 23);
+		FPCH F 1 Offset(-9, 36);
+		FPCH E 1 Offset(43, 54);
+		FPCH E 2 Offset(22, 79) A_AltReFire("FireRight", "AltFire");
 		Goto Ready;
-	Fire3:
-		TNT1 A 5;
-		FPCH B 3 Offset(8, 49);
-		FPCH C 2 Offset(34, 38);
-		FPCH C 1 Offset(8, 30);
-		FPCH D 1 Offset(28, 32) A_PlaySound("FighterGrunt", CHAN_VOICE);
-		FPCH D 2 Offset(10, 27);
-		FPCH E 2 Offset(39, 28) PunchAttack(true);
-		FPCH E 2 Offset(6, 34);
-		FPCH E 2 Offset(14, 52);
-		FPCH E 2 Offset(30, 63);
-		FPCH D 3 Offset(2, 73);
-		FPCH D 3 Offset(44, 78);
-		FPCH C 4 Offset(52, 84);
-		TNT1 A 6;
+	AltFire:
+	FireMighty:
+		// Deliver a MIGHTY BLOW!
+		TNT1 A 4;
+		FPCH B 2 Offset(23, 45);
+		FPCH B 1 Offset(-13, 35);
+		FPCH C 1 Offset(30, 30) A_PlaySound("FighterGrunt", CHAN_VOICE);
+		FPCH C 2 Offset(9, 27);
+		FPCH C 2 Offset(-20, 24);
+		FPCH D 1 Offset(46, 24) PunchAttack(true);
+		FPCH D 1 Offset(31, 25);
+		FPCH D 2 Offset(18, 31);
+		FPCH D 2 Offset(2, 46);
+		FPCH D 2 Offset(-13, 63);
+		FPCH D 2 Offset(-25, 85);
+		FPCH D 2 Offset(-31, 117);
+		TNT1 A 11;
 		Goto Ready;
 	}
 	
+	const SMALL_DAMAGE = 34;
+	const LARGE_DAMAGE = 56;
+	
 	action void PunchAttack(bool bigPunch = false) {
 		if (player == null) return;
+		
+		Weapon weap = player.readyWeapon;
 		
 		int attackDamage = RandomizeDamage(bigPunch ? LARGE_DAMAGE : SMALL_DAMAGE);
 		double knockback = bigPunch ? 5 : 2;
@@ -80,7 +84,7 @@ class cFists : cWeapon {
 		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_MED, knockback, 8, "cPunchPuff");
 		
 		if (victim || puff) {
-			WeaponShake(bigpunch ? 2 : 1, 6);
+			WeaponShake(bigpunch ? 3 : 1, 5);
 			A_AlertMonsters(ALERT_DIST_NORM);
 		}
 	}

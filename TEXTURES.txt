@@ -1,0 +1,13 @@
+sprite FPCHE0, 273, 175 {
+	offset 200, -72
+	patch FPCHB0, 0, 0 {
+		flipx
+	}
+}
+
+sprite FPCHF0, 233, 148 {
+	offset 92, -76
+	patch FPCHC0, 0, 0 {
+		flipx
+	}
+}
