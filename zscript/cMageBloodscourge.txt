@@ -67,7 +67,6 @@ class cBloodscourgeMissile : Actor {
 		Speed 38;
 		DamageType "Fire";
 		+EXTREMEDEATH
-		+HITTRACER
 		DeathSound "SorcererBigBallExplode";
 		+FULLVOLDEATH
 	}
@@ -84,9 +83,6 @@ class cBloodscourgeMissile : Actor {
 		}
 		MSP1 G 3 Bright Light("Bloodscourge2") {
 			A_Explode(BLAST_DAMAGE, 160, XF_HURTSOURCE, false, 64);
-			if (tracer && tracer.bNORADIUSDMG) {
-				A_DamageTracer(NOBLAST_DAMAGE, 'none', DMSS_AFFECTARMOR);
-			}
 		}
 		TNT1 A 0 A_Quake(4, 20, 0, 340, "");
 		MSP1 H 3 Bright Light("Bloodscourge1") SpawnClusters();
@@ -111,11 +107,18 @@ class cBloodscourgeMissile : Actor {
 		}
 	}
 	
+	override int SpecialMissileHit(Actor victim) {
+		int r = Super.SpecialMissileHit(victim);
+		if (r == -1 && victim && victim.bNORADIUSDMG) {
+			victim.DamageMobj(self, target, NOBLAST_DAMAGE, damageType);
+		}
+		return r;
+	}
+	
 	override int DoSpecialDamage(Actor target, int damage, Name damageType) {
 		if (target.player) {
 			return Super.DoSpecialDamage(target, damage, damageType)/2;
 		}
-		
 		return Super.DoSpecialDamage(target, damage, damageType);
 	}
 }

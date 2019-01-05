@@ -69,7 +69,7 @@ class cQuietus: cWeapon replaces FWeapQuietus {
 
 class cQuietusMissile : Actor {
 	const BLAST_DAMAGE = 70.0;
-	const NOBLAST_DAMAGE = 50.0;
+	const NOBLAST_DAMAGE = 60.0;
 	const BLAST_RADIUS = 128;
 	
 	Default {
@@ -78,7 +78,6 @@ class cQuietusMissile : Actor {
 		Height 8;
 		Projectile;
 		+EXTREMEDEATH
-		+HITTRACER
 		Decal "SwordLightning";
 		Obituary "$OB_MPFWEAPQUIETUS";
 		DeathSound "FighterSwordExplode";
@@ -90,13 +89,18 @@ class cQuietusMissile : Actor {
 		Loop;
 	Death:
 		TNT1 A 0 {
-			if (tracer && tracer.bNORADIUSDMG) {
-				A_DamageTracer(NOBLAST_DAMAGE, 'none', DMSS_AFFECTARMOR);
-			}
 			A_Explode(BLAST_DAMAGE, BLAST_RADIUS, 0, false, 22);
 			A_SpawnItemEx("cQuietusBlast");
 		}
 		Stop;
+	}
+	
+	override int SpecialMissileHit(Actor victim) {
+		int r = Super.SpecialMissileHit(victim);
+		if (r == -1 && victim && victim.bNORADIUSDMG) {
+			victim.DamageMobj(self, target, NOBLAST_DAMAGE, damageType);
+		}
+		return r;
 	}
 }
 

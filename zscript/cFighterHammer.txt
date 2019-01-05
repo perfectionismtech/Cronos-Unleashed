@@ -86,8 +86,8 @@ class cHammer : cWeapon replaces FWeapHammer {
 }
 
 class cHammerMissile : HammerMissile {
-	const blastDamage = 80.0;
-	const noBlastDamage = 45.0;
+	const BLAST_DAMAGE = 80.0;
+	const NOBLAST_DAMAGE = 45.0;
 	
 	Default {
 		Radius 10;
@@ -95,7 +95,6 @@ class cHammerMissile : HammerMissile {
 		DamageFunction 45;
 		Speed 30;
 		Decal "Scorch";
-		+HITTRACER
 	}
 	
 	States {
@@ -106,14 +105,19 @@ class cHammerMissile : HammerMissile {
 		Loop;
 	Death:
 		TNT1 A 14 {
-			if (tracer && tracer.bNORADIUSDMG) {
-				A_DamageTracer(noBlastDamage, 'none', DMSS_AFFECTARMOR);
-			}
-			A_Explode(blastDamage, 128, XF_NOSPLASH);
+			A_Explode(BLAST_DAMAGE, 128, XF_NOSPLASH);
 			A_SpawnItemEx("cHammerBlast");
 			A_Quake(2, 14, 0, 120, "");
 		}
 		Stop;
+	}
+	
+	override int SpecialMissileHit(Actor victim) {
+		int r = Super.SpecialMissileHit(victim);
+		if (r == -1 && victim && victim.bNORADIUSDMG) {
+			victim.DamageMobj(self, target, NOBLAST_DAMAGE, damageType);
+		}
+		return r;
 	}
 }
 
