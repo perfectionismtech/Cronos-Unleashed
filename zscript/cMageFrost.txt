@@ -107,7 +107,7 @@ class cFrostShardMissile : Actor {
 	Default {
 		Radius 11;
 		Height 8;
-		DamageFunction cWeapon.RandomizeDamage(21);
+		DamageFunction cWeapon.RandomizeDamage(22);
 		Speed 45;
 		Projectile;
 		DamageType "Ice";

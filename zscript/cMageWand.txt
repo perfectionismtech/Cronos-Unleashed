@@ -91,7 +91,7 @@ class cSapphireWandMissile : FastProjectile {
 	Default {
 		Radius 6;
 		Height 6;
-		DamageFunction cWeapon.RandomizeDamage(11);
+		DamageFunction cWeapon.RandomizeDamage(13);
 		Speed 110;
 		MissileType "cSapphireWandSmoke";
 		MissileHeight 8;
