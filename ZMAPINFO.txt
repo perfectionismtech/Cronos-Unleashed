@@ -45,6 +45,7 @@ Skill Master {
 	PlayerClassName = "Fighter", "berserker"
 	PlayerClassName = "Cleric", "pope"
 	PlayerClassName = "Mage", "warlock"
+	MustConfirm = "$MASTER_CONFIRM"
 	SpawnFilter = Hard
 	DamageFactor = 1.5
 	DoubleAmmoFactor = 1.5

@@ -4,6 +4,7 @@ MNU_INFO = "MOD INFO";
 MNU_CHOOSECLASS = "SELECT CLASS:";
 MNU_CHOOSESKILL = "SELECT DIFFICULTY:";
 
+MASTER_CONFIRM = "on this difficulty, you will face formidable opposition from korax's minions.\n\ndo you wish to proceed?";
 DEATHKING_CONFIRM = "on this difficulty, hordes of korax's minions shall crush all resistance beneath them.\n\ndo you wish to proceed?";
 
 OB_FALLING = "%o fell to %p death.";
