@@ -61,11 +61,12 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 		Weapon weapon = player.readyWeapon;
 		
 		Actor victim, puff; int dam;
-		[victim, puff, dam] = MeleeAttack(DRAIN_DAMAGE, MELEERANGE_MED, 0, 6, "cSerpentDrainPuff");
+		[victim, puff, dam] = MeleeAttack(DRAIN_DAMAGE, MELEERANGE_MED, 0, 6, "cSerpentDrainPuff", alwaysStrike: false);
 		
 		if (victim && (victim.bISMONSTER || victim.player)) {
 			if (!victim.bDORMANT && !victim.bINVULNERABLE) {
 				if (victim.player && (!victim.IsTeammate(self) || level.teamDamage != 0)) {
+					if (puff) puff.Destroy();
 					return null;
 				}
 				
@@ -79,6 +80,8 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 				return ResolveState('Fire.Drain');
 			}
 		}
+		
+		if (puff) puff.Destroy();
 		
 		return null;
 	}

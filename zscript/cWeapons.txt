@@ -57,7 +57,7 @@ class cWeapon : Weapon {
 	 * - The puff that was spawned
 	 * - The amount of damage dealt
 	 */
-	action Actor, Actor, int MeleeAttack(int damage, double range, double knockback = 0.0, int arc = 0, class<Actor> puffType = null, Name damageType = 'Melee') {
+	action Actor, Actor, int MeleeAttack(int damage, double range, double knockback = 0.0, int arc = 0, class<Actor> puffType = null, Name damageType = 'Melee', bool alwaysStrike = true) {
 		if (player == null) return null, null, 0;
 		
 		Actor victim; // The enemy that was hit
@@ -95,7 +95,9 @@ class cWeapon : Weapon {
 		}
 		
 		// Failed to find anything to hit, so just attack straight ahead
-		puff = LineAttack(angle, range, pitch, damage, damageType, puffType, LAF_ISMELEEATTACK, lt);
+		if (alwaysStrike) {
+			puff = LineAttack(angle, range, pitch, damage, damageType, puffType, LAF_ISMELEEATTACK, lt);
+		}
 		
 		return null, puff, 0;
 	}
