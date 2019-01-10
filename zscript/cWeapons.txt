@@ -65,7 +65,7 @@ class cWeapon : Weapon {
 		int damDealt; // Actual amount of damage dealt
 		
 		// Allow hits slightly above/below, unless arc is 0
-		double vRange = (arc == 0) ? 0.5 : 1.5; // 0.5 is considered the minimum, see p_map.cpp
+		double vRange = (arc == 0) ? 0.5 : 2.0; // 0.5 is considered the minimum, see p_map.cpp
 		
 		// Apply berserk damage
 		if (player.mo.invulMode == 'Berserk' && FindInventory("cDefenderInvulnerability")) {
