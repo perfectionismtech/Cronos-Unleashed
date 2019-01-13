@@ -31,7 +31,10 @@ class cPowerTorch : Powerup {
 	override void InitEffect() {
 		Super.InitEffect();
 		
-		if (owner) owner.GiveInventoryType("cTorchCancel");
+		if (owner) {
+			let item = owner.GiveInventoryType("cTorchCancel");
+			if (item && owner.player) owner.player.mo.invSel = item;
+		}
 	}
 	
 	override void DoEffect() {
