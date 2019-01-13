@@ -2,9 +2,7 @@ class cFrostShards : cWeapon replaces MWeapFrost {
 	Default {
 		Inventory.RestrictedTo "cMagePlayer";
 		Weapon.AmmoType1 "Mana1";
-		Weapon.AmmoType2 "Mana1";
 		Weapon.AmmoUse1 1;
-		Weapon.AmmoUse2 4;
 		Weapon.AmmoGive1 25;
 		+BLOODSPLATTER
 		Weapon.YAdjust 18;
@@ -54,24 +52,9 @@ class cFrostShards : cWeapon replaces MWeapFrost {
 		CONE G 5 A_ClearReFire();
 		CONE A 5;
 		Goto Ready;
-	AltFire:
-		CONE B 4;
-		CONE C 3;
-		CONE D 3 A_PlaySound("MageShardsFire", CHAN_WEAPON);
-		CONE E 1;
-		CONE E 4 FrostShardAltFire();
-		CONE F 4;
-		CONE G 4;
-		CONE A 12;
-		Goto Ready;
 	}
 	
 	action void FrostShardFire() {
-		if (player == null) return;
-		
-		Weapon weap = player.readyWeapon;
-		if (!weap || !weap.DepleteAmmo(weap.bAltFire)) return;
-		
 		Vector2 spread = GetSpreadRect(1.8, 0.4);
 		FireAdjustedMissile("cFrostShardMissile", spread.x, spread.y);
 		
@@ -87,19 +70,6 @@ class cFrostShards : cWeapon replaces MWeapFrost {
 			}
 		}
 		return null;
-	}
-	
-	action void FrostShardAltFire() {
-		if (player == null) return;
-		
-		Weapon weap = player.readyWeapon;
-		if (!weap || !weap.DepleteAmmo(weap.bAltFire)) return;
-		
-		for (int i = -8; i <= 8; i += 4) {
-			A_FireProjectile("cFrostShardAltMissile", i, false);
-		}
-		
-		A_AlertMonsters(ALERT_DIST_NORM);
 	}
 }
 
@@ -122,13 +92,6 @@ class cFrostShardMissile : Actor {
 	Death:
 		TNT1 A 0 Spawn("cFrostShotPuff", pos);
 		Stop;
-	}
-}
-
-class cFrostShardAltMissile : cFrostShardMissile {
-	Default {
-		DamageFunction cWeapon.RandomizeDamage(16);
-		Speed 35;
 	}
 }
 
