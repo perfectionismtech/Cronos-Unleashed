@@ -42,8 +42,14 @@ class cFrostShards : cWeapon replaces MWeapFrost {
 		CONE E 1;
 		CONE E 2 FrostShardFire();
 		CONE D 1;
-		TNT1 A 0 CheckContinueFire();
-		CONE C 2 A_ReFire();
+		CONE C 2 {
+			if (invoker.special1 > 15 && random[FrostShardCooldown]() < invoker.special1) {
+				invoker.special1 = 0;
+				return invoker.ResolveState('Cooldown');
+			}
+			A_ReFire();
+			return state(null);
+		}
 		CONE F 3;
 		CONE G 4;
 		Goto Ready;
@@ -52,9 +58,22 @@ class cFrostShards : cWeapon replaces MWeapFrost {
 		CONE G 5 A_ClearReFire();
 		CONE A 5;
 		Goto Ready;
+	AltFire:
+		CONE H 2 Offset(-17, 78);
+		CONE H 2 Offset(-11, 51);
+		CONE H 3 Offset(-4, 41);
+		CONE H 4 Offset(1, 33);
+		CONE I 5 Offset(-1, 34) FrostShardShatter();
+		CONE I 3 Offset(-4, 41);
+		CONE I 2 Offset(-7, 55);
+		CONE I 2 Offset(-16, 82);
+		Goto Ready;
 	}
 	
 	action void FrostShardFire() {
+		Weapon weap = player.readyWeapon;
+		if (!weap.DepleteAmmo(weap.bAltFire)) return;
+		
 		Vector2 spread = GetSpreadRect(1.8, 0.4);
 		FireAdjustedMissile("cFrostShardMissile", spread.x, spread.y);
 		
@@ -62,14 +81,36 @@ class cFrostShards : cWeapon replaces MWeapFrost {
 		invoker.special1++;
 	}
 	
-	action state CheckContinueFire() {
-		if (invoker.special1 > 15) {
-			if (random() < invoker.special1) {
-				invoker.special1 = 0;
-				return invoker.ResolveState('Cooldown');
+	const SHATTER_RANGE = 1200;
+	
+	action void FrostShardShatter() {
+		A_PlaySound("FingerSnap", CHAN_WEAPON);
+		
+		bool thanosMode = CVar.FindCVar('sv_thanosdidnothingwrong').GetBool();
+		Actor mo;
+		let iterator = ThinkerIterator.Create("Actor", SHATTER_RANGE);
+		while (mo = Actor(iterator.Next())) {
+			if (mo == self) continue;
+			
+			if (thanosMode) {
+				if (random[PerfectlyBalanced](0,1)) {
+					if (mo.bISMONSTER) {
+						if (mo.special) mo.A_CallSpecial(mo.special, mo.args[0], mo.args[1], mo.args[2], mo.args[3], mo.args[4]);
+						mo.Destroy();
+					} else if (mo.player) {
+						mo.A_Die();
+					}
+				}
+				continue;
+			}
+			
+			if (mo.bICECORPSE && (mo.bISMONSTER || mo.player)) {
+				if (Distance2D(mo) > SHATTER_RANGE) continue;	// Distance check
+				if (!CheckSight(mo)) continue;	// Line of sight check
+				
+				mo.DamageMobj(self, self, 0, 'None');
 			}
 		}
-		return null;
 	}
 }
 

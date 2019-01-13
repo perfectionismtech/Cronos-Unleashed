@@ -3,6 +3,7 @@ FireMedium		FIREMD
 BatActive		BATACT
 MetalImpact		MTLIMPA
 MetalBounce		MTLBNCE
+FingerSnap		FSSNAP
 
 misc/armor_pkup	ARMUP
 misc/secret		SECRET

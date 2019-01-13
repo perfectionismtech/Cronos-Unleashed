@@ -2,3 +2,4 @@ user bool weapon_shake = true; // Disables weapon screen shake if set to false
 user bool healing_flash = true; // Disables flash when using a healing item
 user bool map_name_on_entry = true; // Disable showing the map's name on entry
 user bool classic_torch = false; // Use the original torch effect
+server bool sv_thanosdidnothingwrong = false; // Commence the snappening
