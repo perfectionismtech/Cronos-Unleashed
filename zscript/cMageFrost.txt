@@ -116,7 +116,7 @@ class cFrostShards : cWeapon replaces MWeapFrost {
 
 class cFrostShardMissile : Actor {
 	Default {
-		Radius 11;
+		Radius 8;
 		Height 8;
 		DamageFunction cWeapon.RandomizeDamage(22);
 		Speed 45;
