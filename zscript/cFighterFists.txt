@@ -72,19 +72,21 @@ class cFists : cWeapon {
 	const SMALL_DAMAGE = 34;
 	const LARGE_DAMAGE = 56;
 	
-	action void PunchAttack(bool bigPunch = false) {
+	action void PunchAttack(bool mightyBlow = false) {
 		if (player == null) return;
 		
 		Weapon weap = player.readyWeapon;
 		
-		int attackDamage = RandomizeDamage(bigPunch ? LARGE_DAMAGE : SMALL_DAMAGE);
-		double knockback = bigPunch ? 6 : 2;
+		int attackDamage = RandomizeDamage(mightyBlow ? LARGE_DAMAGE : SMALL_DAMAGE);
+		double knockback = mightyBlow ? 6 : 2;
 		
 		Actor victim, puff;
 		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_MED, knockback, 8, "cPunchPuff");
 		
+		if (mightyBlow && victim && !victim.bBOSS) victim.TriggerPainChance('Melee', true);
+		
 		if (victim || puff) {
-			WeaponShake(bigpunch ? 3 : 1, 5);
+			WeaponShake(mightyBlow ? 3 : 1, 5);
 			A_AlertMonsters(ALERT_DIST_NORM);
 		}
 	}
