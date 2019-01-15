@@ -32,15 +32,15 @@ class cSapphireWand : cWeapon {
 		Goto Ready;
 	AltFire:
 		MWND A 2 A_JumpIf(!AltFireDepleteAmmo(), "Ready");
-		MWND B 5 Bright Offset(0, 36) WandAttack(2.3);
+		MWND B 4 Bright Offset(0, 36) WandAttack(2.3);
 		MWND A 2 Offset(0, 34);
-		MWND B 5 Bright Offset(0, 39) WandAttack(3.6);
+		MWND B 4 Bright Offset(0, 39) WandAttack(3.6);
 		MWND A 2 Offset(0, 37);
-		MWND B 5 Bright Offset(0, 42) WandAttack(4.8);
+		MWND B 4 Bright Offset(0, 42) WandAttack(4.8);
 		MWND A 3 Offset(0, 38);
 		MWND A 3 Offset(0, 36);
 		MWND A 3 Offset(0, 34);
-		MWND A 4 Offset(0, 32);
+		MWND A 7 Offset(0, 32);
 		Goto Ready;
 	}
 	
