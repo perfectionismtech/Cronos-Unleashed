@@ -1,0 +1,39 @@
+class cRedPuzzGem : PuzzGemRed replaces PuzzGemRed {
+	States {
+	Spawn:
+		AGMR A -1 Light("RedPuzzGem");
+		Stop;
+	}
+}
+
+class cGreenPuzzGem1 : PuzzGemGreen1 replaces PuzzGemGreen1 {
+	States {
+	Spawn:
+		AGMG A -1 Light("GreenPuzzGem");
+		Stop;
+	}
+}
+
+class cGreenPuzzGem2 : PuzzGemGreen2 replaces PuzzGemGreen2 {
+	States {
+	Spawn:
+		AGG2 A -1 Light("GreenPuzzGem");
+		Stop;
+	}
+}
+
+class cBluePuzzGem1 : PuzzGemBlue1 replaces PuzzGemBlue1 {
+	States {
+	Spawn:
+		AGMB A -1 Light("BluePuzzGem");
+		Stop;
+	}
+}
+
+class cBluePuzzGem2 : PuzzGemBlue2 replaces PuzzGemBlue2 {
+	States {
+	Spawn:
+		AGB2 A -1 Light("BluePuzzGem");
+		Stop;
+	}
+}

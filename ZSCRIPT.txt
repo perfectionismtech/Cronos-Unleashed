@@ -26,6 +26,7 @@ version "3.4"
 #include "zscript/cRepulsionDisc.txt"
 #include "zscript/cIconDefender.txt"
 #include "zscript/cTorch.txt"
+#include "zscript/cPuzzle.txt"
 #include "zscript/cPig.txt"
 
 // Monsters
