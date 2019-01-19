@@ -280,3 +280,7 @@ pointlight FireballLight {
 	color 0.6 0.1 0.0
 	size 64
 }
+
+pointlight RedPuzzGem	{	color 0.2 0.0 0.0	size 16 }
+pointlight GreenPuzzGem	{	color 0.0 0.1 0.0	size 16 }
+pointlight BluePuzzGem	{	color 0.0 0.0 0.2	size 16 }
