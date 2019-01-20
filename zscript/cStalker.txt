@@ -5,6 +5,7 @@ class cStalker : Serpent replaces Serpent {
 		PainChance 128;
 		PainChance "Melee", 208;
 		MaxTargetRange MONSTER_MAXRANGE;
+		+DONTTHRUST
 		+NOINFIGHTING
 		-NOBLOOD
 	}
