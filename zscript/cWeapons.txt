@@ -21,8 +21,17 @@ class cWeapon : Weapon {
 		bool pending = (player.pendingWeapon != WP_NOCHANGE && player.weaponState & WF_REFIRESWITCHOK);
 		
 		if (altState == null) {
-			A_ReFire(fireState);
-			return;
+			if (player.cmd.buttons & BT_ATTACK) {
+				player.refire++;
+				player.mo.FireWeapon(ResolveState(fireState));
+				return;
+			}
+		} else if (fireState == null) {
+			if (player.cmd.buttons & BT_ALTATTACK) {
+				player.refire++;
+				player.mo.FireWeaponAlt(ResolveState(altState));
+				return;
+			}
 		} else if (!pending && player.Health > 0) {
 			if (weap.bAltFire) {
 				if (player.cmd.buttons & BT_ALTATTACK) {
