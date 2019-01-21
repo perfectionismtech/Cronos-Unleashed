@@ -1,4 +1,4 @@
-version "3.4"
+version "3.7"
 
 #include "zscript/cPlayerClasses.txt" // Player class definitions
 #include "zscript/cWeapons.txt"	// Shared weapon declarations
