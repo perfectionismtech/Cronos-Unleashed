@@ -179,8 +179,8 @@ class cBloodscourgeLight : cPlayerLight {
 	override void Tick() {
 		Super.Tick();
 		
-		if(!master || !master.player || !master.player.ReadyWeapon ||
-			master.player.ReadyWeapon.GetClass() != "cBloodscourge") {
+		if(!target || !target.player || !target.player.readyWeapon ||
+			target.player.readyWeapon.GetClass() != "cBloodscourge") {
 			Destroy();
 		}
 	}

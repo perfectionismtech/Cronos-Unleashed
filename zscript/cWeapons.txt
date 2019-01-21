@@ -165,7 +165,7 @@ class cWeapon : Weapon {
 			Actor mo = Spawn(lightClass);
 			if (mo) {
 				invoker.weaponLight = mo;
-				invoker.weaponLight.master = invoker.owner;
+				invoker.weaponLight.target = invoker.owner;
 			}
 		}
 	}

@@ -43,7 +43,7 @@ class cPowerTorch : Powerup {
 		if (!light) {
 			light = cTorchLight(Spawn("cTorchLight"));
 			//light.target = owner; https://forum.zdoom.org/viewtopic.php?t=59923
-			light.master = owner;
+			light.target = owner;
 		}
 		
 		light.bDORMANT = isBlinking();

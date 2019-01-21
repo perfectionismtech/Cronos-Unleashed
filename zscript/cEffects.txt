@@ -1,20 +1,9 @@
 class cPlayerLight : PointLight {
-	override void PostBeginPlay() {
-		Super.PostBeginPlay();
-		
-		if (master && master.player) {
-			// Prevents issues with interpolation
-			SetOrigin(master.pos + (0, 0, master.player.viewHeight), false);
-		} else {
-			Destroy();
-		}
-	}
-	
 	override void Tick() {
 		Super.Tick();
 		
-		if (master && master.player) {
-			SetOrigin(master.pos + (0, 0, master.player.viewHeight), true);
+		if (target && target.player) {
+			SetOffset((0, 0, target.player.viewHeight));
 		} else {
 			Destroy();
 		}
