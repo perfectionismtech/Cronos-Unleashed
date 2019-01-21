@@ -21,6 +21,7 @@ class cAxe : cWeapon replaces FWeapAxe {
 	
 	const EMPTY_DAMAGE = 40;
 	const CHARGED_DAMAGE = 64;
+	const QUICKPUNCH_DAMAGE = 24;
 	
 	States {
 	Spawn:
@@ -28,12 +29,12 @@ class cAxe : cWeapon replaces FWeapAxe {
 		Stop;
 	Select:
 		TNT1 A 0 A_SetCrosshair(51);
-		TNT1 A 0 SpawnWeaponLight('cAxeLight');
+		TNT1 A 0 SpawnWeaponLight("cAxeLight");
 		FAXE A 1 A_Raise(SELECT_SPEED);
 		Wait;
 	Select.Glow:
 		TNT1 A 0 A_SetCrosshair(51);
-		TNT1 A 0 SpawnWeaponLight('cAxeLight');
+		TNT1 A 0 SpawnWeaponLight("cAxeLight");
 		FAXE L 1 Bright A_Raise(SELECT_SPEED);
 		Wait;
 	Deselect:
@@ -54,62 +55,81 @@ class cAxe : cWeapon replaces FWeapAxe {
 		FAXE LLL 1 Bright AxeWeapReady();
 		Loop;
 	Fire:
-		FAXE B 3 Offset(15, 32);
-		FAXE C 3 Offset(18, 32);
-		FAXE D 2 Offset(25, 32);
-		FAXE D 2 Offset(-10, 82) AxeAttack(false);
-		FAXE E 1 Offset(15, 32);
-		FAXE E 2 Offset(10, 54);
-		TNT1 A 7;
-		FAXE A 1 Offset(0, 60) A_ReFire();
-		FAXE A 1 Offset(0, 52);
-		FAXE A 1 Offset(0, 44);
-		FAXE A 1 Offset(0, 36);
-		FAXE A 1;
-		Goto Ready;
+		FAXE B 2 Offset(58, 50);
+		FAXE C 2 Offset(38, 32);
+		FAXE C 1 Offset(3, 59);
+		FAXE D 1 Offset(31, 32) AxeAttack(false);
+		FAXE D 1 Offset(10, 61);
+		FAXE D 1 Offset(-9, 88);
+		FAXE E 1 Offset(10, 32);
+		FAXE E 1 Offset(-5, 62);
+		TNT1 A 5;
+		TNT1 A 4 A_AltReFire(null, "AltFire.Hold");
+		TNT1 A 0 A_ReFire();
+		Goto WindDown;
 	Fire.Glow:
-		FAXE N 3 Bright Offset(15, 32);
-		FAXE O 3 Bright Offset(18, 32);
-		FAXE P 2 Bright Offset(25, 32);
-		FAXE P 2 Bright Offset(-10, 82) AxeAttack(true);
-		FAXE Q 1 Bright Offset(15, 32);
-		FAXE Q 2 Bright Offset(10, 54);
-		TNT1 A 7;
-		FAXE M 1 Bright Offset(0, 60) A_ReFire();
-		FAXE M 1 Bright Offset(0, 52);
-		FAXE M 1 Bright Offset(0, 44);
-		FAXE M 1 Bright Offset(0, 36);
-		FAXE M 1;
-		Goto Ready.Glow;
-	}
-	
-	override State GetUpState() {
-		return Ammo1.Amount ? FindState('Select.Glow') : FindState('Select');
-	}
-	
-	override State GetDownState() {
-		return Ammo1.Amount ? FindState('Deselect.Glow') : FindState('Deselect');
-	}
-	
-	override State GetReadyState() {
-		return Ammo1.Amount ? FindState('Ready.Glow') : FindState('Ready');
-	}
-	
-	override State GetAtkState(bool hold) {
-		return Ammo1.Amount ? FindState('Fire.Glow') : Super.GetAtkState(hold);
-	}
-	
-	action void AxeWeapReady() {
-		if (player == null) return;
-		
-		Weapon weap = player.readyWeapon;
-		if (weap != null) {
-			if ( weap.InStateSequence(player.GetPSprite(PSP_WEAPON).curState, weap.GetReadyState())) {
-				A_WeaponReady();
-			} else {
-				player.SetPSprite(PSP_WEAPON, weap.GetReadyState());
-			}
+		FAXE N 2 Bright Offset(58, 50);
+		FAXE O 2 Bright Offset(38, 32);
+		FAXE O 1 Bright Offset(3, 59);
+		FAXE P 1 Bright Offset(31, 32) AxeAttack(true);
+		FAXE P 1 Bright Offset(10, 61);
+		FAXE P 1 Bright Offset(-9, 88);
+		FAXE Q 1 Bright Offset(10, 32);
+		FAXE Q 1 Bright Offset(-5, 62);
+		TNT1 A 5;
+		TNT1 A 4 A_AltReFire(null, "AltFire.Hold");
+		TNT1 A 0 A_ReFire();
+		Goto WindDown;
+	WindDown:
+		FAXE A 0 {
+			if (player) player.GetPSprite(PSP_WEAPON).frame = invoker.GetReadyFrame();
 		}
+		FAXE # 1 Offset(3, 60);
+		FAXE # 1 Offset(3, 52);
+		FAXE # 1 Offset(2, 44);
+		FAXE # 1 Offset(2, 36);
+		FAXE # 1 Offset(1, 33);
+		Goto Ready;
+	AltFire:
+		FAXE A 1 Offset(4, 40) {
+			if (player) player.GetPSprite(PSP_WEAPON).frame = invoker.GetReadyFrame();
+			
+			A_Overlay(2, "QuickPunch");
+			A_OverlayFlags(2, PSPF_ADDWEAPON, false);
+		}
+		FAXE # 1 Offset(9, 52);
+		FAXE # 1 Offset(14, 65);
+		FAXE # 10 Offset(20, 78);
+		FAXE # 3 {
+			if (invoker.ammo1.amount) A_AltReFire("Fire.Glow");
+			else A_AltReFire("Fire");
+		}
+		Goto AltWindDown;
+	AltFire.Hold:
+		TNT1 A 16 {
+			A_Overlay(2, "QuickPunch");
+			A_OverlayFlags(2, PSPF_ADDWEAPON, false);
+		}
+		FAXE A 1 Offset(20, 78) {
+			if (player) player.GetPSprite(PSP_WEAPON).frame = invoker.GetReadyFrame();
+		}
+		Goto AltWindDown;
+	AltWindDown:
+		FAXE # 1 Offset(14, 65);
+		FAXE # 1 Offset(9, 52);
+		FAXE # 1 Offset(4, 40);
+		FAXE # 2 A_WeaponOffset();
+		Goto Ready;
+	QuickPunch:
+		FPCH E 2 Offset(-28, 51);
+		FPCH E 1 Offset(9, 40);
+		FPCH F 1 Offset(-31, 36);
+		FPCH F 1 Offset(-4, 36);
+		FPCH F 2 Offset(23, 38) QuickPunchAttack();
+		FPCH F 1 Offset(28, 51);
+		FPCH F 2 Offset(34, 74);
+		FPCH F 2 Offset(39, 94);
+		Stop;
 	}
 	
 	action void AxeAttack(bool poweredAttack) {
@@ -120,18 +140,65 @@ class cAxe : cWeapon replaces FWeapAxe {
 		class<Actor> puffType = poweredAttack ? "cAxePuffGlow" : "cAxePuff";
 		
 		Actor victim, puff;
-		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_LONG, 3, 10, puffType);
+		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_LONG, poweredAttack ? 5 : 2, 12, puffType);
 		
-		if (poweredAttack && victim) {
+		if (poweredAttack && victim && !(victim.bDORMANT || victim.bINVULNERABLE)) {
 			weapon.DepleteAmmo(weapon.bAltFire);
 		}
 		
 		if (victim || puff) {
-			WeaponShake(2, 6);
+			WeaponShake(2, 5);
 			A_AlertMonsters(ALERT_DIST_NORM);
 		} else {
 			A_AlertMonsters(ALERT_DIST_NEAR);
 		}
+	}
+	
+	action void QuickPunchAttack() {
+		if (player == null) return;
+		
+		Actor victim, puff;
+		[victim, puff] = MeleeAttack(RandomizeDamage(QUICKPUNCH_DAMAGE), MELEERANGE_MED, 8, 10, "cPunchPuff");
+		
+		if (victim && !victim.bBOSS) victim.TriggerPainChance("Melee", true);
+		
+		if (victim || puff) {
+			WeaponShake(2, 5);
+			A_AlertMonsters(ALERT_DIST_NORM);
+		}
+	}
+	
+	action void AxeWeapReady() {
+		if (player == null) return;
+		
+		Weapon weap = player.readyWeapon;
+		if (weap != null) {
+			if (weap.InStateSequence(player.GetPSprite(PSP_WEAPON).curState, weap.GetReadyState())) {
+				A_WeaponReady();
+			} else {
+				player.SetPSprite(PSP_WEAPON, weap.GetReadyState());
+			}
+		}
+	}
+	
+	int GetReadyFrame() {
+		return ammo1.amount ? 12 /* M */ : 0 /* A */;
+	}
+	
+	override State GetUpState() {
+		return ammo1.amount ? FindState("Select.Glow") : FindState("Select");
+	}
+	
+	override State GetDownState() {
+		return ammo1.amount ? FindState("Deselect.Glow") : FindState("Deselect");
+	}
+	
+	override State GetReadyState() {
+		return ammo1.amount ? FindState("Ready.Glow") : FindState("Ready");
+	}
+	
+	override State GetAtkState(bool hold) {
+		return ammo1.amount ? FindState("Fire.Glow") : FindState("Fire");
 	}
 }
 
