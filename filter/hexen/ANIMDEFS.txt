@@ -18,69 +18,69 @@ texture X_FIRE01
 
 // Water
 flat X_005
-	pic X_005 tics 3
-	pic X_005_1 tics 3
-	pic X_005_2 tics 3
-	pic X_005_3 tics 3
-	pic X_005_4 tics 3
-	pic X_006 tics 3
-	pic X_006_1 tics 3
-	pic X_006_2 tics 3
-	pic X_006_3 tics 3
-	pic X_006_4 tics 3
-	pic X_007 tics 3
-	pic X_007_1 tics 3
-	pic X_007_2 tics 3
-	pic X_007_3 tics 3
-	pic X_007_4 tics 3
-	pic X_008 tics 3
-	pic X_008_1 tics 3
-	pic X_008_2 tics 3
-	pic X_008_3 tics 3
-	pic X_008_4 tics 3
+	pic CWATER01 tics 3
+	pic CWATER02 tics 3
+	pic CWATER03 tics 3
+	pic CWATER04 tics 3
+	pic CWATER05 tics 3
+	pic CWATER06 tics 3
+	pic CWATER07 tics 3
+	pic CWATER08 tics 3
+	pic CWATER09 tics 3
+	pic CWATER10 tics 3
+	pic CWATER11 tics 3
+	pic CWATER12 tics 3
+	pic CWATER13 tics 3
+	pic CWATER14 tics 3
+	pic CWATER15 tics 3
+	pic CWATER16 tics 3
+	pic CWATER17 tics 3
+	pic CWATER18 tics 3
+	pic CWATER19 tics 3
+	pic CWATER20 tics 3
 
 texture X_WATER1
-	pic X_005 tics 3
-	pic X_005_1 tics 3
-	pic X_005_2 tics 3
-	pic X_005_3 tics 3
-	pic X_005_4 tics 3
-	pic X_006 tics 3
-	pic X_006_1 tics 3
-	pic X_006_2 tics 3
-	pic X_006_3 tics 3
-	pic X_006_4 tics 3
-	pic X_007 tics 3
-	pic X_007_1 tics 3
-	pic X_007_2 tics 3
-	pic X_007_3 tics 3
-	pic X_007_4 tics 3
-	pic X_008 tics 3
-	pic X_008_1 tics 3
-	pic X_008_2 tics 3
-	pic X_008_3 tics 3
-	pic X_008_4 tics 3
+	pic CWATER01 tics 3
+	pic CWATER02 tics 3
+	pic CWATER03 tics 3
+	pic CWATER04 tics 3
+	pic CWATER05 tics 3
+	pic CWATER06 tics 3
+	pic CWATER07 tics 3
+	pic CWATER08 tics 3
+	pic CWATER09 tics 3
+	pic CWATER10 tics 3
+	pic CWATER11 tics 3
+	pic CWATER12 tics 3
+	pic CWATER13 tics 3
+	pic CWATER14 tics 3
+	pic CWATER15 tics 3
+	pic CWATER16 tics 3
+	pic CWATER17 tics 3
+	pic CWATER18 tics 3
+	pic CWATER19 tics 3
+	pic CWATER20 tics 3
 
-warp2 flat X_005
-warp2 flat X_005_1
-warp2 flat X_005_2
-warp2 flat X_005_3
-warp2 flat X_005_4
-warp2 flat X_006
-warp2 flat X_006_1
-warp2 flat X_006_2
-warp2 flat X_006_3
-warp2 flat X_006_4
-warp2 flat X_007
-warp2 flat X_007_1
-warp2 flat X_007_2
-warp2 flat X_007_3
-warp2 flat X_007_4
-warp2 flat X_008
-warp2 flat X_008_1
-warp2 flat X_008_2
-warp2 flat X_008_3
-warp2 flat X_008_4
+warp2 flat CWATER01
+warp2 flat CWATER02
+warp2 flat CWATER03
+warp2 flat CWATER04
+warp2 flat CWATER05
+warp2 flat CWATER06
+warp2 flat CWATER07
+warp2 flat CWATER08
+warp2 flat CWATER09
+warp2 flat CWATER10
+warp2 flat CWATER11
+warp2 flat CWATER12
+warp2 flat CWATER13
+warp2 flat CWATER14
+warp2 flat CWATER15
+warp2 flat CWATER16
+warp2 flat CWATER17
+warp2 flat CWATER18
+warp2 flat CWATER19
+warp2 flat CWATER20
 
 // Slime
 flat X_009

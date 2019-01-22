@@ -1,17 +1,21 @@
 // Water
-flat X_005_1, 64, 64 { patch X_005, 0, 0 patch X_006, 0, 0 { Style Translucent; Alpha 0.2 }}
-flat X_005_2, 64, 64 { patch X_005, 0, 0 patch X_006, 0, 0 { Style Translucent; Alpha 0.4 }}
-flat X_005_3, 64, 64 { patch X_005, 0, 0 patch X_006, 0, 0 { Style Translucent; Alpha 0.6 }}
-flat X_005_4, 64, 64 { patch X_005, 0, 0 patch X_006, 0, 0 { Style Translucent; Alpha 0.8 }}
-flat X_006_1, 64, 64 { patch X_006, 0, 0 patch X_007, 0, 0 { Style Translucent; Alpha 0.2 }}
-flat X_006_2, 64, 64 { patch X_006, 0, 0 patch X_007, 0, 0 { Style Translucent; Alpha 0.4 }}
-flat X_006_3, 64, 64 { patch X_006, 0, 0 patch X_007, 0, 0 { Style Translucent; Alpha 0.6 }}
-flat X_006_4, 64, 64 { patch X_006, 0, 0 patch X_007, 0, 0 { Style Translucent; Alpha 0.8 }}
-flat X_007_1, 64, 64 { patch X_007, 0, 0 patch X_008, 0, 0 { Style Translucent; Alpha 0.2 }}
-flat X_007_2, 64, 64 { patch X_007, 0, 0 patch X_008, 0, 0 { Style Translucent; Alpha 0.4 }}
-flat X_007_3, 64, 64 { patch X_007, 0, 0 patch X_008, 0, 0 { Style Translucent; Alpha 0.6 }}
-flat X_007_4, 64, 64 { patch X_007, 0, 0 patch X_008, 0, 0 { Style Translucent; Alpha 0.8 }}
-flat X_008_1, 64, 64 { patch X_008, 0, 0 patch X_005, 0, 0 { Style Translucent; Alpha 0.2 }}
-flat X_008_2, 64, 64 { patch X_008, 0, 0 patch X_005, 0, 0 { Style Translucent; Alpha 0.4 }}
-flat X_008_3, 64, 64 { patch X_008, 0, 0 patch X_005, 0, 0 { Style Translucent; Alpha 0.6 }}
-flat X_008_4, 64, 64 { patch X_008, 0, 0 patch X_005, 0, 0 { Style Translucent; Alpha 0.8 }}
+texture CWATER01, 64, 128 { Patch W_241, 0, 0 }
+texture CWATER02, 64, 128 { Patch W_241, 0, 0 Patch W_242, 0, 0 { Style Translucent; Alpha 0.2 }}
+texture CWATER03, 64, 128 { Patch W_241, 0, 0 Patch W_242, 0, 0 { Style Translucent; Alpha 0.4 }}
+texture CWATER04, 64, 128 { Patch W_241, 0, 0 Patch W_242, 0, 0 { Style Translucent; Alpha 0.6 }}
+texture CWATER05, 64, 128 { Patch W_241, 0, 0 Patch W_242, 0, 0 { Style Translucent; Alpha 0.8 }}
+texture CWATER06, 64, 128 { Patch W_242, 0, 0 }
+texture CWATER07, 64, 128 { Patch W_242, 0, 0 Patch W_243, 0, 0 { Style Translucent; Alpha 0.2 }}
+texture CWATER08, 64, 128 { Patch W_242, 0, 0 Patch W_243, 0, 0 { Style Translucent; Alpha 0.4 }}
+texture CWATER09, 64, 128 { Patch W_242, 0, 0 Patch W_243, 0, 0 { Style Translucent; Alpha 0.6 }}
+texture CWATER10, 64, 128 { Patch W_242, 0, 0 Patch W_243, 0, 0 { Style Translucent; Alpha 0.8 }}
+texture CWATER11, 64, 128 { Patch W_243, 0, 0 }
+texture CWATER12, 64, 128 { Patch W_243, 0, 0 Patch W_244, 0, 0 { Style Translucent; Alpha 0.2 }}
+texture CWATER13, 64, 128 { Patch W_243, 0, 0 Patch W_244, 0, 0 { Style Translucent; Alpha 0.4 }}
+texture CWATER14, 64, 128 { Patch W_243, 0, 0 Patch W_244, 0, 0 { Style Translucent; Alpha 0.6 }}
+texture CWATER15, 64, 128 { Patch W_243, 0, 0 Patch W_244, 0, 0 { Style Translucent; Alpha 0.8 }}
+texture CWATER16, 64, 128 { Patch W_244, 0, 0 }
+texture CWATER17, 64, 128 { Patch W_244, 0, 0 Patch W_241, 0, 0 { Style Translucent; Alpha 0.2 }}
+texture CWATER18, 64, 128 { Patch W_244, 0, 0 Patch W_241, 0, 0 { Style Translucent; Alpha 0.4 }}
+texture CWATER19, 64, 128 { Patch W_244, 0, 0 Patch W_241, 0, 0 { Style Translucent; Alpha 0.6 }}
+texture CWATER20, 64, 128 { Patch W_244, 0, 0 Patch W_241, 0, 0 { Style Translucent; Alpha 0.8 }}
