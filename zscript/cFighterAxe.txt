@@ -160,7 +160,8 @@ class cAxe : cWeapon replaces FWeapAxe {
 		Actor victim, puff;
 		[victim, puff] = MeleeAttack(RandomizeDamage(QUICKPUNCH_DAMAGE), MELEERANGE_MED, 8, 10, "cPunchPuff");
 		
-		if (victim && !victim.bBOSS) victim.TriggerPainChance("Melee", true);
+		// Cause pain
+		if (victim && !(victim.bINVULNERABLE || victim.bBOSS)) victim.TriggerPainChance('Melee', true);
 		
 		if (victim || puff) {
 			WeaponShake(2, 5);

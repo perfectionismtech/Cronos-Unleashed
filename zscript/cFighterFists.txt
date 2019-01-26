@@ -83,9 +83,8 @@ class cFists : cWeapon {
 		Actor victim, puff;
 		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_MED, knockback, 8, "cPunchPuff");
 		
-		if (mightyBlow && victim && !victim.bBOSS && !victim.bNOPAIN && !victim.bINVULNERABLE) {
-			victim.TriggerPainChance('Melee', true);
-		}
+		// Cause pain
+		if (mightyBlow && victim && !(victim.bINVULNERABLE || victim.bBOSS)) victim.TriggerPainChance('Melee', true);
 		
 		if (victim || puff) {
 			WeaponShake(mightyBlow ? 3 : 1, 5);
