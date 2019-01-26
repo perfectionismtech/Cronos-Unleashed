@@ -123,7 +123,7 @@ class cSapphireWandMissile : FastProjectile {
 		Super.BeginPlay();
 		
 		bBLOODSPLATTER = (random() < 128);
-		bNOPAIN = (random() < 128);
+		bPAINLESS = (random() < 128);
 	}
 	
 	override void Tick() {
