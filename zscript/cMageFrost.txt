@@ -85,6 +85,7 @@ class cFrostShards : cWeapon replaces MWeapFrost {
 	
 	action void FrostShardShatter() {
 		A_PlaySound("FingerSnap", CHAN_WEAPON);
+		A_AlertMonsters(ALERT_DIST_NEAR);
 		
 		bool thanosMode = CVar.FindCVar('sv_thanosdidnothingwrong').GetBool();
 		Actor mo;
