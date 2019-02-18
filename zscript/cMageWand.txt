@@ -138,7 +138,7 @@ class cSapphireWandMissile : FastProjectile {
 
 class cSapphireWandSmoke : Actor {
 	Default {
-		VSpeed -0.45;
+		VSpeed -0.35;
 		RenderStyle "Translucent";
 		Alpha 0.6;
 		+NOINTERACTION
@@ -149,7 +149,7 @@ class cSapphireWandSmoke : Actor {
 	
 	States {
 	Spawn:
-		MWND CDCDCDCD 6 A_FadeOut(0.1);
+		MWND CDCDCD 5 A_FadeOut(0.15);
 		Stop;
 	}
 	
@@ -157,7 +157,7 @@ class cSapphireWandSmoke : Actor {
 		Super.PostBeginPlay();
 		
 		double oldVelZ = vel.z; // Keep the VSpeed property
-		Vel3DFromAngle(1.3, angle+frandom(-9,9), pitch+frandom(-6,8));
+		Vel3DFromAngle(1.4, angle+frandom(-8,8), pitch+frandom(-4,5));
 		vel.z += oldVelZ;
 		
 		if (random() < 128) SetState(curState.nextState, true);
