@@ -46,7 +46,7 @@ version "3.7"
 #include "zscript/cClassBosses.txt"
 #include "zscript/cKorax.txt"
 
-#include "zscript/cProps.txt"
+#include "zscript/cDecorations.txt"
 #include "zscript/cDestructibles.txt"
 #include "zscript/cBlood.txt"
 #include "zscript/cEffects.txt"
