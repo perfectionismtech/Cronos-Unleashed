@@ -113,9 +113,8 @@ class cSapphireWandMissile : FastProjectile {
 		TNT1 A 21;
 		Stop;
 	Death:
-		MWND E 2 Bright Light("SapphireWand");
-		MWND FG 3 Bright Light("SapphireWand");
-		MWND HI 2 Bright Light("SapphireWand");
+		MWND EFG 2 Bright Light("SapphireWandPuff1");
+		MWND HI 2 Bright Light("SapphireWandPuff2");
 		Stop;
 	}
 	

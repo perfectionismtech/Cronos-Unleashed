@@ -38,7 +38,8 @@ flickerlight2 FirestormWeapon {
 	offset 0 20 0
 }
 
-pointlight SapphireWand {	color 0.1 0.3 0.8	size 32 }
+pointlight SapphireWandPuff1 {	color 0.1 0.3 0.8	size 24 }
+pointlight SapphireWandPuff2 {	color 0.1 0.3 0.8	size 16 }
 
 pointlight FrostShardsWeapon1 {	color 0.1 0.1 0.4	size 16	offset 0 16 0 }
 pointlight FrostShardsWeapon2 {	color 0.1 0.1 0.4	size 24	offset 0 16 0 }
