@@ -119,14 +119,14 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 
 class cSerpentStaffMissile : CStaffMissile replaces CStaffMissile {
 	Default {
-		DamageFunction cWeapon.RandomizeDamage(26);
+		DamageFunction cWeapon.RandomizeDamage(23);
 		Speed 22;
 		+FORCEXYBILLBOARD
 	}
 	
 	States {
 	Spawn:
-		CSSF DDEE 1 Bright Light("SerpentStaffMissile") A_Weave(3, 0, 0.7, 0);
+		CSSF DDEE 1 Bright Light("SerpentStaffMissile") A_Weave(3, 0, 0.8, 0);
 		Loop;
 	Death:
 		TNT1 A 0 SpawnParticles();
