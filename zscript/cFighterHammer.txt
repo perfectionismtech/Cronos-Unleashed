@@ -34,20 +34,27 @@ class cHammer : cWeapon replaces FWeapHammer {
 		FHMR A 1 A_WeaponReady();
 		Loop;
 	Fire:
-		FHMR B 3 Offset (20, 38);
-		FHMR B 3 Offset (12, 22);
-		FHMR B 5 Offset (1, 0);
-		FHMR C 3 Offset (35, 30) A_PlaySound("FighterGrunt", CHAN_VOICE);
-		FHMR C 2 Offset (6, 65) HammerAttack();
-		FHMR D 2 Offset (36, 30);
-		FHMR E 2 Offset (36, 30) HammerThrow();
-		FHMR E 3 Offset (27, 61);
-		TNT1 A 14;
-		FHMR A 2 Offset (11, 80);
-		FHMR A 2 Offset (7, 68);
-		FHMR A 1 Offset (4, 56);
-		FHMR A 1 Offset (2, 44);
-		FHMR A 1 Offset (1, 34);
+		FHMR B 2 Offset(14, 38);
+		FHMR B 2 Offset(5, 30);
+		FHMR B 2 Offset(-7, 24);
+		FHMR B 3 Offset(-16, 23);
+		FHMR B 1 Offset(-21, 25);
+		FHMR C 2 Offset(10, 30);
+		FHMR C 2 Offset(-7, 48);
+		FHMR C 1 Offset(-21, 69) HammerAttack();
+		FHMR D 1 Offset(17, 30) HammerThrow();
+		FHMR D 1 Offset(6, 48);
+		FHMR E 1 Offset(24, 30);
+		FHMR E 1 Offset(14, 47);
+		FHMR E 1 Offset(2, 72);
+		TNT1 A 16;
+		Goto WindDown;
+	WindDown:
+		FHMR A 2 Offset(11, 80);
+		FHMR A 2 Offset(7, 68);
+		FHMR A 1 Offset(4, 56);
+		FHMR A 1 Offset(2, 44);
+		FHMR A 1 Offset(2, 34);
 		Goto Ready;
 	}
 	
