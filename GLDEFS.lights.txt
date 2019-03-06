@@ -9,9 +9,9 @@ flickerlight AxeGlowPuff {
 
 pointlight ThrownHammer {	color 0.8 0.1 0.0	size 48 }
 
-pointlight HammerBlast1 {	color 1.0 0.6 0.0	size 72 }
-pointlight HammerBlast2 {	color 0.8 0.5 0.0	size 64 }
-pointlight HammerBlast3 {	color 0.6 0.4 0.0	size 56 }
+pointlight HammerBlast1 {	color 1.0 0.5 0.0	size 64 }
+pointlight HammerBlast2 {	color 0.8 0.4 0.0	size 56 }
+pointlight HammerBlast3 {	color 0.6 0.3 0.0	size 48 }
 
 pointlight QuietusMissile {	color 0.2 0.4 0.1	size 56 }
 
