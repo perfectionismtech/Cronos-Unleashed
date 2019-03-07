@@ -52,13 +52,17 @@ class cFists : cWeapon {
 	AltFire:
 	FireMighty:
 		// Deliver a MIGHTY BLOW!
-		TNT1 A 4;
-		FPCH B 2 Offset(23, 45);
+		TNT1 A 3;
+		TNT1 A 1 A_SetAngle(angle-2, SPF_INTERPOLATE);
+		FPCH B 2 Offset(23, 45) A_SetAngle(angle-1, SPF_INTERPOLATE);
 		FPCH B 1 Offset(-13, 35);
 		FPCH C 1 Offset(30, 30) A_PlaySound("FighterGrunt", CHAN_VOICE);
-		FPCH C 1 Offset(9, 27);
-		FPCH C 1 Offset(-20, 24);
-		FPCH D 1 Offset(46, 24) PunchAttack(true);
+		FPCH C 1 Offset(9, 27) A_SetAngle(angle+1, SPF_INTERPOLATE);
+		FPCH C 1 Offset(-20, 24) A_SetAngle(angle+1, SPF_INTERPOLATE);
+		FPCH D 1 Offset(46, 24) {
+			A_SetAngle(angle+1, SPF_INTERPOLATE);
+			PunchAttack(true);
+		}
 		FPCH D 1 Offset(31, 25);
 		FPCH D 2 Offset(18, 31);
 		FPCH D 2 Offset(2, 46);
