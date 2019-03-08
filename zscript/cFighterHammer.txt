@@ -113,6 +113,7 @@ class cHammerMissile : HammerMissile {
 	Death:
 		TNT1 A 14 {
 			A_Explode(cWeapon.RandomizeDamage(BLAST_DAMAGE), 128, XF_NOSPLASH);
+			A_AlertMonsters(ALERT_DIST_NORM);
 			A_SpawnItemEx("cHammerBlast");
 			A_Quake(2, 14, 0, 120, "");
 		}
