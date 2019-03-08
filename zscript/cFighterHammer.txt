@@ -99,7 +99,7 @@ class cHammerMissile : HammerMissile {
 	Default {
 		Radius 10;
 		Height 14;
-		DamageFunction 45;
+		DamageFunction cWeapon.RandomizeDamage(45);
 		Speed 30;
 		Decal "Scorch";
 	}
@@ -112,7 +112,7 @@ class cHammerMissile : HammerMissile {
 		Loop;
 	Death:
 		TNT1 A 14 {
-			A_Explode(BLAST_DAMAGE, 128, XF_NOSPLASH);
+			A_Explode(cWeapon.RandomizeDamage(BLAST_DAMAGE), 128, XF_NOSPLASH);
 			A_SpawnItemEx("cHammerBlast");
 			A_Quake(2, 14, 0, 120, "");
 		}
