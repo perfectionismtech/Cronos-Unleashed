@@ -145,7 +145,7 @@ class cWeapon : Weapon {
 	}
 	
 	action void WeaponShake(int intensity, int duration) {
-		if (self.player && CVar.GetCVar('weapon_shake', self.player).GetBool()) {
+		if (self.player && CVar.GetCVar('cl_weapon_shake', self.player).GetBool()) {
 			A_Quake(intensity, duration, 0, 1, "");
 		}
 	}

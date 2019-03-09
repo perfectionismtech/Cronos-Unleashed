@@ -11,7 +11,7 @@ class cTorch : ArtiTorch replaces ArtiTorch {
 	}
 	
 	override bool Use(bool pickup) {
-		if (!GetCVar("classic_torch")) {
+		if (!CVar.FindCVar('sv_classic_torch').GetBool()) {
 			PowerupType = "cPowerTorch";
 		} else {
 			PowerupType = "PowerTorch";
@@ -42,7 +42,6 @@ class cPowerTorch : Powerup {
 		
 		if (!light) {
 			light = cTorchLight(Spawn("cTorchLight"));
-			//light.target = owner; https://forum.zdoom.org/viewtopic.php?t=59923
 			light.target = owner;
 		}
 		

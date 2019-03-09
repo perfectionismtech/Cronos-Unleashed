@@ -128,7 +128,7 @@ class cMapName : StaticEventHandler {
 	}
 	
 	override void WorldLoaded(WorldEvent e) {
-		if (CVar.GetCVar("map_name_on_entry", players[consoleplayer]).GetBool()) {
+		if (CVar.GetCVar("cl_map_name_on_entry", players[consoleplayer]).GetBool()) {
 			if (!e.isSaveGame && !(level.mapName ~== "TITLEMAP")) {
 				mapName = level.levelName;
 				if (mapName == "") {

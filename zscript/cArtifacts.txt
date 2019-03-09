@@ -21,7 +21,7 @@ class cCrystalVial : CrystalVial replaces CrystalVial {
 	override bool TryPickup(in out Actor other) {
 		bool pickup = Super.TryPickup(other);
 		if (pickup) {
-			if (other.GetCVar("healing_flash")) {
+			if (CVar.GetCVar("cl_healing_flash", other.player).GetBool()) {
 				other.A_SetBlend("0D78DB", 0.2, 20);
 			} else {
 				// Play the regular flash
@@ -65,7 +65,9 @@ class cQuartzFlask : ArtiHealth replaces ArtiHealth {
 		}
 		
 		owner.A_GiveInventory("cQuartzRegen");
-		if (owner.GetCVar("healing_flash")) owner.A_SetBlend("D266EC", 0.3, 20);
+		if (CVar.GetCVar("cl_healing_flash", owner.player).GetBool()) {
+			owner.A_SetBlend("D266EC", 0.3, 20);
+		}
 		return true;
 	}
 }
@@ -114,7 +116,9 @@ class cMysticUrn : Inventory replaces ArtiSuperHealth {
 		
 		if (owner.health <= 100) {
 			owner.GiveBody(100, 200);
-			if (owner.GetCVar("healing_flash")) owner.A_SetBlend("FFF39D", 0.5, 20);
+			if (CVar.GetCVar("cl_healing_flash", owner.player).GetBool()) {
+				owner.A_SetBlend("FFF39D", 0.5, 20);
+			}
 			return true;
 		} else {
 			return false;
