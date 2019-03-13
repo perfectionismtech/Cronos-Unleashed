@@ -13,7 +13,7 @@ class cWeapon : Weapon {
 		+INVENTORY.RESTRICTABSOLUTELY
 	}
 	
-	// Alternate fire aware replacement for A_ReFire
+	// Expanded version of A_ReFire that is more flexible for alt fire
 	action void AltReFire(statelabel fireState, statelabel altState = null) {
 		if (player == null) return;
 		
@@ -60,12 +60,7 @@ class cWeapon : Weapon {
 		weap.CheckAmmo(weap.bAltFire? Weapon.AltFire : Weapon.PrimaryFire, true);
 	}
 	
-	/**
-	 * Returns:
-	 * - The actor that was hit
-	 * - The puff that was spawned
-	 * - The amount of damage dealt
-	 */
+	// Returns the actor that was hit, the puff that was spawned, and the amount of damage dealt
 	action Actor, Actor, int MeleeAttack(int damage, double range, double knockback = 0.0, int arc = 0, class<Actor> puffType = null, Name damageType = 'Melee', bool alwaysStrike = true) {
 		if (player == null) return null, null, 0;
 		
@@ -111,10 +106,6 @@ class cWeapon : Weapon {
 		return null, puff, 0;
 	}
 	
-	/**
-	 * Returns:
-	 * - The missile that was fired
-	 */
 	action Actor FireAdjustedMissile(class<Actor> missileType, double angOff = 0.0, double pitchOff = 0.0, double heightOff = 0.0, double aimRange = 1000.0) {
 		if (player == null) return null;
 		
@@ -137,7 +128,7 @@ class cWeapon : Weapon {
 			missile.vel = dir * missile.speed;
 		}
 		
-		return missile;
+		return missile; // The missile that was fired (should be null checked)
 	}
 	
 	static int RandomizeDamage(int damage) {
