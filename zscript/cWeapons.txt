@@ -14,7 +14,7 @@ class cWeapon : Weapon {
 	}
 	
 	// Alternate fire aware replacement for A_ReFire
-	action void A_AltReFire(statelabel fireState, statelabel altState = null) {
+	action void AltReFire(statelabel fireState, statelabel altState = null) {
 		if (player == null) return;
 		
 		Weapon weap = player.readyWeapon;

@@ -35,7 +35,7 @@ class cFists : cWeapon {
 		FPCH C 3 Offset(-21, 18) PunchAttack(false);
 		FPCH C 2 Offset(-10, 23);
 		FPCH C 1 Offset(9, 36);
-		FPCH B 1 Offset(-43, 54) A_AltReFire("FireLeft", "AltFire");
+		FPCH B 1 Offset(-43, 54) AltReFire("FireLeft", "AltFire");
 		FPCH B 2 Offset(-22, 79);
 		Goto Ready;
 	FireLeft:
@@ -46,7 +46,7 @@ class cFists : cWeapon {
 		FPCH F 3 Offset(21, 18) PunchAttack(false);
 		FPCH F 2 Offset(10, 23);
 		FPCH F 1 Offset(-9, 36);
-		FPCH E 1 Offset(43, 54) A_AltReFire("FireRight", "AltFire");
+		FPCH E 1 Offset(43, 54) AltReFire("FireRight", "AltFire");
 		FPCH E 2 Offset(22, 79);
 		Goto Ready;
 	AltFire:
