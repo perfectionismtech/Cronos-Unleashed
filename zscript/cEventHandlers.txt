@@ -119,7 +119,7 @@ class cMapName : StaticEventHandler {
 		} else if (time < FADEOUT_END) {
 			a = 1.0;
 		} else {
-			a = 1 - (time - FADEOUT_END - 1 + e.fracTic) / FADEOUT;
+			a = 1.0 - (time - FADEOUT_END - 1.0 + e.fracTic) / FADEOUT;
 		}
 		
 		// Draw the text
