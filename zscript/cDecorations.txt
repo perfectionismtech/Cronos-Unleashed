@@ -29,7 +29,7 @@ class cBrassTorch : BrassTorch replaces BrassTorch {
 	override void PostBeginPlay() {
 		Super.PostBeginPlay();
 		cFlare(Spawn("cFlareTorch")).Init(self, 40, 30, 0.3);
-		A_PlaySound("FireMedium", CHAN_6, 0.8, true, 10);
+		A_PlaySound("AmbientFireMedium", CHAN_6, 0.8, true, 10);
 	}
 }
 
@@ -63,7 +63,7 @@ class cSkullTorch : FireThing replaces FireThing {
 	override void PostBeginPlay() {
 		Super.PostBeginPlay();
 		cFlare(Spawn("cFlareTorch")).Init(self, 25, 25, 0.3);
-		A_PlaySound("FireMedium", CHAN_6, 0.7, true, 10);
+		A_PlaySound("AmbientFireMedium", CHAN_6, 0.7, true, 10);
 	}
 }
 
@@ -99,7 +99,7 @@ class cTwinedTorch : ZTwinedTorch replaces ZTwinedTorch {
 			flare = cFlare(Spawn("cFlareTorch"));
 			flare.Init(self, 65, 30, 0.3);
 		}
-		A_PlaySound("FireSmall", CHAN_6, 1.0, true, 7);
+		A_PlaySound("AmbientFireSmall", CHAN_6, 1.0, true, 7);
 	}
 	
 	void StopEffects() {
@@ -170,7 +170,7 @@ class cBullTorch : ZFireBull replaces ZFireBull {
 			flare = cFlare(Spawn("cFlareTorch"));
 			flare.Init(self, 40, 50, 0.4);
 		}
-		A_PlaySound("FireMedium", CHAN_6, 1.0, true, 7);
+		A_PlaySound("AmbientFireMedium", CHAN_6, 1.0, true, 7);
 	}
 	
 	void StopEffects() {
@@ -235,7 +235,7 @@ class cWallTorch : ZWallTorch replaces ZWallTorch {
 			flare = cFlare(Spawn("cFlareTorch"));
 			flare.Init(self, 30, 20, 0.2);
 		}
-		A_PlaySound("FireSmall", CHAN_6, 0.6, true, 10);
+		A_PlaySound("AmbientFireSmall", CHAN_6, 0.6, true, 10);
 	}
 	
 	void StopEffects() {

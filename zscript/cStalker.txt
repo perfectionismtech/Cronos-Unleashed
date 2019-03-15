@@ -130,7 +130,7 @@ class cStalkerSlimeball : SerpentFX replaces SerpentFX {
 	
 	States {
 	Spawn:
-		TNT1 A 0 NoDelay A_PlaySound("SerpentFXContinuous", CHAN_BODY, 1.0, true);
+		TNT1 A 0 NoDelay A_PlaySound("SerpentFXContinuous", looping: true);
 		SSFX ABAB 4 Bright Light("StalkerSlimeball") FlyParticles();
 		Goto Spawn+1;
 	Death:

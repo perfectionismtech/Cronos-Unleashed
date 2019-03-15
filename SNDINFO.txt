@@ -1,30 +1,45 @@
-FireSmall		FIRESM
-FireMedium		FIREMD
-BatActive		BATACT
-MetalImpact		MTLIMPA
-MetalBounce		MTLBNCE
-FingerSnap		FSSNAP
+MetalImpact			"sounds/MetalImpact.wav"
+MetalBounce			"sounds/MetalBounce.wav"
+FingerSnap			"sounds/FingerSnap.wav"
+ArcOfDeathAlt		"sounds/ARCALT.wav"
 
-misc/armor_pkup	ARMUP
-misc/secret		SECRET
+misc/armor_pkup		"sounds/ArmorPickup.wav"
+misc/secret			"sounds/Secret.wav"
 
-$playersound Fighter	male	*dive	PLADIVE1
+$alias SerpentStaffContinuous SerpentFXContinuous
+$volume SerpentStaffContinuous 0.4
+
+$alias FrostShardsFire IceGuyAttack
+$volume FrostShardsFire 0.6
+
+// Player Sounds
+
+PlayerGasp1 "sounds/Gasp1.wav"
+PlayerGasp2 "sounds/Gasp2.wav"
+$random PlayerGasp { PlayerGasp1 PlayerGasp2 }
+
 $playeralias Fighter	male	*gasp	PlayerGasp
-$playersound Cleric	male	*dive	PLADIVE1
 $playeralias Cleric	male	*gasp	PlayerGasp
-$playersound Mage	male	*dive	PLADIVE1
 $playeralias Mage	male	*gasp	PlayerGasp
 
-$random PlayerGasp { PlayerGasp1 PlayerGasp2 }
-PlayerGasp1 PLAGASP1
-PlayerGasp2 PLAGASP2
+$playersound Fighter	male	*dive	"sounds/Dive1.wav"
+$playersound Cleric	male	*dive	"sounds/Dive1.wav"
+$playersound Mage	male	*dive	"sounds/Dive1.wav"
 
-$limit FireSmall 4 128
-$limit FireMedium 4 128
+// Ambient sounds
+
+AmbientFireSmall		"sounds/AmbientFireSmall.wav"
+AmbientFireMedium	"sounds/AmbientFireMedium.wav"
+$limit AmbientFireSmall 4 128
+$limit AmbientFireMedium 4 128
+
+BatActive			"sounds/BatFlapping.wav"
+
+// Base Hexen sound limit adjustments
+
 $limit PotteryExplode 4
 $limit GlassShatter 4
 $limit world/drip 8
-
 $limit MageShardsExplode 8
 $limit BishopMissileExplode 8
 $limit FlechetteExplode 8

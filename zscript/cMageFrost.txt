@@ -37,7 +37,7 @@ class cFrostShards : cWeapon replaces MWeapFrost {
 		CONE B 4 { invoker.special1 = 0; }
 		CONE C 2;
 	Hold:
-		CONE C 2 A_PlaySound("IceGuyAttack", CHAN_WEAPON, 0.6);
+		CONE C 2 A_PlaySound("FrostShardsFire", CHAN_WEAPON);
 		CONE D 2;
 		CONE E 1;
 		CONE E 2 FrostShardFire();

@@ -100,7 +100,7 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 		if (mo) mo.WeaveIndexXY = 32;
 		
 		A_AlertMonsters(ALERT_DIST_NORM);
-		A_PlaySound ("ClericCStaffFire", CHAN_WEAPON);
+		A_PlaySound("ClericCStaffFire", CHAN_WEAPON);
 	}
 	
 	action void InitBlink() {
@@ -145,7 +145,7 @@ class cSerpentStaffMissile : CStaffMissile replaces CStaffMissile {
 	override void PostBeginPlay() {
 		Super.PostBeginPlay();
 		bNOBLOOD = (random() < 128);
-		A_PlaySound("SerpentFXContinuous", CHAN_BODY, 0.4, true);
+		A_PlaySound("SerpentStaffContinuous", looping: true);
 	}
 }
 
