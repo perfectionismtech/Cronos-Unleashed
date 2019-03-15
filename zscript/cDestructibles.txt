@@ -21,7 +21,7 @@ class cDestructibleBit : Actor {
 	}
 }
 
-class cPottery1 : Pottery1 replaces cPottery1 {
+class cPottery1 : Pottery1 replaces Pottery1 {
 	Default {
 		Radius 12;
 		Height 35;
