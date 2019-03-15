@@ -1,7 +1,6 @@
 MetalImpact			"sounds/MetalImpact.wav"
 MetalBounce			"sounds/MetalBounce.wav"
 FingerSnap			"sounds/FingerSnap.wav"
-ArcOfDeathAlt		"sounds/ARCALT.wav"
 
 misc/armor_pkup		"sounds/ArmorPickup.wav"
 misc/secret			"sounds/Secret.wav"
