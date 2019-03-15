@@ -34,8 +34,8 @@ class cFrostShards : cWeapon replaces MWeapFrost {
 		CONE A 1 A_WeaponReady();
 		Loop;
 	Fire:
-		CONE B 4 { invoker.special1 = 0; }
-		CONE C 2;
+		CONE B 2 { invoker.special1 = 0; }
+		CONE C 1;
 	Hold:
 		CONE C 2 A_PlaySound("FrostShardsFire", CHAN_WEAPON);
 		CONE D 2;
