@@ -2,6 +2,7 @@ class cFlare : Actor {
 	int vertOffset;
 	double baseOpacity;
 	bool shouldCheckOwner;
+	transient CVar visibilityCVar;
 	
 	Default {
 		RenderStyle "Add";
@@ -23,6 +24,11 @@ class cFlare : Actor {
 	
 	override void Tick() {
 		if (master && (!shouldCheckOwner || !Inventory(master).owner) ) {
+			if (!visibilityCVar) {
+				visibilityCVar = CVar.GetCVar("cl_flare_visibility", players[consoleplayer]);
+			}
+			bINVISIBLE = !visibilityCVar.getBool();
+			
 			vel = master.Vec3Offset(0, 0, vertOffset) - pos;
 			Super.Tick();
 		} else {
