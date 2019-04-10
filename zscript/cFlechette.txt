@@ -35,13 +35,13 @@ class cFlechette : Inventory replaces ArtiPoisonBag {
 		}
 		
 		class<Actor> flechetteType = PlayerPawn(Owner).FlechetteType;
-		if(flechetteType == "cFlechetteGrenade") {
+		if(flechetteType == "ArtiPoisonBag3") {
 			Owner.A_ThrowGrenade("cFlechetteGrenade", -6, 18, 6);
 			
-		} else if(flechetteType == "cFlechettePoison") {
+		} else if(flechetteType == "ArtiPoisonBag1") {
 			Owner.A_ThrowGrenade("cFlechettePoison", -6, 9, 6);
 			
-		} else if(flechetteType == "cFlechetteMine") {
+		} else if(flechetteType == "ArtiPoisonBag2") {
 			Owner.A_ThrowGrenade("cFlechetteMine", -6, 12, 7);
 			
 		} else {

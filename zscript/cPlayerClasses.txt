@@ -13,7 +13,6 @@ class cFighterPlayer : FighterPlayer {
 		Player.WeaponSlot 2, "cAxe";
 		Player.WeaponSlot 3, "cHammer";
 		Player.WeaponSlot 4, "cQuietus";
-		Player.FlechetteType "cFlechetteGrenade";
 		Player.InvulnerabilityMode "Berserk";
 		
 		Player.Colorset		0,	"Default",		246, 254, 253;
@@ -61,7 +60,6 @@ class cClericPlayer : ClericPlayer {
 		Player.WeaponSlot 2, "cSerpentStaff";
 		Player.WeaponSlot 3, "cFirestorm";
 		Player.WeaponSlot 4, "cWraithverge";
-		Player.FlechetteType "cFlechettePoison";
 		Player.InvulnerabilityMode "Ghost";
 		
 		Player.ColorsetFile	0,	"Default",		"TRANTBL7", 0xB3;
@@ -121,7 +119,6 @@ class cMagePlayer: MagePlayer {
 		Player.WeaponSlot 2, "cFrostShards";
 		Player.WeaponSlot 3, "cArcOfDeath";
 		Player.WeaponSlot 4, "cBloodscourge";
-		Player.FlechetteType "cFlechetteMine";
 		Player.InvulnerabilityMode "Reflective";
 		
 		Player.ColorsetFile	0,	"Default",		"TRANTBL7", 0xB3;
