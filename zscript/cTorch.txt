@@ -19,6 +19,11 @@ class cTorch : ArtiTorch replaces ArtiTorch {
 		
 		return Super.Use(pickup);
 	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareTorch")).init(self, 35, 20, 0.15, true);
+	}
 }
 
 class cPowerTorch : Powerup {

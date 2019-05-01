@@ -65,3 +65,43 @@ class cFlareTorch : cFlare {
 		Loop;
 	}
 }
+
+class cFlareRed: cFlare {
+	States {
+	Spawn:
+		FLRE C -1;
+		Stop;
+	}
+}
+
+class cFlareGreen: cFlare {
+	States {
+	Spawn:
+		FLRE D -1;
+		Stop;
+	}
+}
+
+class cFlareBlue: cFlare {
+	States {
+	Spawn:
+		FLRE E -1;
+		Stop;
+	}
+}
+
+class cFlareYellow : cFlare {
+	States {
+	Spawn:
+		FLRE F -1;
+		Stop;
+	}
+}
+
+class cFlarePink : cFlare {
+	States {
+	Spawn:
+		FLRE G -1;
+		Stop;
+	}
+}

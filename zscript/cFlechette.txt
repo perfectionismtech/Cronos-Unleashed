@@ -50,6 +50,11 @@ class cFlechette : Inventory replaces ArtiPoisonBag {
 		
 		return true;
 	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareGreen")).init(self, 28, 20, 0.1, true);
+	}
 }
 
 // Base class for throwable Flechettes
