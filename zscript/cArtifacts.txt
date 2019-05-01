@@ -70,6 +70,11 @@ class cQuartzFlask : ArtiHealth replaces ArtiHealth {
 		}
 		return true;
 	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlarePink")).init(self, 27, 20, 0.1, true);
+	}
 }
 
 class cQuartzRegen : Powerup {
@@ -137,6 +142,11 @@ class cDragonskinBracers : ArtiBoostArmor replaces ArtiBoostArmor {
 		BRAC ABCDEFGH 6 Bright Light("BracerItem");
 		Loop;
 	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlarePink")).init(self, 36, 25, 0.15, true);
+	}
 }
 
 class cBootsOfSpeed : ArtiSpeedBoots replaces ArtiSpeedBoots {
@@ -181,6 +191,11 @@ class cMana1 : Mana1 replaces Mana1 {
 		MAN1 ABCDEFGHI 4 Bright Light("BlueMana");
 		Loop;
 	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareBlue")).init(self, 32, 20, 0.15, true);
+	}
 }
 
 class cMana2 : Mana2 replaces Mana2 {
@@ -195,6 +210,11 @@ class cMana2 : Mana2 replaces Mana2 {
 		MAN2 ABCDEFGHIJKLMNOP 4 Bright Light("GreenMana");
 		Loop;
 	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareGreen")).init(self, 32, 20, 0.1, true);
+	}
 }
 
 class cMana3 : Mana3 replaces Mana3 {
@@ -208,6 +228,11 @@ class cMana3 : Mana3 replaces Mana3 {
 	Spawn:
 		MAN3 ABCDEFGHIJKLMNOP 4 Bright Light("RedMana");
 		Loop;
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareRed")).init(self, 32, 25, 0.2, true);
 	}
 }
 

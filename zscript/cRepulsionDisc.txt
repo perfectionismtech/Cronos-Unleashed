@@ -81,4 +81,9 @@ class cRepulsionDisc : Inventory replaces ArtiBlastRadius {
 		
 		return true;
 	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareYellow")).init(self, 32, 20, 0.2, true);
+	}
 }

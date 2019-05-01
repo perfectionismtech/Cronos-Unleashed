@@ -56,6 +56,11 @@ class cFirestorm : cWeapon replaces CWeapFlame {
 		A_AlertMonsters(ALERT_DIST_NORM);
 		A_PlaySound("ClericFlameFire", CHAN_WEAPON);
 	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareTorch")).init(self, 16, 25, 0.2, true);
+	}
 }
 
 class cFirestormMissile : FastProjectile {
