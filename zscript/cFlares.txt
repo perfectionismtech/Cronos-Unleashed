@@ -36,7 +36,7 @@ class cFlare : Actor {
 		}
 	}
 	
-	void Init(actor source, int vertOffset, int flareRadius, double opacity, bool pickup = false) {
+	cFlare Init(actor source, int vertOffset, int flareRadius, double opacity, bool pickup = false) {
 		self.master = source;
 		self.vertOffset = vertOffset;
 		Scale.X = Scale.Y = flareRadius/128.0;
@@ -55,6 +55,8 @@ class cFlare : Actor {
 		}
 		
 		SetOrigin(master.pos + (0, 0, vertOffset), false); // Prevents issues with interpolation
+		
+		return self;
 	}
 }
 
