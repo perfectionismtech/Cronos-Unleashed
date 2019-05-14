@@ -1,7 +1,7 @@
 GameInfo {
 	PlayerClasses = "cFighterPlayer", "cClericPlayer", "cMagePlayer"
 	NoRandomPlayerClass = true
-	DimAmount = 0.35
+	DimAmount = 0.65
 	DimColor = "0F 0F 2F"
 	TitleTime = 9999
 	InfoPage = "INFO1", "INFO2"
