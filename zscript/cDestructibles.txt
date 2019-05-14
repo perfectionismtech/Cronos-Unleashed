@@ -81,7 +81,7 @@ class cPottery3 : cPottery1 replaces Pottery3 {
 	}
 }
 
-class cPotteryBit : cDestructibleBit {
+class cPotteryBit : cDestructibleBit replaces PotteryBit {
 	Default {
 		+MISSILE
 		+NOICEDEATH
