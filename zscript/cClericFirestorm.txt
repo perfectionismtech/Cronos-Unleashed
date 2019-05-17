@@ -158,7 +158,7 @@ class cFirestormCircleFlame : Actor {
 	}
 	
 	override void Tick() {
-		if (!!level.isFrozen()) {
+		if (!level.isFrozen()) {
 			angle += CIRCLE_ANG_DELTA;
 			VelFromAngle(CIRCLE_SPEED, angle);
 			
