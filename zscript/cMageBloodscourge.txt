@@ -77,7 +77,6 @@ class cBloodscourgeMissile : Actor {
 		Loop;
 	Death:
 		TNT1 A 0 {
-			A_SetScale(1.5);
 			double z = GetZAt() - pos.z + 12;
 			if (z > 0) AddZ(z, false);
 		}
@@ -88,7 +87,7 @@ class cBloodscourgeMissile : Actor {
 		MSP1 H 3 Bright Light("Bloodscourge1") SpawnClusters();
 		MSP1 I 3 Bright Light("Bloodscourge1");
 		MSP1 JKL 3 Bright Light("Bloodscourge2");
-		MSP1 MNOP 4 Bright Light("Bloodscourge3");
+		MSP1 MNO 4 Bright Light("Bloodscourge3");
 		MSP1 P 4 Bright Light("Bloodscourge4");
 		Stop;
 	}
