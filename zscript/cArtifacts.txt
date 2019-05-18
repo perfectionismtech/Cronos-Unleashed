@@ -235,31 +235,3 @@ class cMana3 : Mana3 replaces Mana3 {
 		cFlare(Spawn("cFlareRed")).init(self, 32, 25, 0.2, true);
 	}
 }
-
-class cMana4 : Inventory {
-	Default {
-		Radius PICKUP_RADIUS;
-		Height PICKUP_HEIGHT;
-		+FORCEXYBILLBOARD
-		+COUNTITEM
-		+FLOATBOB
-		+INVENTORY.INVBAR
-		Inventory.PickupFlash "PickupFlash";
-		+INVENTORY.FANCYPICKUPSOUND
-		Inventory.DefMaxAmount;
-		Inventory.Icon "ARTIMAN4";
-		Inventory.PickupSound "misc/p_pkup";
-		Inventory.PickupMessage "Purple Mana";
-		Tag "Purple Mana";
-	}
-	
-	States {
-	Spawn:
-		MAN4 ABCDEFGHIJKLMNOP 4 Bright Light("PurpleMana");
-		Loop;
-	}
-	
-	override bool Use (bool pickup) {
-		return false;
-	}
-}

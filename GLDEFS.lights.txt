@@ -104,12 +104,6 @@ pointlight RedMana {
 	offset 0 30 0
 }
 
-pointlight PurpleMana {
-	color 0.2 0.0 0.3
-	size 24
-	offset 0 30 0
-}
-
 pointlight CrystalVialItem {
 	color 0.0 0.1 0.5
 	size 24
