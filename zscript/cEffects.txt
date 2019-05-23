@@ -1,9 +1,16 @@
 class cPlayerLight : PointLight {
+	Default {
+		+DYNAMICLIGHT.NOSHADOWMAP
+	}
+	
 	override void Tick() {
-		Super.Tick();
-		
 		if (target && target.player) {
-			SetOffset((0, 0, target.player.viewHeight));
+ 			// SetOffset((0, 0, target.player.viewHeight));
+			
+			// The way this was previously handled no longer works
+			SetOrigin(target.Vec3Offset(0, 0, target.player.viewHeight), true);
+			if (bDORMANT) Deactivate(self);
+				else Activate(self);
 		} else {
 			Destroy();
 		}
