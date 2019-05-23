@@ -30,6 +30,11 @@ class cCrystalVial : CrystalVial replaces CrystalVial {
 		}
 		return pickup;
 	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		cFlare(Spawn("cFlareBlue")).init(self, 32, 20, 0.1);
+	}
 }
 
 class cQuartzFlask : ArtiHealth replaces ArtiHealth {
@@ -73,7 +78,7 @@ class cQuartzFlask : ArtiHealth replaces ArtiHealth {
 	
 	override void PostBeginPlay() {
 		Super.PostBeginPlay();
-		cFlare(Spawn("cFlarePink")).init(self, 27, 20, 0.1, true);
+		cFlare(Spawn("cFlarePink")).init(self, 27, 20, 0.15, true);
 	}
 }
 
