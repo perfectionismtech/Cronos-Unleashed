@@ -1,22 +1,22 @@
 [enu default] 
 
-MNU_INFO = "MOD INFO";
-MNU_CHOOSECLASS = "SELECT CLASS:";
-MNU_CHOOSESKILL = "SELECT DIFFICULTY:";
+MNU_INFO = "Mod Info";
+MNU_CHOOSECLASS = "Select Class:";
+MNU_CHOOSESKILL = "Select Difficulty:";
 
-MASTER_CONFIRM = "on this difficulty, you will face formidable opposition from korax's minions.\n\ndo you wish to proceed?";
-DEATHKING_CONFIRM = "on this difficulty, hordes of korax's minions shall crush all resistance beneath them.\n\ndo you wish to proceed?";
+MASTER_CONFIRM = "On this difficulty, you will face formidable opposition from Korax's minions.\n\nDo you wish to proceed?";
+DEATHKING_CONFIRM = "On this difficulty, hordes of Korax's minions shall crush all resistance beneath them.\n\nDo you wish to proceed?";
 
 OB_FALLING = "%o fell to %p death.";
 OB_CRUSH = "%o was crushed.";
 OB_MBOSS = "%o was annihilated by Menelkir.";
 OB_CBOSS = "%o was cleansed by Traductus.";
 
-SECRETMESSAGE = "A SECRET HAS BEEN REVEALED";
+SECRETMESSAGE = "A secret has been revealed";
 
-TXT_WEAPON_F4 = "\"AND SO THEY SHALL BE SILENCED...\"";
-TXT_WEAPON_C4 = "\"FIND NO PEACE, EVEN IN DEATH...\"";
-TXT_WEAPON_M4 = "\"WASTE BE LAIN UPON THEM...\"";
+TXT_WEAPON_F4 = "\"And so they shall be silenced...\"";
+TXT_WEAPON_C4 = "\"Find no peace, even in death...\"";
+TXT_WEAPON_M4 = "\"Waste be lain upon them...\"";
 
 TAG_ARTIPUZZGEMGREEN1 = "Emerald Planet";
 TAG_ARTIPUZZGEMGREEN2 = "Emerald Planet";
