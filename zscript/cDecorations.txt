@@ -62,7 +62,7 @@ class cSkullTorch : FireThing replaces FireThing {
 	
 	override void PostBeginPlay() {
 		Super.PostBeginPlay();
-		cFlare(Spawn("cFlareTorch")).Init(self, 25, 25, 0.3);
+		cFlare(Spawn("cFlareTorch")).Init(self, 32, 25, 0.3);
 		A_PlaySound("AmbientFireMedium", CHAN_6, 0.7, true, 10);
 	}
 }
