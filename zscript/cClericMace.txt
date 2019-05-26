@@ -12,7 +12,7 @@ class cMace : CWeapon {
 		Tag "$TAG_CWEAPMACE";
 	}
 	
-	const MACE_DAMAGE = 26;
+	const MACE_DAMAGE = 27;
 	
 	States {
 	Spawn:
