@@ -4,6 +4,8 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 		Weapon.AmmoType1 "Mana1";
 		Weapon.AmmoUse1 2;
 		Weapon.AmmoGive1 25;
+		Weapon.AmmoType2 "Mana1";
+		Weapon.AmmoUse2 1;
 		Weapon.YAdjust 8;
 		Weapon.BobStyle "InverseSmooth";
 		Weapon.BobSpeed 1.6;
@@ -15,7 +17,7 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 		Tag "$TAG_CWEAPSTAFF";
 	}
 	
-	const DRAIN_DAMAGE = 37;
+	const DRAIN_DAMAGE = 21;
 	const DRAIN_RATIO = 0.4;
 	
 	States {
@@ -40,7 +42,6 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 		CSSF BBBCCCCCBBB 1 A_WeaponReady();
 		Goto Ready+2;
 	Fire:
-		TNT1 A 0 TryDrain();
 		CSSF A 1 Offset(0, 43);
 		CSSF J 3 Offset(0, 47) SerpentStaffFire();
 		CSSF J 2 Offset(0, 41);
@@ -49,41 +50,18 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 		CSSF A 2 Offset(0, 36);
 		CSSF A 2 Offset(0, 34);
 		Goto Ready+2;
-	Fire.Drain:
-		CSSF K 6 Offset(0, 36) A_PlaySound("ClericCStaffHitThing", CHAN_WEAPON);
-		CSSF K 4 Offset(0, 38);
-		CSSF K 3 Offset(0, 40);
+	AltFire:
+		TNT1 A 0 A_WeaponOffset(0+random(-1,1), 32+random(-1,1));
+		CSSF B 3 TryDrain();
+		TNT1 A 0 A_ReFire();
 		Goto Ready+2;
-	}
-	
-	action state TryDrain() {
-		if (player == null) return null;
-		Weapon weapon = player.readyWeapon;
-		
-		Actor victim, puff; int dam;
-		[victim, puff, dam] = MeleeAttack(DRAIN_DAMAGE, MELEERANGE_MED, 0, 6, "cSerpentDrainPuff", alwaysStrike: false);
-		
-		if (victim && (victim.bISMONSTER || victim.player)) {
-			if (!victim.bDORMANT && !victim.bINVULNERABLE) {
-				if (victim.player && (!victim.IsTeammate(self) || level.teamDamage != 0)) {
-					if (puff) puff.Destroy();
-					return null;
-				}
-				
-				if (weapon && !weapon.DepleteAmmo(weapon.bAltFire)) return null;
-				
-				WeaponShake(1, 10);
-				A_AlertMonsters(ALERT_DIST_NORM);
-				
-				GiveBody(int(floor(dam * DRAIN_RATIO)));
-				
-				return ResolveState('Fire.Drain');
-			}
-		}
-		
-		if (puff) puff.Destroy();
-		
-		return null;
+	AltFire.Drain:
+		CSSF J 1 Offset(0, 34) A_PlaySound("ClericCStaffHitThing", CHAN_WEAPON);
+		CSSF K 5 Offset(0, 36);
+		CSSF K 3 Offset(0, 38);
+		CSSF K 2 Offset(0, 39);
+		TNT1 A 0 A_ReFire();
+		Goto Ready+2;
 	}
 	
 	action void SerpentStaffFire() {
@@ -103,6 +81,47 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 		A_PlaySound("ClericCStaffFire", CHAN_WEAPON);
 	}
 	
+	action state TryDrain() {
+		if (player == null) return null;
+		Weapon weapon = player.readyWeapon;
+		
+		FTranslatedLineTarget lt;
+		double angOff, slope;
+		Actor victim;
+		
+		[angOff, slope] = AimMeleeAttack(lt, MELEERANGE_MED, 6);
+		
+		if (victim = lt.lineTarget) {
+			if (isValidDrainTarget(victim)) {
+				Actor puff;
+				int dam;
+				
+				if (weapon && !weapon.DepleteAmmo(weapon.bAltFire)) return null;
+				
+				[puff, dam] = LineAttack(angle+angOff, MELEERANGE_MED, slope, DRAIN_DAMAGE, 
+					'Melee', "cSerpentDrainPuff", LAF_ISMELEEATTACK, lt);
+				GiveBody(int(floor(dam * DRAIN_RATIO)));
+				
+				WeaponShake(1, 10);
+				A_AlertMonsters(ALERT_DIST_NORM);
+				
+				return ResolveState('AltFire.Drain');
+			}
+		}
+		
+		// No valid targets
+		return null;
+	}
+	
+	action bool isValidDrainTarget(Actor other) {
+		if (!other) return false;
+		if (!(other.bISMONSTER || other.player)) return false;
+		if (other.bDORMANT || other.bINVULNERABLE) return false;
+		if (other.player && level.teamDamage == 0 && other.IsTeammate(self)) return false;
+		
+		return true;
+	}
+	
 	action void InitBlink() {
 		weaponSpecial = random[SerpentStaffBlink](25, 60);
 	}
@@ -118,6 +137,8 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 }
 
 class cSerpentStaffMissile : CStaffMissile replaces CStaffMissile {
+	cFlare flare;
+	
 	Default {
 		DamageFunction cWeapon.RandomizeDamage(23);
 		Speed 22;
@@ -129,7 +150,10 @@ class cSerpentStaffMissile : CStaffMissile replaces CStaffMissile {
 		CSSF DDEE 1 Bright Light("SerpentStaffMissile") A_Weave(3, 0, 0.8, 0);
 		Loop;
 	Death:
-		TNT1 A 0 SpawnParticles();
+		TNT1 A 0 {
+			SpawnParticles();
+			if (flare) flare.Destroy();
+		}
 		CSSF FG 4 Bright Light("SerpentStaffBlast1") A_StopSound(CHAN_BODY);
 		CSSF HI 3 Bright Light("SerpentStaffBlast2");
 		Stop;
@@ -144,8 +168,10 @@ class cSerpentStaffMissile : CStaffMissile replaces CStaffMissile {
 	
 	override void PostBeginPlay() {
 		Super.PostBeginPlay();
+		
 		bNOBLOOD = (random() < 128);
 		A_PlaySound("SerpentStaffContinuous", looping: true);
+		flare = cFlare(Spawn("cFlareGreen")).Init(self, 0, 16, 0.1);
 	}
 }
 

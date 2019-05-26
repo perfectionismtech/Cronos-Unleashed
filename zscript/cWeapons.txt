@@ -60,16 +60,34 @@ class cWeapon : Weapon {
 		weap.CheckAmmo(weap.bAltFire? Weapon.AltFire : Weapon.PrimaryFire, true);
 	}
 	
+	// Returns the angle offset, the slope
+	action double, double AimMeleeAttack(out FTranslatedLineTarget lt, double range, int arc = 0) {
+		if (player == null) return 0, 0;
+		
+		// Allow hits slightly above/below, unless arc is 0
+		double vRange = (arc == 0) ? 0.5 : 2.0; // 0.5 is considered the minimum, see p_map.cpp
+		
+		// Try to hit something
+		for (int i = 0; i <= arc; i = (i>0 ? -i : -i+2) ) {
+			double slope = AimLineAttack(angle+i, range, lt, vRange, ALF_FORCENOSMART|ALF_CHECK3D|ALF_NOFRIENDS);
+			
+			// Check if an actor was found
+			if (lt.lineTarget) {
+				return i, slope;
+			}
+		}
+		
+		// Found nothing
+		return 0, 0;
+	}
+	
 	// Returns the actor that was hit, the puff that was spawned, and the amount of damage dealt
-	action Actor, Actor, int MeleeAttack(int damage, double range, double knockback = 0.0, int arc = 0, class<Actor> puffType = null, Name damageType = 'Melee', bool alwaysStrike = true) {
+	action Actor, Actor, int MeleeAttack(int damage, double range, double knockback = 0.0, int arc = 0, class<Actor> puffType = null, Name damageType = 'Melee') {
 		if (player == null) return null, null, 0;
 		
 		Actor victim; // The enemy that was hit
 		Actor puff; // The puff that was spawned
 		int damDealt; // Actual amount of damage dealt
-		
-		// Allow hits slightly above/below, unless arc is 0
-		double vRange = (arc == 0) ? 0.5 : 2.0; // 0.5 is considered the minimum, see p_map.cpp
 		
 		// Apply berserk damage
 		if (player.mo.invulMode == 'Berserk' && FindInventory("cDefenderInvulnerability")) {
@@ -77,31 +95,27 @@ class cWeapon : Weapon {
 		}
 		
 		FTranslatedLineTarget lt;
+		double angOff, slope;
 		
-		// Try to hit something
-		for (int i = 0; i <= arc; i = (i>0 ? -i : -i+2) ) {
-			double slope = AimLineAttack(angle+i, range, lt, vRange, ALF_FORCENOSMART|ALF_CHECK3D|ALF_NOFRIENDS);
-			// Check if an actor was found
+		// Check if an actor was found
+		[angOff, slope] = AimMeleeAttack(lt, range, arc);
+		if (lt.lineTarget) {
+			[puff, damDealt] = LineAttack(angle+angOff, range, slope, damage, damageType, puffType, LAF_ISMELEEATTACK, lt);
+			
 			if (lt.lineTarget) {
-				[puff, damDealt] = LineAttack(angle+i, range, slope, damage, damageType, puffType, LAF_ISMELEEATTACK, lt);
-				
-				if (lt.lineTarget) {
-					victim = lt.lineTarget;
-					// Apply knockback
-					if (knockback > 0 && victim.mass < LARGE_MASS && !victim.bDONTTHRUST && !victim.bDORMANT) {
-						if (victim.bISMONSTER || victim.player) {
-							victim.Thrust(knockback, lt.attackAngleFromSource);
-						}
+				victim = lt.lineTarget;
+				// Apply knockback
+				if (knockback > 0 && victim.mass < LARGE_MASS && !victim.bDONTTHRUST && !victim.bDORMANT) {
+					if (victim.bISMONSTER || victim.player) {
+						victim.Thrust(knockback, lt.attackAngleFromSource);
 					}
-					return victim, puff, damDealt;
 				}
+				return victim, puff, damDealt;
 			}
 		}
 		
 		// Failed to find anything to hit, so just attack straight ahead
-		if (alwaysStrike) {
-			puff = LineAttack(angle, range, pitch, damage, damageType, puffType, LAF_ISMELEEATTACK, lt);
-		}
+		puff = LineAttack(angle, range, pitch, damage, damageType, puffType, LAF_ISMELEEATTACK, lt);
 		
 		return null, puff, 0;
 	}
