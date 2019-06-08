@@ -18,7 +18,7 @@ class cSerpentStaff : cWeapon replaces CWeapStaff {
 	}
 	
 	const DRAIN_DAMAGE = 21;
-	const DRAIN_RATIO = 0.4;
+	const DRAIN_RATIO = 0.3;
 	
 	States {
 	Spawn:
