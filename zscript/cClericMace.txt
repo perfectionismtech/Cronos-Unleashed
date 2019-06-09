@@ -29,11 +29,11 @@ class cMace : CWeapon {
 		CMCE A 1 A_WeaponReady();
 		Loop;
 	Fire:
-		CMCE B 2 Offset(17, 41);
-		CMCE B 2 Offset(4, 37);
-		CMCE B 2 Offset(-12, 44);
+		CMCE B 2 Offset(20, 51);
+		CMCE B 2 Offset(6, 49);
+		CMCE B 2 Offset(-12, 56);
 		CMCE C 1 Offset(8, 44);
-		CMCE D 1 Offset(23, 44) WeaponShake(1, 5);
+		CMCE D 1 Offset(23, 44);
 		CMCE D 1 Offset(5, 60);
 		CMCE E 1 Offset(-6, 76) MaceAttack();
 		CMCE F 1 Offset(17, 49);
