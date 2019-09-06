@@ -35,7 +35,7 @@ class cBishop : Bishop replaces Bishop {
 		BISH G 5;
 		BISH H 5 Bright A_Scream();
 		BISH I 5 Bright A_NoBlocking();
-		BISH J 5 Bright A_Explode(30, 48, XF_NOTMISSILE);
+		BISH J 5 Bright A_Explode(35, 80, XF_NOTMISSILE);
 		BISH KLM 4 Bright;
 		BISH N 4 A_SpawnItemEx("BishopPuff", 0, 0, 40);
 		BISH O 4;
