@@ -4,8 +4,8 @@ MNU_INFO = "Mod Info";
 MNU_CHOOSECLASS = "Select Class:";
 MNU_CHOOSESKILL = "Select Difficulty:";
 
-MASTER_CONFIRM = "On this difficulty, you will face formidable opposition from Korax's minions.\n\nDo you wish to proceed?";
-DEATHKING_CONFIRM = "On this difficulty, hordes of Korax's minions shall crush all resistance beneath them.\n\nDo you wish to proceed?";
+MASTER_CONFIRM = "On this difficulty, you will face formidable opposition from Korax's minions.\n\n(1.5x damage taken)\n\nDo you wish to proceed?";
+DEATHKING_CONFIRM = "On this difficulty, hordes of Korax's minions shall crush all resistance beneath them.\n\n(2.5x damage taken, fast monsters, artifact and monster replacements)\n\nDo you wish to proceed?";
 
 OB_FALLING = "%o fell to %p death.";
 OB_CRUSH = "%o was crushed.";
