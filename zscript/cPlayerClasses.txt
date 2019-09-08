@@ -42,6 +42,10 @@ class cFighterPlayer : FighterPlayer {
 		PLAY STUV 5;
 		PLAY W -1;
 		Stop;
+	XDeath.Falling:
+		PLAY O 5 A_PlaySound("PlayerFighterExtremeDeathPicker", CHAN_VOICE);
+		PLAY P 5;
+		Goto XDeath+2;
 	}
 }
 
@@ -89,6 +93,10 @@ class cClericPlayer : ClericPlayer {
 		CLER UVWXY 5;
 		CLER Z -1;
 		Stop;
+	XDeath.Falling:
+		CLER R 5 A_PlaySound("PlayerClericExtremeDeathPicker", CHAN_VOICE);
+		CLER S 5;
+		Goto XDeath+2;
 	}	
 }
 
