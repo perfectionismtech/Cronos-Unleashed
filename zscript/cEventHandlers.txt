@@ -5,6 +5,7 @@ class cBossHealthBars : EventHandler {
 	Vector2 barOff;
 	Vector2 barPos;
 	int barSpace;
+	transient ui CVar visibilityCVar;
 	
 	override void OnRegister() {
 		barTex = TexMan.CheckForTexture("BOSSBAR", TexMan.Type_Any);
@@ -32,7 +33,16 @@ class cBossHealthBars : EventHandler {
 		}
 	}
 	
+	override void UITick() {
+		Super.UITick();
+		
+		if (!visibilityCVar) {
+			visibilityCVar = CVar.GetCVar("cl_boss_health_bars", players[consoleplayer]);
+		}
+	}
+	
 	override void RenderOverlay(RenderEvent e) {
+		if (visibilityCVar && !visibilityCVar.getBool()) return;
 		if (bosses.Size() == 0) return;
 		
 		Vector2 hudScaleVec = StatusBar.GetHUDScale();

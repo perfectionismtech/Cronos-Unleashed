@@ -2,5 +2,6 @@ user bool cl_weapon_shake = true; // Screen shake from firing weapons
 user bool cl_healing_flash = true; // Screen flash when using healing items
 user bool cl_map_name_on_entry = true; // Display the map's name on entry
 user bool cl_flare_visibility = true; // Hide flares
+user bool cl_boss_health_bars = true; // Hide boss health bars
 server bool sv_classic_torch = false; // Use the original torch effect
 server bool sv_thanosdidnothingwrong = false; // Commence the snappening
