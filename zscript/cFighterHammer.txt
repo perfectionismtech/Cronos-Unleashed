@@ -93,6 +93,8 @@ class cHammer : cWeapon replaces FWeapHammer {
 }
 
 class cHammerMissile : HammerMissile {
+	cFlare flare;
+	
 	const BLAST_DAMAGE = 80.0;
 	const NOBLAST_DAMAGE = 45.0;
 	
@@ -112,6 +114,7 @@ class cHammerMissile : HammerMissile {
 		Loop;
 	Death:
 		TNT1 A 14 {
+			if (flare) flare.Destroy();
 			A_Explode(cWeapon.RandomizeDamage(BLAST_DAMAGE), 128, XF_NOSPLASH);
 			A_AlertMonsters(ALERT_DIST_NORM);
 			A_SpawnItemEx("cHammerBlast");
@@ -126,6 +129,11 @@ class cHammerMissile : HammerMissile {
 			victim.DamageMobj(self, target, NOBLAST_DAMAGE, damageType);
 		}
 		return r;
+	}
+	
+	override void PostBeginPlay() {
+		Super.PostBeginPlay();
+		flare = cFlare(Spawn("cFlareRed")).Init(self, 0, 32, 0.2);
 	}
 }
 
