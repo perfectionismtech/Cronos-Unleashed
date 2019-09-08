@@ -140,6 +140,7 @@ class cSerpentStaffMissile : CStaffMissile replaces CStaffMissile {
 	cFlare flare;
 	
 	Default {
+		Radius 10;
 		DamageFunction cWeapon.RandomizeDamage(23);
 		Speed 22;
 		+FORCEXYBILLBOARD
