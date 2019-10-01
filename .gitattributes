@@ -1,0 +1,2 @@
+# Enable GitHub syntax highlighting for ZScript files
+zscript/*.txt linguist-language=csharp
