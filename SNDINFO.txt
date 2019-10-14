@@ -41,10 +41,13 @@ BatActive			"sounds/BatFlapping.wav"
 $limit PotteryExplode 4
 $limit GlassShatter 4
 $limit world/drip 8
+$limit world/sludgegloop 8
 $limit MageShardsExplode 8
-$limit BishopMissileExplode 8
 $limit FlechetteExplode 8
 $limit SerpentSight 1
+
+$limit BishopMissileExplode 8
+$limit FireDemonMissileHit 8
 
 $limit PlatformStart 4
 $limit PlatformStop 4
