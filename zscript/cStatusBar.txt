@@ -1,0 +1,256 @@
+class CronosUnleashedHUD : BaseStatusBar {
+	
+	HUDFont hudFontRaven;
+	HUDFont indexFontRaven;
+	InventoryBarState diparms;
+	InventoryBarState diparms_sbar;
+	DynamicValueInterpolator healthInterpolator;
+	
+	override void Init() {
+		Super.Init();
+		SetSize(38, 320, 200);
+		
+		// Initialize fonts
+		Font hudF = "HUDFONT_RAVEN", indexF = "INDEXFONT_RAVEN";
+		hudFontRaven = HUDFont.Create(hudF, hudF.GetCharWidth("0"), Mono_CellLeft, 1, 1);
+		indexFontRaven = HUDFont.Create(indexF, indexF.GetCharWidth("0"), Mono_CellLeft);
+		
+		diparms = InventoryBarState.Create(indexFontRaven, arrowOffs: (0, -10));
+		diparms_sbar = InventoryBarState.CreateNoBox(indexFontRaven, boxsize:(31, 31), arrowoffs:(0,-10));
+		
+		healthInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 6);
+	}
+	
+	override void NewGame() {
+		Super.NewGame();
+		healthInterpolator.Reset(0);
+	}
+	
+	override int GetProtrusion(double scaleratio) const {
+		return scaleratio > 0.85 ? 28 : 12;
+	}
+	
+	override void Tick() {
+		Super.Tick();
+		healthInterpolator.Update(CPlayer.health);
+	}
+	
+	override void Draw(int state, double fracTic) {
+		Super.Draw(state, fracTic);
+		
+		if (state == HUD_StatusBar) {
+			BeginStatusBar();
+			DrawMainBar(fracTic);
+		} else if (state == HUD_Fullscreen) {
+			BeginHUD();
+ 			DrawFullScreenHUD();
+		}
+	}
+	
+	protected void DrawFullScreenHUD() {
+		// HP + AC
+		DrawImage("FBAR_L", (4, -33), DI_ITEM_OFFSETS);
+		DrawString(hudFontRaven, FormatNumber(healthInterpolator.GetValue()), (30, -19), DI_TEXT_ALIGN_RIGHT);
+		DrawString(hudFontRaven, FormatNumber(GetArmorSavePercent()/5, 2), (62, -19), DI_TEXT_ALIGN_RIGHT);
+		
+		// Ammo
+		Ammo ammo1, ammo2;
+		[ammo1, ammo2] = GetCurrentAmmo();
+		if (WeaponUsesMana(ammo1, ammo2)) {
+			DrawImage("FBAR_MN", (69, -31), DI_ITEM_OFFSETS);
+			
+			if (ammo1 is "Mana1" || ammo2 is "Mana1") {
+				DrawImage("MANABRT1", (69, -31), DI_ITEM_OFFSETS);
+				DrawBar("MANAVL1", "", GetAmount("Mana1"), GetMaxAmount("Mana1"), (86, -31), 1, SHADER_VERT, DI_ITEM_OFFSETS);
+			} else {
+				DrawImage("MANADIM1", (69, -31), DI_ITEM_OFFSETS);
+				DrawBar("MANAVL1D", "", GetAmount("Mana1"), GetMaxAmount("Mana1"), (86, -31), 1, SHADER_VERT, DI_ITEM_OFFSETS);
+			}
+			
+			if (GetAmount("Mana1") > 0) {
+				DrawString(indexFontRaven, FormatNumber(GetAmount("Mana1"), 3), (84, -14), DI_TEXT_ALIGN_RIGHT);
+			}
+			
+			if (ammo1 is "Mana2" || ammo2 is "Mana2") {
+				DrawImage("MANABRT2", (102, -31), DI_ITEM_OFFSETS);
+				DrawBar("MANAVL2", "", GetAmount("Mana2"), GetMaxAmount("Mana2"), (94, -31), 1, SHADER_VERT, DI_ITEM_OFFSETS);
+			} else {
+				DrawImage("MANADIM2", (102, -31), DI_ITEM_OFFSETS);
+				DrawBar("MANAVL2D", "", GetAmount("Mana2"), GetMaxAmount("Mana2"), (94, -31), 1, SHADER_VERT, DI_ITEM_OFFSETS);
+			}
+			
+			if (GetAmount("Mana2") > 0) {
+				DrawString(indexFontRaven, FormatNumber(GetAmount("Mana2"), 3), (116, -14), DI_TEXT_ALIGN_RIGHT);
+			}
+		} else {
+			DrawImage("FBAR_AM", (69, -31), DI_ITEM_OFFSETS);
+			if (ammo2 != null) {
+				DrawTexture(ammo1.icon, (83, -19), DI_ITEM_CENTER);
+				DrawString(indexFontRaven, FormatNumber(ammo1.amount, 3), (96, -13), DI_TEXT_ALIGN_RIGHT);
+				DrawTexture(ammo2.icon, (103, -19), DI_ITEM_CENTER);
+				DrawString(indexFontRaven, FormatNumber(ammo2.amount, 3), (116, -13), DI_TEXT_ALIGN_RIGHT);
+			} else {
+				DrawTexture(ammo1.icon, (93, -19), DI_ITEM_CENTER);
+				DrawString(indexFontRaven, FormatNumber(ammo1.amount, 3), (108, -13), DI_TEXT_ALIGN_RIGHT);
+			}
+		}
+		
+		// Inventory
+		if (!IsInventoryBarVisible()) {
+			DrawImage("ARTIBOX", (-33, -33), DI_ITEM_OFFSETS);
+			if (CPlayer.mo.invSel != null) {
+				DrawInventoryIcon(CPlayer.mo.invSel, (-35, -33), DI_ARTIFLASH|DI_ITEM_OFFSETS, boxsize:(28, 28));
+				if (CPlayer.mo.invSel.amount > 1) {
+					DrawString(indexFontRaven, FormatNumber(CPlayer.mo.invSel.amount, 3), (-5, -11), DI_TEXT_ALIGN_RIGHT);
+				}
+			}
+			
+			if (GetAmount("cFlechette") > 0) {
+				DrawImage("I_FLCHT", (-63, -33), DI_ITEM_OFFSETS);
+				if (GetAmount("cFlechette") > 1) {
+					DrawString(indexFontRaven, FormatNumber(GetAmount("cFlechette"), 3), (-37, -11), DI_TEXT_ALIGN_RIGHT);
+				}
+			}
+			if (GetAmount("cQuartzFlask") > 0) {
+				DrawImage("I_QRTZF", (-85, -33), DI_ITEM_OFFSETS);
+				if (GetAmount("cQuartzFlask") > 1) {
+					DrawString(indexFontRaven, FormatNumber(GetAmount("cQuartzFlask"), 3), (-58, -11), DI_TEXT_ALIGN_RIGHT);
+				}
+			}
+			if (GetAmount("cRepulsionDisc") > 0) {
+				DrawImage("I_DSRPL", (-112, -33), DI_ITEM_OFFSETS);
+				if (GetAmount("cRepulsionDisc") > 1) {
+					DrawString(indexFontRaven, FormatNumber(GetAmount("cRepulsionDisc"), 3), (-83, -11), DI_TEXT_ALIGN_RIGHT);
+				}
+			}
+		} else {
+			DrawInventoryBar(diparms, (0, -3), 7, DI_SCREEN_CENTER_BOTTOM);
+			//DrawInventoryBar HexenStrict, alwaysshow, 7, INDEXFONT_RAVEN, -106+center, -33, -78+center, -11, untranslated;
+		}
+		
+		// TO DO: Underwater time
+	}
+	
+	protected void DrawMainBar (double TicFrac) {
+		DrawImage("H2BAR", (0, 134), DI_ITEM_OFFSETS);
+		
+		String gem, chain;
+		if (CPlayer.mo is "ClericPlayer") {
+			gem = "LIFEGMC2";
+			chain = "CHAIN2";
+		} else if (CPlayer.mo is "MagePlayer") {
+			gem = "LIFEGMM2";
+			chain = "CHAIN3";
+		} else {
+			gem = "LIFEGMF2";
+			chain = "CHAIN";
+		}
+		Drawgem(chain, gem, healthInterpolator.GetValue(), CPlayer.mo.GetMaxHealth(true), (30, 193), -23, 49, 15, (multiplayer? DI_TRANSLATABLE : 0) | DI_ITEM_LEFT_TOP);
+		
+		DrawImage("LFEDGE", (0, 193), DI_ITEM_OFFSETS);
+		DrawImage("RTEDGE", (277, 193), DI_ITEM_OFFSETS);
+		
+		if (!automapactive) {
+			if (isInventoryBarVisible()) {
+				DrawImage("INVBAR", (38, 162), DI_ITEM_OFFSETS);
+				DrawInventoryBar(diparms_sbar, (52, 163), 7, DI_ITEM_LEFT_TOP, HX_SHADOW);
+			} else {
+				DrawImage("STATBAR", (38, 162), DI_ITEM_OFFSETS);
+				
+				//inventory box
+				if (CPlayer.mo.InvSel != null) {
+					DrawInventoryIcon(CPlayer.mo.InvSel, (159.5, 177), DI_ARTIFLASH|DI_ITEM_CENTER, boxsize:(28, 28));
+					if (CPlayer.mo.InvSel.Amount > 1) {
+						DrawString(indexFontRaven, FormatNumber(CPlayer.mo.InvSel.Amount, 3), (174, 184), DI_TEXT_ALIGN_RIGHT);
+					}
+				}
+				
+				// HP
+				DrawImage("ARMCLS", (41, 178), DI_ITEM_OFFSETS);
+				DrawString(hudFontRaven, FormatNumber(healthInterpolator.GetValue()), (66, 176), DI_TEXT_ALIGN_RIGHT, CPlayer.Health < 30 ? Font.CR_RED : Font.CR_UNTRANSLATED);
+				
+				// Armor
+				DrawImage("ARMCLS", (255, 178), DI_ITEM_OFFSETS);
+				DrawString(hudFontRaven, FormatNumber(GetArmorSavePercent() / 5, 2), (276, 176), DI_TEXT_ALIGN_RIGHT);
+				
+				// Ammo
+				Ammo ammo1, ammo2;
+				[ammo1, ammo2] = GetCurrentAmmo();
+				if (WeaponUsesMana(ammo1, ammo2)) {
+					int amt1, maxamt1, amt2, maxamt2;
+					[amt1, maxamt1] = GetAmount("Mana1");
+					[amt2, maxamt2] = GetAmount("Mana2");
+					if ((ammo1 is "Mana1") || (ammo2 is "Mana1")) {
+						DrawImage("MANABRT1", (77, 164), DI_ITEM_OFFSETS);
+						DrawBar("MANAVL1", "", amt1, maxamt1, (94, 164), 1, SHADER_VERT, DI_ITEM_OFFSETS);
+					} else {
+						DrawImage("MANADIM1", (77, 164), DI_ITEM_OFFSETS);
+						DrawBar("MANAVL1D", "", amt1, maxamt1, (94, 164), 1, SHADER_VERT, DI_ITEM_OFFSETS);
+					}
+					if ((ammo1 is "Mana2") || (ammo2 is "Mana2")) {
+						DrawImage("MANABRT2", (110, 164), DI_ITEM_OFFSETS);
+						DrawBar("MANAVL2", "", amt2, maxamt2, (102, 164), 1, SHADER_VERT, DI_ITEM_OFFSETS);
+					} else {
+						DrawImage("MANADIM2", (110, 164), DI_ITEM_OFFSETS);
+						DrawBar("MANAVL2D", "", amt2, maxamt2, (102, 164), 1, SHADER_VERT, DI_ITEM_OFFSETS);
+					}
+					DrawString(indexFontRaven, FormatNumber(amt1, 3), (92, 181), DI_TEXT_ALIGN_RIGHT);
+					DrawString(indexFontRaven, FormatNumber(amt2, 3), (124, 181), DI_TEXT_ALIGN_RIGHT);
+				} else {
+					DrawImage("HAMOBACK", (77, 164), DI_ITEM_OFFSETS);
+					if (ammo2 != null) {
+						DrawTexture(ammo1.icon, (89, 172), DI_ITEM_CENTER);
+						DrawTexture(ammo2.icon, (113, 172), DI_ITEM_CENTER);
+						DrawString(indexFontRaven, FormatNumber(ammo1.amount, 3), ( 98, 182), DI_TEXT_ALIGN_RIGHT);
+						DrawString(indexFontRaven, FormatNumber(ammo2.amount, 3), (122, 182), DI_TEXT_ALIGN_RIGHT);
+					} else {
+						DrawTexture(ammo1.icon, (100, 172), DI_ITEM_CENTER);
+						DrawString(indexFontRaven, FormatNumber(ammo1.amount, 3), (109, 182), DI_TEXT_ALIGN_RIGHT);
+					}
+				}
+				
+				DrawImage("ARTIBACK", (190, 162), DI_ITEM_OFFSETS);
+				if (GetAmount("cFlechette") > 0) {
+					DrawImage("I_FLCHT2", (193, 168), DI_ITEM_OFFSETS);
+					if (GetAmount("cFlechette") > 1) {
+						DrawString(indexFontRaven, FormatNumber(GetAmount("cFlechette")), (209, 181), DI_TEXT_ALIGN_RIGHT);
+					}
+				}
+				if (GetAmount("cQuartzFlask") > 0) {
+					DrawImage("I_QRTZF2", (209, 168), DI_ITEM_OFFSETS);
+					if (GetAmount("cQuartzFlask") > 1) {
+						DrawString(indexFontRaven, FormatNumber(GetAmount("cQuartzFlask")), (226, 181), DI_TEXT_ALIGN_RIGHT);
+					}
+				}
+				if (GetAmount("cRepulsionDisc") > 0) {
+					DrawImage("I_DSRPL2", (225, 168), DI_ITEM_OFFSETS);
+					if (GetAmount("cRepulsionDisc") > 1) {
+						DrawString(indexFontRaven, FormatNumber(GetAmount("cRepulsionDisc")), (245, 181), DI_TEXT_ALIGN_RIGHT);
+					}
+				}
+			}
+		} else { // Automap
+			DrawImage("KEYBAR", (38, 162), DI_ITEM_OFFSETS);
+			
+			int count = 0;
+			Vector2 keypos = (46, 164);
+			for (let i = CPlayer.mo.Inv; i != null; i = i.Inv) {
+				if (i is "Key" && i.Icon.IsValid()) {
+					DrawTexture(i.Icon, keypos, DI_ITEM_OFFSETS);
+					keypos.X += 20;
+					if (++count >= 5) break;
+				}
+			}
+			
+			DrawHexenArmor(HEXENARMOR_ARMOR, "ARMSLOT1", (150, 164), DI_ITEM_OFFSETS);
+			DrawHexenArmor(HEXENARMOR_SHIELD, "ARMSLOT2", (181, 164), DI_ITEM_OFFSETS);
+			DrawHexenArmor(HEXENARMOR_HELM, "ARMSLOT3", (212, 164), DI_ITEM_OFFSETS);
+			DrawHexenArmor(HEXENARMOR_AMULET, "ARMSLOT4", (243, 164), DI_ITEM_OFFSETS);
+		}
+	}
+	
+	bool WeaponUsesMana(Ammo ammo1, Ammo ammo2) {
+		return (ammo1 == null || ammo1 is "Mana1" || ammo1 is "Mana2") &&
+		       (ammo2 == null || ammo2 is "Mana1" || ammo2 is "Mana2");
+	}
+}

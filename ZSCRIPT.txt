@@ -1,5 +1,8 @@
 version "4.2"
 
+#include "zscript/cEventHandlers.txt"
+#include "zscript/cStatusBar.txt"
+
 #include "zscript/cPlayerClasses.txt" // Player class definitions
 #include "zscript/cWeapons.txt"	// Shared weapon declarations
 
@@ -53,8 +56,6 @@ version "4.2"
 #include "zscript/cFlares.txt"
 #include "zscript/cPoisonCloud.txt"
 #include "zscript/cMisc.txt"
-
-#include "zscript/cEventHandlers.txt"
 
 // Constant definitions
 
