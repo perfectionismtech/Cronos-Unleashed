@@ -5,7 +5,9 @@ FingerSnap			"sounds/FingerSnap.wav"
 misc/armor_pkup		"sounds/ArmorPickup.wav"
 misc/secret			"sounds/Secret.wav"
 
+FighterHammerEmpower "sounds/FighterHammerEmpower.wav"
 FighterHammerExplode "sounds/FighterHammerExplode.wav"
+FighterHammerPowerHit impact3
 
 $alias SerpentStaffContinuous SerpentFXContinuous
 $volume SerpentStaffContinuous 0.4
