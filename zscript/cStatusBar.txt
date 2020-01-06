@@ -50,7 +50,7 @@ class CronosUnleashedHUD : BaseStatusBar {
 	protected void DrawFullScreenHUD() {
 		// HP + AC
 		DrawImage("FBAR_L", (4, -33), DI_ITEM_OFFSETS);
-		DrawString(hudFontRaven, FormatNumber(healthInterpolator.GetValue()), (30, -19), DI_TEXT_ALIGN_RIGHT);
+		DrawString(hudFontRaven, FormatNumber(healthInterpolator.GetValue()), (30, -19), DI_TEXT_ALIGN_RIGHT, CPlayer.Health < 30 ? Font.CR_RED : Font.CR_UNTRANSLATED);
 		DrawString(hudFontRaven, FormatNumber(GetArmorSavePercent()/5, 2), (62, -19), DI_TEXT_ALIGN_RIGHT);
 		
 		// Ammo
