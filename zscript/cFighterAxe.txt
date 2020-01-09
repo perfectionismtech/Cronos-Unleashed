@@ -20,8 +20,8 @@ class cAxe : cWeapon replaces FWeapAxe {
 	}
 	
 	const EMPTY_DAMAGE = 40;
-	const CHARGED_DAMAGE = 64;
-	const QUICKPUNCH_DAMAGE = 24;
+	const CHARGED_DAMAGE = 65;
+	const QUICKPUNCH_DAMAGE = 30;
 	
 	States {
 	Spawn:
