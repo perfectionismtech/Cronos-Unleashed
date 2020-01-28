@@ -136,6 +136,8 @@ class cAxe : cWeapon replaces FWeapAxe {
 		if (player == null) return;
 		Weapon weapon = player.ReadyWeapon;
 		
+		invoker.bAXEBLOOD = true;
+		
 		int attackDamage = RandomizeDamage(poweredAttack ? CHARGED_DAMAGE : EMPTY_DAMAGE);
 		class<Actor> puffType = poweredAttack ? "cAxePuffGlow" : "cAxePuff";
 		
@@ -156,6 +158,8 @@ class cAxe : cWeapon replaces FWeapAxe {
 	
 	action void QuickPunchAttack() {
 		if (player == null) return;
+		
+		invoker.bAXEBLOOD = false;
 		
 		Actor victim, puff;
 		[victim, puff] = MeleeAttack(RandomizeDamage(QUICKPUNCH_DAMAGE), MELEERANGE_MED, 8, 10, "cPunchPuff");
