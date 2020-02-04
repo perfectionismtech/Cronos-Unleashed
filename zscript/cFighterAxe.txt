@@ -142,7 +142,7 @@ class cAxe : cWeapon replaces FWeapAxe {
 		class<Actor> puffType = poweredAttack ? "cAxePuffGlow" : "cAxePuff";
 		
 		Actor victim, puff;
-		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_LONG, poweredAttack ? 5 : 2, 12, puffType);
+		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_LONG, poweredAttack ? 5 : 2, 15, puffType);
 		
 		if (poweredAttack && victim && !(victim.bDORMANT || victim.bINVULNERABLE)) {
 			weapon.DepleteAmmo(weapon.bAltFire);

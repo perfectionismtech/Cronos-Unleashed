@@ -85,7 +85,7 @@ class cFists : cWeapon {
 		double knockback = mightyBlow ? 6 : 2;
 		
 		Actor victim, puff;
-		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_MED, knockback, 8, "cPunchPuff");
+		[victim, puff] = MeleeAttack(attackDamage, MELEERANGE_MED, knockback, 10, "cPunchPuff");
 		
 		// Cause pain
 		if (mightyBlow && victim && !(victim.bINVULNERABLE || victim.bBOSS)) victim.TriggerPainChance('Melee', true);

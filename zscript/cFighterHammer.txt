@@ -114,7 +114,7 @@ class cHammer : cWeapon replaces FWeapHammer {
 		
 		Actor victim, puff;
 		if (invoker.empowered) {
-			[victim, puff] = MeleeAttack(RandomizeDamage(HAMMER_POWER_DAMAGE), MELEERANGE_MED, 6, 12, "cHammerPowerPuff", 'Fire');
+			[victim, puff] = MeleeAttack(RandomizeDamage(HAMMER_POWER_DAMAGE), MELEERANGE_MED, 6, 15, "cHammerPowerPuff", 'Fire');
 			
 			if (puff) {
 				puff.RadiusAttack(self, 110, 128, 'Fire', 0, 32);
@@ -126,7 +126,7 @@ class cHammer : cWeapon replaces FWeapHammer {
 			// Cause pain
 			if (victim && !(victim.bINVULNERABLE || victim.bBOSS)) victim.TriggerPainChance('Melee', true);
 		} else {
-			[victim, puff] = MeleeAttack(RandomizeDamage(HAMMER_DAMAGE), MELEERANGE_SHORT, 6, 12, "cHammerPuff");
+			[victim, puff] = MeleeAttack(RandomizeDamage(HAMMER_DAMAGE), MELEERANGE_SHORT, 6, 15, "cHammerPuff");
 		}
 		
 		if (victim || puff) {
