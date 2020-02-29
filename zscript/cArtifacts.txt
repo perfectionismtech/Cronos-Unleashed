@@ -179,9 +179,12 @@ class cWingsOfWrath : ArtiFly replaces ArtiFly {
 	Default {
 		Radius PICKUP_RADIUS;
 		Height PICKUP_HEIGHT;
-		Inventory.MaxAmount 0;
-		+INVENTORY.AUTOACTIVATE
 		-COUNTITEM
+	}
+	
+	override bool TryPickup(in out Actor toucher) {
+		bAUTOACTIVATE = level.infinite_flight;
+		return super.TryPickup(toucher);
 	}
 }
 
