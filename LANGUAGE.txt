@@ -1,4 +1,4 @@
-[enu default] 
+[en default]
 
 MNU_INFO = "Mod Info";
 MNU_CHOOSECLASS = "Select Class:";
@@ -13,10 +13,6 @@ OB_MBOSS = "%o was annihilated by Menelkir.";
 OB_CBOSS = "%o was cleansed by Traductus.";
 
 SECRETMESSAGE = "A secret has been revealed";
-
-TXT_WEAPON_F4 = "\"And so they shall be silenced...\"";
-TXT_WEAPON_C4 = "\"Find no peace, even in death...\"";
-TXT_WEAPON_M4 = "\"Waste be lain upon them...\"";
 
 TAG_ARTIPUZZGEMGREEN1 = "Emerald Planet";
 TAG_ARTIPUZZGEMGREEN2 = "Emerald Planet";
