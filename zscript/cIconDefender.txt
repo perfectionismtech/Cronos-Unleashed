@@ -34,10 +34,12 @@ class cDefenderInvulnerability : Powerup {
 			break;
 		
 		case 'Ghost':
+			owner.A_GiveInventory("cIconRegen");
 			owner.bNONSHOOTABLE = true;
 			if (!owner.bSHADOW) {
 				owner.A_SetRenderStyle(0.1, STYLE_Translucent);
 			}
+			
 			break;
 		
 		case 'Reflective':
@@ -73,6 +75,25 @@ class cDefenderInvulnerability : Powerup {
 		
 		if (mode == 'Ghost' && !owner.bSHADOW) {
 			vis.alpha = 0.2;
+		}
+	}
+}
+
+class cIconRegen : Powerup {
+	Default {
+		Powerup.Duration -20;
+	}
+	
+	override void DoEffect() {
+		super.DoEffect();
+		if (owner == null || owner.player == null) { return; }
+		
+		if (owner.health <= 0) {
+			Destroy();
+		} else {
+			if ((effectTics & 3) == 0) {
+				owner.GiveBody(1);
+			}
 		}
 	}
 }
