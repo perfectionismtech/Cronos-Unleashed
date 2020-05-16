@@ -19,6 +19,7 @@ terrain Lava {
 	damageamount 16
 	damagetype lava
 	damagetimemask 15
+	damageonland
 }
 
 terrain Ice {
